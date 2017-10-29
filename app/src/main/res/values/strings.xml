@@ -15,7 +15,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="login">login</string>
+    <string name="login">login2</string>
     <string name="credencialesErroneas">Usuario o password incorrecto :(</string>
     <string name="title_activity_opciones">CaosCWY</string>
     <string name="title_home">Home</string>
