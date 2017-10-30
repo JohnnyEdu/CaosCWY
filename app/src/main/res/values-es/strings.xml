@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">CaosCWY</string>
+    <string name="title_item_detail">Detalle</string>
+    <string name="title_activity_login">Entrar</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Contraseña (Opcional)</string>
+    <string name="action_sign_in">Entrar o registrarse</string>
+    <string name="action_sign_in_short">Entrar</string>
+    <string name="error_invalid_email">El email es incorrecto</string>
+    <string name="error_invalid_password">La contraseña es muy corta</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_field_required">Este campo es requerido</string>
+    <string name="permission_rationale">"Se necesitan permisos para acceder a Contactos para complementos de Email."
+    </string>
+    <string name="login">Login</string>
+    <string name="credencialesErroneas">Usuario o password incorrecto :(</string>
+    <string name="title_activity_opciones">Hola Jhonny!</string>
+    <string name="title_home">Home</string>
+    <string name="title_incidente">Seleccione Tipo de Incidente en el Transito</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notificaciones</string>
+</resources>
