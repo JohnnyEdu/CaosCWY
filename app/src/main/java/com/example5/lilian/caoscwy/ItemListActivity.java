@@ -2,6 +2,7 @@ package com.example5.lilian.caoscwy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +13,13 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.example5.lilian.caoscwy.database.DatabaseHelper;
 import com.example5.lilian.caoscwy.dummy.DummyContent;
 
 import java.util.List;
@@ -48,10 +53,15 @@ public class ItemListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                ImageView imageView = (ImageView)findViewById(R.id.imagenPrueba);
+                ImagenEnRedTask insertarImg = new ImagenEnRedTask(getApplicationContext(),imageView);
+                insertarImg.execute();
+                Toast.makeText(getApplicationContext(),"si le das 2 veces explota por la constraint, por ende lo deshabilito",Toast.LENGTH_LONG).show();
+                view.setOnClickListener(null);
             }
         });
+
+
 
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
@@ -65,6 +75,7 @@ public class ItemListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
     }
+
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));

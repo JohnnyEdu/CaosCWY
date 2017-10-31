@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -33,8 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example5.lilian.caoscwy.database.User;
-import com.example5.lilian.caoscwy.database.UsersDatabaseHelper;
-import com.example5.lilian.caoscwy.encriptado.AES256Cipher;
+import com.example5.lilian.caoscwy.database.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,7 +196,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public Boolean validarUsuario(String usuario,String password){
-        UsersDatabaseHelper basededatos = new UsersDatabaseHelper(getApplicationContext());
+        DatabaseHelper basededatos = new DatabaseHelper(getApplicationContext());
         User usuarioDesdeBd = basededatos.getUsuario(usuario);
         //validar password
         String passwBd = null;
@@ -344,7 +342,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
             */
-            UsersDatabaseHelper helperdb = new UsersDatabaseHelper(getApplicationContext());
+            DatabaseHelper helperdb = new DatabaseHelper(getApplicationContext());
             Boolean usuarioValido = validarUsuario(mEmail,mPassword);
             if(usuarioValido){
                 Intent eventoOtraAct = new Intent(getApplicationContext(), ItemListActivity.class);
