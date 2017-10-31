@@ -14,8 +14,6 @@ import static com.example5.lilian.caoscwy.R.id.spAnimals;
 public class OpcionesActivity extends AppCompatActivity {
 
     Spinner animals;
-
-
     private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
