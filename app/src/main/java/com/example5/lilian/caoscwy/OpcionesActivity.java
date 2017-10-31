@@ -5,9 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import static com.example5.lilian.caoscwy.R.id.spAnimals;
+
 public class OpcionesActivity extends AppCompatActivity {
+
+    Spinner animals;
+
 
     private TextView mTextMessage;
 
@@ -37,9 +44,20 @@ public class OpcionesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opciones);
 
+
+
+        animals = (Spinner)findViewById(R.id.spAnimals);
+        ArrayAdapter <CharSequence>  adapter=  ArrayAdapter.createFromResource(this, R.array.animals, android.R.layout.simple_spinner_item);
+        animals.setAdapter(adapter);
+
+
+
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
+
+
+
 
 }
