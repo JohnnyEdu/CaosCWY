@@ -5,8 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
 
+
+import com.example5.lilian.caoscwy.R;
 import com.example5.lilian.caoscwy.encriptado.AES256Cipher;
+import com.example5.lilian.caoscwy.utils.ConvertirBitmapEnByteArray;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -22,19 +26,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String BASE_DE_DATOS = "cwy";
     private static final String TABLA_USUARIOS="USUARIOS";
-
     private static final String TABLA_IMAGENES="IMAGENES";
-
     private static final String SQL_CREATE_USUARIOS = "CREATE TABLE "+TABLA_USUARIOS+
             "(USUARIO VARCHAR(100) PRIMARY KEY,PASSWORD VARCHAR(255))";
     private static final String SQL_CREATE_IMAGENES = "CREATE TABLE "+TABLA_IMAGENES+
             "(USUARIO TEXT PRIMARY KEY,IMAGEN BLOB)";
-
     private static final String SQL_DELETE_USUARIOS = "DROP TABLE IF EXISTS "+TABLA_USUARIOS;
     private static final String SQL_DELETE_IMAGENES = "DROP TABLE IF EXISTS "+TABLA_IMAGENES;
 
+    private String error;
+    private Context context;
+
     public DatabaseHelper(Context context) {
         super(context, BASE_DE_DATOS, null, DATABASE_VERSION);
+        this.context = context;
     }
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_USUARIOS);
@@ -57,19 +62,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
-
-    public void insertarImagen(String usuario,String URLImg){
-        byte[] imagen = traerImagenDeInternet(URLImg);
-        SQLiteDatabase basededatos = this.getReadableDatabase();
-        String consultaInsert = "INSERT INTO IMAGENES (USUARIO,IMAGEN) VALUES (?,?)";
-        SQLiteStatement sentencia = basededatos.compileStatement(consultaInsert);
-        sentencia.clearBindings();
-        sentencia.bindString(1,usuario);
-        sentencia.bindBlob(2,imagen);
-        sentencia.executeInsert();
-        basededatos.close();
+    public String getError(){
+        return error;
     }
 
+    public void setError(String e){
+        this.error = e;
+    }
+
+    public void insertarImagen(String usuario, Bitmap imagenParam){
+        //inserto en blob
+        try {
+            SQLiteDatabase basededatos = this.getReadableDatabase();
+
+            String deletePrimero = "DELETE FROM IMAGENES WHERE USUARIO = ?";
+            basededatos.execSQL(deletePrimero, new String[]{usuario});
+
+            String consultaInsert = "INSERT INTO IMAGENES (USUARIO,IMAGEN) VALUES (?,?)";
+            SQLiteStatement sentencia = basededatos.compileStatement(consultaInsert);
+            sentencia.clearBindings();
+            sentencia.bindString(1, usuario);
+            //convertidor de Bitmap de android en byte[] java
+            sentencia.bindBlob(2, ConvertirBitmapEnByteArray.convertir(imagenParam));
+            sentencia.executeInsert();
+            basededatos.close();
+        }catch(Exception noSePudoInsertar){
+            setError(context.getResources().getString(R.string.errorIsertarImagen));
+        }
+    }
+//no se utiliza
     private byte[] traerImagenDeInternet(String imgurl){
         try {
             URL url = new URL(imgurl);
@@ -107,7 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("PASSWORD")));
             cursor.close();
         }catch(Exception e) {
-            e.printStackTrace();
+            setError(context.getResources().getString(R.string.errorNoExisteElUsuario));
         }
         basededatos.close();
         return user;
@@ -128,6 +149,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             imagenBd = cursor.getBlob(cursor.getColumnIndex("IMAGEN"));
             cursor.close();
         }catch(Exception e) {
+            setError(context.getResources().getString(R.string.errorObtenerImagen));
             e.printStackTrace();
         }
         basededatos.close();

@@ -24,4 +24,14 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_image">ImageActivity</string>
+    <string name="title_activity_subir_imagen">SubirImagenActivity</string>
+    
+    
+    <!--INICIO: Errores generales-->
+        <string name="errorComprimirImagen">No se pudo comprimir la imagen</string>
+        <string name="errorIsertarImagen">No se pudo insertar la imagen en la base</string>
+        <string name="errorObtenerImagen">No se pudo obtener la imagen de la base</string>
+        <string name="errorNoExisteElUsuario">No existe el usuario en la base</string>
+
+    <!--FIN: Errores generales-->
 </resources>
