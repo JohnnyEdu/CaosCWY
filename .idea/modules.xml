@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://G:\UNAJ2017\Proyecto Apps Moviles, Caos CWY\CaosCWY\CWY2.iml" filepath="G:\UNAJ2017\Proyecto Apps Moviles, Caos CWY\CaosCWY\CWY2.iml" />
       <module fileurl="file://$PROJECT_DIR$/CaosCWY.iml" filepath="$PROJECT_DIR$/CaosCWY.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

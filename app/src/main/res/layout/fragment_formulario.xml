@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp"
+    android:background="@color/colorLightBlue"
+    tools:context="com.example5.lilian.caos_cwy.FormularioFragment">
+
+
+    <TextView
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SELECCIONE EL INCIDENTE"
+        android:paddingTop="30dp"
+        />
+
+    <Spinner
+        android:id="@+id/spAnimals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:background="@color/colorOrange"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:entries="@array/animals"
+       >
+
+    </Spinner>
+    <EditText
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp"
+        android:hint="Comentario"
+        />
+    <Button
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:id="@+id/compartir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Compartir"
+        android:background="@color/colorTurquoise"
+        />
+
+
+</LinearLayout>

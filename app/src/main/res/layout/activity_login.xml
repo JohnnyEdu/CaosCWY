@@ -1,4 +1,3 @@
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,7 +5,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
 
-    tools:context="com.example5.lilian.caoscwy.LoginActivity">
+    tools:context="com.example5.lilian.caos_cwy.LoginActivity">
     <!-- App Bar --> <android.support.design.widget.AppBarLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"> <!-- Toolbar --> </android.support.design.widget.AppBarLayout>
     <!-- Login progress -->
     <ProgressBar
@@ -31,17 +30,17 @@
             android:orientation="vertical">
 
             <TextView android:text = "Login" android:layout_width="wrap_content"
-            android:layout_height = "wrap_content"
-            android:id = "@+id/textview"
-            android:textSize = "35dp"
-            android:layout_gravity="center"
+                android:layout_height = "wrap_content"
+                android:id = "@+id/textview"
+                android:textSize = "35dp"
+                android:layout_gravity="center"
                 android:textStyle="bold"
-            android:textColor="@color/colorOrange"
-            android:fontFamily="serif"
-            android:layout_alignParentTop = "true"
-            android:layout_centerHorizontal = "true"
-            android:layout_marginTop="30dp"
-           />
+                android:textColor="@color/colorOrange"
+                android:fontFamily="serif"
+                android:layout_alignParentTop = "true"
+                android:layout_centerHorizontal = "true"
+                android:layout_marginTop="30dp"
+                />
 
             <TextView android:text = "Caos ClearWay" android:layout_width="wrap_content"
                 android:layout_height = "wrap_content"
@@ -62,7 +61,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/logo"
 
-              />
+                />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -99,7 +98,7 @@
                     android:maxLines="1"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                   />
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
