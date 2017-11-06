@@ -13,6 +13,7 @@ public class Incidente {
     private String zona;
     private Date fechaYhora;
     private Integer idImagen;
+    private String comentario;
 
 
     public Integer getId() {
@@ -61,5 +62,13 @@ public class Incidente {
 
     public void setIdImagen(Integer idImagen) {
         this.idImagen = idImagen;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 }

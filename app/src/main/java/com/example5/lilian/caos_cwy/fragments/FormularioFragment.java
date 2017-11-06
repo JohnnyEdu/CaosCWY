@@ -1,12 +1,24 @@
-package com.example5.lilian.caos_cwy;
+package com.example5.lilian.caos_cwy.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.example5.lilian.caos_cwy.R;
+import com.example5.lilian.caos_cwy.database.Incidente;
+import com.example5.lilian.caos_cwy.tasks.ImagenesINSERTTask;
+import com.example5.lilian.caos_cwy.tasks.IncidenteCRUDTask;
 
 
 /**
@@ -66,7 +78,39 @@ public class FormularioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_formulario, container, false);
+        View fragm = inflater.inflate(R.layout.fragment_formulario, container, false);
+        Button subitIncidente=  (Button)fragm.findViewById(R.id.compartir);
+        subitIncidente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Spinner spinner = (Spinner)getActivity().findViewById(R.id.spAnimals);
+                SharedPreferences sharedpreferences = getActivity().getSharedPreferences("sesion",getActivity().getApplication().MODE_PRIVATE);
+                final String usuario = sharedpreferences.getString("usuario","");
+                EditText comentarios = (EditText)getActivity().findViewById(R.id.comentario);
+                String comentario = comentarios != null?comentarios.getText().toString():"";
+
+                Incidente incidente = new Incidente();
+                incidente.setUsuario(usuario);
+                incidente.setTipo(spinner.getSelectedItem().toString());
+                incidente.setZona("PODRIAN SER COORDENADAS");
+                incidente.setComentario(comentario);
+                IncidenteCRUDTask taskIncidente = new IncidenteCRUDTask();
+                taskIncidente.execute(incidente);
+
+
+                //inicio: insertar imagen
+                ImagenesINSERTTask insertarImg = new ImagenesINSERTTask(getActivity().getApplicationContext());
+                ImageView imgv = (ImageView)getActivity().findViewById(R.id.imagenPrueba);
+                insertarImg.setImagen(((BitmapDrawable)imgv.getDrawable()).getBitmap());
+                insertarImg.setUsuario(usuario);
+                insertarImg.execute();
+                //TODO: INSERTAR COMENTARIOOS
+
+                Toast.makeText(getContext(),"Insertando en BD, checkear...",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return fragm;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

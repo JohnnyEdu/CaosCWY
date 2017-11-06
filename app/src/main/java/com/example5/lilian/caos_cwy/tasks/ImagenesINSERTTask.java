@@ -58,13 +58,15 @@ public class ImagenesINSERTTask extends AsyncTask <Void,Void,Void>{
         imgDbHelper.insertarImagen(getUsuario(),getImagen());
         //creo las tablas y la BD
         BDServidorPublico bdmysql = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/insertarimagenapi.php");
-        bdmysql.insertarImagen(getUsuario(), ConvertirBitmapEnByteArray.convertir(getImagen()));
+        if(this.imagen!=null) {
+            bdmysql.insertarImagen(getUsuario(), ConvertirBitmapEnByteArray.convertir(getImagen()));
+        }
 
 
         //TODO agregar validacion si se inserto
         return null;
     }
-    @Override
+    /*@Override
     protected void onPostExecute(Void success) {
         //traer la imagen luego de insertarla
         byte[] imagen = imgDbHelper.getImagen(getUsuario());
@@ -73,6 +75,6 @@ public class ImagenesINSERTTask extends AsyncTask <Void,Void,Void>{
         }else{
             Toast.makeText(context,imgDbHelper.getError(),Toast.LENGTH_LONG).show();
         }
-    }
+    }*/
 
 }
