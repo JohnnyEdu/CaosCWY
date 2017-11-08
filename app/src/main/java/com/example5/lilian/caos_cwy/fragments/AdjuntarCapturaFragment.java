@@ -16,9 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example5.lilian.caos_cwy.R;
-import com.example5.lilian.caos_cwy.database.Incidente;
-import com.example5.lilian.caos_cwy.tasks.ImagenesINSERTTask;
-import com.example5.lilian.caos_cwy.tasks.IncidenteCRUDTask;
+
 
 import static android.app.Activity.RESULT_OK;
 
@@ -62,6 +60,13 @@ public class AdjuntarCapturaFragment extends Fragment {
             final ImageView imageView = (ImageView)vista.findViewById(R.id.imagenPrueba);
 
             imageView.setImageBitmap(imageBitmap);
+
+            /*ImagenesSELECTTask selectImg = new ImagenesSELECTTask(getActivity().getApplicationContext());
+            ImageView img = (ImageView)getActivity().findViewById(R.id.imagenPrueba);
+            selectImg.setVista(img);
+            selectImg.execute();*/
+
+
 
             final ImageButton eliminar = (ImageButton)vista.findViewById(R.id.eliminarFoto);
             eliminar.setVisibility(View.VISIBLE);

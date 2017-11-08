@@ -1,0 +1,22 @@
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/incidente_detail"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+<TextView
+    android:id="@+id/tipoIncidente"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Tipo de incidente"/>
+<ImageView
+    android:id="@+id/capturaTomada"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+<TextView
+    android:id="@+id/comentarios"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Comentarios"/>
+</LinearLayout>

@@ -11,9 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example5.lilian.caos_cwy.FormularioFragment;
-import com.example5.lilian.caos_cwy.Fragment1;
-import com.example5.lilian.caos_cwy.Fragment2;
+import com.example5.lilian.caos_cwy.fragments.Fragment1;
+import com.example5.lilian.caos_cwy.fragments.Fragment2;
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.adapters.SeccionesAdapter;
 import com.example5.lilian.caos_cwy.utils.Utilidades;

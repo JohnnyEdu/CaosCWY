@@ -3,37 +3,34 @@ package com.example5.lilian.caos_cwy.tasks;
 import android.os.AsyncTask;
 
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
+import com.example5.lilian.caos_cwy.database.Incidente;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * Created by Johnny on 5/11/2017.
  */
 
-public class ConsularIncidentesTask extends AsyncTask<Void,Void,JSONObject>{
+public class ConsularIncidentesTask extends AsyncTask<Void,Void,List<Incidente>>{
     private String zona;
 
 
     @Override
-    protected JSONObject doInBackground(Void... voids) {
+    protected List<Incidente> doInBackground(Void... voids) {
         if(getZona()!=null) {
             BDServidorPublico bdmysql = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
-            String result = bdmysql.consultarIncidentesZona(getZona());
-            JSONObject json = null;
-            try {
-                json = new JSONObject(result);
-            } catch (JSONException jse) {
-                //TODO: CATCHEAR
-            }
-            return json;
+            List<Incidente> result = bdmysql.consultarIncidentesZona(getZona());
+            return result;
         }else{
             return null;
         }
     }
 
     @Override
-    protected void onPostExecute(JSONObject result) {
+    protected void onPostExecute(List<Incidente> result) {
 
     }
 

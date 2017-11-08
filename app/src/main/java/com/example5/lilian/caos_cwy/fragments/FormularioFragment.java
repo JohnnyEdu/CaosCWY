@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.tasks.ImagenesINSERTTask;
+import com.example5.lilian.caos_cwy.tasks.ImagenesSELECTTask;
 import com.example5.lilian.caos_cwy.tasks.IncidenteCRUDTask;
 
 
@@ -96,13 +97,14 @@ public class FormularioFragment extends Fragment {
                 incidente.setComentario(comentario);
                 IncidenteCRUDTask taskIncidente = new IncidenteCRUDTask();
                 taskIncidente.execute(incidente);
-
+        //TODO: ver para la entrega que no se guarda el ID porque tengo que hacerlo desde php
 
                 //inicio: insertar imagen
                 ImagenesINSERTTask insertarImg = new ImagenesINSERTTask(getActivity().getApplicationContext());
                 ImageView imgv = (ImageView)getActivity().findViewById(R.id.imagenPrueba);
                 insertarImg.setImagen(((BitmapDrawable)imgv.getDrawable()).getBitmap());
                 insertarImg.setUsuario(usuario);
+                insertarImg.setId_incidente(incidente.getId());
                 insertarImg.execute();
                 //TODO: INSERTAR COMENTARIOOS
 

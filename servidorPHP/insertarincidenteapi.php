@@ -13,8 +13,8 @@
  // $sql->bind_param($_POST["usuario"],$_POST["fechaYhora"],$_POST["tipo"],$_POST["zona"]);
   
   
-  $stmt = $con->prepare("INSERT INTO incidentes (usuario,fechaYhora,tipo,zona) VALUES (?,NOW(),?,?)");
-$stmt->bind_param("sss",$_POST["usuario"],$_POST["tipo"],$_POST["zona"]);
+  $stmt = $con->prepare("INSERT INTO incidentes (usuario,fechaYhora,tipo,zona,comentarios) VALUES (?,NOW(),?,?,?)");
+$stmt->bind_param("sss",$_POST["usuario"],$_POST["tipo"],$_POST["zona"],$_POST["comentario"]);
 
 /* ejecuta sentencias prepradas */
 

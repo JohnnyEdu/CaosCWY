@@ -16,13 +16,13 @@
       echo "Se creó la tabla USUARIOS";
    }
    mysqli_query($con,"DROP TABLE imagenes");
-   $sql="CREATE TABLE imagenes(id INT(4) PRIMARY KEY AUTO_INCREMENT, usuario VARCHAR(100),imagen BLOB)";
+   $sql="CREATE TABLE imagenes(id INT(4) PRIMARY KEY AUTO_INCREMENT, usuario VARCHAR(100),imagen MEDIUMTEXT CHARACTER SET ascii, id_incidente INT(4), FOREIGN KEY(id_incidente) REFERENCES incidentes(id) ON UPDATE CASCADE ON DELETE RESTRICT)";
    if (mysqli_query($con,$sql)) {
       echo "Se creó la tabla IMAGENES";
    }
 
    mysqli_query($con,"DROP TABLE incidentes");
-   $sql="CREATE TABLE incidentes(id INT(4) PRIMARY KEY AUTO_INCREMENT,usuario VARCHAR(100),fechaYhora DATETIME, tipo VARCHAR(60),zona VARCHAR(100))";
+   $sql="CREATE TABLE incidentes(id INT(4) PRIMARY KEY AUTO_INCREMENT,usuario VARCHAR(100),fechaYhora DATETIME, tipo VARCHAR(60),zona VARCHAR(100),comentarios VARCHAR(500))";
    if (mysqli_query($con,$sql)) {
       echo "Se creó la tabla INCIDENTES";
    }

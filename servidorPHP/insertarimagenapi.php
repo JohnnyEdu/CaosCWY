@@ -9,11 +9,8 @@
       echo "No se pudo borrar";
    }*/
 
-   $sql="INSERT INTO imagenes (usuario,imagen) VALUES ('".
-               $_POST["usuario"]."',". $_POST["imagen"]. ")";
-                $sql="INSERT INTO imagenes (usuario,imagen) VALUES ('".
-               $_POST["usuario"]."',NULL)";
-   echo $sql;
+   $sql="INSERT INTO imagenes (usuario,imagen,id_incidente) VALUES ('".$_POST["usuario"]."','".$_POST["imagen"]."',".$_POST["id_incidente"].")";
+
    if (mysqli_query($con,$sql)) {
       echo "Se insertó la imagen en la BD";
    }else{

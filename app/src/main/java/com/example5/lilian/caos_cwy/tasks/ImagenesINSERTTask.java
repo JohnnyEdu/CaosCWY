@@ -19,6 +19,7 @@ import com.example5.lilian.caos_cwy.utils.ConvertirBitmapEnByteArray;
 public class ImagenesINSERTTask extends AsyncTask <Void,Void,Void>{
     Context context = null;
     String usuario;
+    Integer id_incidente;
     Bitmap imagen = null;
     ImageView vista = null;
     DatabaseHelper imgDbHelper  = null;
@@ -52,6 +53,14 @@ public class ImagenesINSERTTask extends AsyncTask <Void,Void,Void>{
         return imagen;
     }
 
+    public Integer getId_incidente() {
+        return id_incidente;
+    }
+
+    public void setId_incidente(Integer id_incidente) {
+        this.id_incidente = id_incidente;
+    }
+
     @Override
     protected Void doInBackground(Void... params) {
         //img.insertarImagen("adm@adm","https://38.media.tumblr.com/aea79d3c26acdcfe325e94c7ae251717/tumblr_inline_nqmfxalvCS1qk1op9_500.gif");
@@ -59,7 +68,7 @@ public class ImagenesINSERTTask extends AsyncTask <Void,Void,Void>{
         //creo las tablas y la BD
         BDServidorPublico bdmysql = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/insertarimagenapi.php");
         if(this.imagen!=null) {
-            bdmysql.insertarImagen(getUsuario(), ConvertirBitmapEnByteArray.convertir(getImagen()));
+            bdmysql.insertarImagen(getUsuario(), ConvertirBitmapEnByteArray.convertir(getImagen()),getId_incidente());
         }
 
 

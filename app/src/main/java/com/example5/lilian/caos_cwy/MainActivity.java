@@ -24,13 +24,15 @@ import android.widget.Spinner;
 
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.fragments.AdjuntarCapturaFragment;
+import com.example5.lilian.caos_cwy.fragments.Fragment1;
+import com.example5.lilian.caos_cwy.fragments.Fragment2;
 import com.example5.lilian.caos_cwy.tasks.IncidenteCRUDTask;
 import com.example5.lilian.caos_cwy.utils.Utilidades;
 import com.example5.lilian.caos_cwy.fragments.ContenedorFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, com.example5.lilian.caos_cwy.Fragment1.OnFragmentInteractionListener,
-        com.example5.lilian.caos_cwy.Fragment2.OnFragmentInteractionListener , com.example5.lilian.caos_cwy.fragments.FormularioFragment.OnFragmentInteractionListener ,
+        implements NavigationView.OnNavigationItemSelectedListener, Fragment1.OnFragmentInteractionListener,
+        Fragment2.OnFragmentInteractionListener , com.example5.lilian.caos_cwy.fragments.FormularioFragment.OnFragmentInteractionListener ,
         com.example5.lilian.caos_cwy.fragments.ContenedorFragment.OnFragmentInteractionListener {
 
     int REQUEST_IMAGE_CAPTURE = 1;
@@ -46,8 +48,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent verIncidentes = new Intent(getApplicationContext(),incidenteListActivity.class);
+                startActivity(verIncidentes);
             }
         });
 
@@ -120,10 +122,10 @@ public class MainActivity extends AppCompatActivity
             miFragment = new com.example5.lilian.caos_cwy.fragments.FormularioFragment();
             fragmentSeleccionado = true;
         } else if (id == R.id.nav_gallery) {
-            miFragment = new com.example5.lilian.caos_cwy.Fragment1();
+            miFragment = new Fragment1();
             fragmentSeleccionado = true;
         } else if (id == R.id.nav_slideshow) {
-            miFragment = new com.example5.lilian.caos_cwy.Fragment2();
+            miFragment = new Fragment2();
             fragmentSeleccionado = true;
         } else if (id == R.id.nav_share) {
             miFragment = new ContenedorFragment();

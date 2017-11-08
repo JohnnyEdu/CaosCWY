@@ -1,5 +1,12 @@
 package com.example5.lilian.caos_cwy.database;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import com.example5.lilian.caos_cwy.utils.ConvertirBitmapEnByteArray;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +20,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Johnny on 4/11/2017.
@@ -47,17 +56,29 @@ public class BDServidorPublico {
         return conexion;
     }
 
-    public String consultarIncidentesZona(String zona){
+    public List<Incidente> consultarIncidentesZona(String zona){
         String msgResp="";
+        List<Incidente> resultado = new ArrayList<>();
         try{
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("zona", zona);
-            realizarPeticion(postDataParams);
+            JSONObject respuesta = new JSONObject(realizarPeticion(postDataParams));
+//TODO: revisar bien
+            JSONArray incidentes = respuesta.getJSONArray("incidentes");
+            for(int i = 0; i < incidentes.length();i++){
+                Incidente incidente = new Incidente();
+                JSONObject objecto = (JSONObject)incidentes.get(i);
+                incidente.setId((Integer) objecto.get("id"));
+                incidente.setTipo((String) objecto.get("tipo"));
+                incidente.setZona((String) objecto.get("zona"));
+                resultado.add(incidente);
+            }
         }
         catch(JSONException json){
             msgResp = json.getMessage();
         }
-        return msgResp;
+
+        return resultado;
     }
 
 
@@ -70,6 +91,7 @@ public class BDServidorPublico {
             postDataParams.put("usuario", incidente.getUsuario());
             postDataParams.put("tipo", incidente.getTipo());
             postDataParams.put("zona", incidente.getZona());
+            postDataParams.put("comentario", incidente.getComentario());
             realizarPeticion(postDataParams);
         }
         catch(JSONException json){
@@ -77,15 +99,18 @@ public class BDServidorPublico {
         }
         return msgResp;
     }
-    //TODO: IMPORTANTE, no carga imagen en la BD todavía porque no encontre manera de enviarla al servidor PHP.
-    public String insertarImagen(String usuario,byte[] imagen) {
+    //Codifica a Base64 una imagen Bitmap y la envía al servidor para insertar en un MEDIUMTEXT de MySQL
+    //MEDIUM TEXT ya que van a ser imágenes de:  64KB >  tamañoimagen < 16MB
+    public String insertarImagen(String usuario,byte[] imagen,Integer id_incidente) {
         String msgResp="";
         try{
+            String base64encode = Base64.encodeToString(imagen,Base64.DEFAULT);
             JSONObject postDataParams = new JSONObject();
             //pasar parametro para CRUD
             //postDataParams.put("tipoconsulta", "insert");
             postDataParams.put("usuario", usuario);
-            postDataParams.put("imagen", imagen);
+            postDataParams.put("imagen", base64encode);
+            postDataParams.put("id_incidente", id_incidente);
             realizarPeticion(postDataParams);
         }
         catch(JSONException json){
@@ -93,6 +118,53 @@ public class BDServidorPublico {
         }
         return msgResp;
     }
+
+
+//trae las capturas de la tabla IMAGENES por usuario
+    public Bitmap selectImagenesPorUsuario(String usuario) {
+        String msgResp="";
+        Bitmap imagen = null;
+        try{
+            JSONObject postDataParams = new JSONObject();
+            postDataParams.put("usuario", usuario);
+            msgResp = realizarPeticion(postDataParams);
+            JSONArray respuesta  = new JSONArray(msgResp);
+            JSONObject jsonob = (JSONObject) respuesta.get(0);
+            String base64bd = (String)jsonob.get("imagen");
+            imagen = ConvertirBitmapEnByteArray.convertirByteArrayToBitmap(Base64.decode(base64bd,Base64.DEFAULT));
+
+        }
+        catch(JSONException json){
+            msgResp = json.getMessage();
+        }
+
+
+
+        return imagen;
+    }
+
+    //trae todas las capturas de todos los usuarios
+    //de la tabla IMAGENES
+    public List<Captura> selectImagenes() {
+        String msgResp="";
+        List<Captura> capturas = null;
+        try{
+            msgResp = realizarPeticion(new JSONObject());
+            JSONArray respuesta  = new JSONArray(msgResp);
+            for(int i = 0; i < respuesta.length();i++){
+                JSONObject obj = (JSONObject)respuesta.get(i);
+                String base64bd = (String)obj.get("imagen");
+                Bitmap img= ConvertirBitmapEnByteArray.convertirByteArrayToBitmap(Base64.decode(base64bd,Base64.DEFAULT));
+                Captura captura = new Captura((String)obj.get("usuario"),img);
+                capturas.add(captura);
+            }
+        }
+        catch(JSONException json){
+            msgResp = json.getMessage();
+        }
+        return capturas;
+    }
+
 
 
     //metodo genérico para consultar a un servidor
