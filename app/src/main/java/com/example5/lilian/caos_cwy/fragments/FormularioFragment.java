@@ -16,10 +16,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example5.lilian.caos_cwy.R;
+import com.example5.lilian.caos_cwy.database.Captura;
 import com.example5.lilian.caos_cwy.database.Incidente;
-import com.example5.lilian.caos_cwy.tasks.ImagenesINSERTTask;
-import com.example5.lilian.caos_cwy.tasks.ImagenesSELECTTask;
-import com.example5.lilian.caos_cwy.tasks.IncidenteCRUDTask;
+import com.example5.lilian.caos_cwy.tasks.IncidenteINSERTTask;
 
 
 /**
@@ -90,23 +89,19 @@ public class FormularioFragment extends Fragment {
                 EditText comentarios = (EditText)getActivity().findViewById(R.id.comentario);
                 String comentario = comentarios != null?comentarios.getText().toString():"";
 
+
+
+                ImageView img = (ImageView) getActivity().findViewById(R.id.imagenPrueba);
                 Incidente incidente = new Incidente();
                 incidente.setUsuario(usuario);
                 incidente.setTipo(spinner.getSelectedItem().toString());
                 incidente.setZona("PODRIAN SER COORDENADAS");
                 incidente.setComentario(comentario);
-                IncidenteCRUDTask taskIncidente = new IncidenteCRUDTask();
+                incidente.setCaptura(new Captura(usuario,((BitmapDrawable)img.getDrawable()).getBitmap()));
+                IncidenteINSERTTask taskIncidente = new IncidenteINSERTTask();
                 taskIncidente.execute(incidente);
         //TODO: ver para la entrega que no se guarda el ID porque tengo que hacerlo desde php
 
-                //inicio: insertar imagen
-                ImagenesINSERTTask insertarImg = new ImagenesINSERTTask(getActivity().getApplicationContext());
-                ImageView imgv = (ImageView)getActivity().findViewById(R.id.imagenPrueba);
-                insertarImg.setImagen(((BitmapDrawable)imgv.getDrawable()).getBitmap());
-                insertarImg.setUsuario(usuario);
-                insertarImg.setId_incidente(incidente.getId());
-                insertarImg.execute();
-                //TODO: INSERTAR COMENTARIOOS
 
                 Toast.makeText(getContext(),"Insertando en BD, checkear...",Toast.LENGTH_LONG).show();
             }

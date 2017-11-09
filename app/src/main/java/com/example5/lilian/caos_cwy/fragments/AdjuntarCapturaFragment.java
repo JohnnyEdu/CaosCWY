@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -33,10 +34,15 @@ public class AdjuntarCapturaFragment extends Fragment {
         View fragm = inflater.inflate(R.layout.adjuntar_imagen_fragment,container,false);
         vista = fragm;
 
+        //oculto el contenedor de la imagen
+        ImageView imgview = (ImageView) vista.findViewById(R.id.imagenPrueba);
+        imgview.setVisibility(View.GONE);
+
+        //oculto el boton eliminar imagen
         ImageButton eliminar = (ImageButton)vista.findViewById(R.id.eliminarFoto);
         eliminar.setVisibility(View.GONE);
 
-
+        //boton cámara
         Button capturarIncidente =  (Button)fragm.findViewById(R.id.capturarIncidente);
         capturarIncidente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,27 +63,30 @@ public class AdjuntarCapturaFragment extends Fragment {
             //el Bundle toma los parametros del activity
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            final ImageView imageView = (ImageView)vista.findViewById(R.id.imagenPrueba);
 
+            //muestro el contenedor de la imagen
+            final ImageView imageView = (ImageView)vista.findViewById(R.id.imagenPrueba);
+            imageView.setVisibility(View.VISIBLE);
+
+            //oculto la cámara
+            final Button capturarIncidente =  (Button)getActivity().findViewById(R.id.capturarIncidente);
+            capturarIncidente.setVisibility(View.GONE);
             imageView.setImageBitmap(imageBitmap);
 
-            /*ImagenesSELECTTask selectImg = new ImagenesSELECTTask(getActivity().getApplicationContext());
-            ImageView img = (ImageView)getActivity().findViewById(R.id.imagenPrueba);
-            selectImg.setVista(img);
-            selectImg.execute();*/
 
-
-
+            //muestro el boton de eliminar imagen
             final ImageButton eliminar = (ImageButton)vista.findViewById(R.id.eliminarFoto);
             eliminar.setVisibility(View.VISIBLE);
             eliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     imageView.setImageDrawable(null);
+                    imageView.setVisibility(View.GONE);
                     eliminar.setVisibility(View.GONE);
+                    capturarIncidente.setVisibility(View.VISIBLE);
+
                 }
             });
-            //fin: insertar imagen
         }
     }
 }

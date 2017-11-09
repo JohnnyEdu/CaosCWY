@@ -2,21 +2,23 @@ package com.example5.lilian.caos_cwy.tasks;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
-import com.example5.lilian.caos_cwy.database.DatabaseHelper;
-import com.example5.lilian.caos_cwy.utils.ConvertirBitmapEnByteArray;
+import com.example5.lilian.caos_cwy.database.Captura;
+
+
+import java.util.List;
 
 /**
  * Created by Johnny on 31/10/2017.
  */
 
 //parametros para ejecutar, en ejecución y despues de ejecución (resultado)
-public class ImagenesSELECTTask extends AsyncTask <Void,Void,Bitmap>{
+public class ImagenesSELECTTask extends AsyncTask <Void,Void,List<Captura> >{
     Context context = null;
     String usuario;
     View vista;
@@ -43,16 +45,16 @@ public class ImagenesSELECTTask extends AsyncTask <Void,Void,Bitmap>{
     }
 
     @Override
-    protected Bitmap doInBackground(Void... params) {
+    protected List<Captura> doInBackground(Void... params) {
         //creo las tablas y la BD
         BDServidorPublico bdmysql = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/selectimagenapi.php");
-        Bitmap btmp = bdmysql.selectImagenesPorUsuario(getUsuario());
+        List<Captura>  btmp = bdmysql.selectImagenesPorUsuario(getUsuario());
         return btmp;
     }
     @Override
-    protected void onPostExecute(Bitmap imagen) {
+    protected void onPostExecute(List<Captura> imagen) {
         if(vista instanceof  ImageView){
-            ((ImageView)vista).setImageBitmap(imagen);
+            ((ImageView)vista).setImageBitmap(imagen.get(0).getImagen());
         }
 
         //traer la imagen luego de insertarla

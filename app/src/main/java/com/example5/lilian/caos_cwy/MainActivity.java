@@ -1,13 +1,9 @@
 package com.example5.lilian.caos_cwy;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,15 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 
-import com.example5.lilian.caos_cwy.database.Incidente;
-import com.example5.lilian.caos_cwy.fragments.AdjuntarCapturaFragment;
 import com.example5.lilian.caos_cwy.fragments.Fragment1;
 import com.example5.lilian.caos_cwy.fragments.Fragment2;
-import com.example5.lilian.caos_cwy.tasks.IncidenteCRUDTask;
 import com.example5.lilian.caos_cwy.utils.Utilidades;
 import com.example5.lilian.caos_cwy.fragments.ContenedorFragment;
 
@@ -45,13 +35,16 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onclick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent verIncidentes = new Intent(getApplicationContext(),incidenteListActivity.class);
                 startActivity(verIncidentes);
             }
-        });
+        };
+        fab.setOnClickListener(onclick);
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -86,6 +79,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -118,11 +115,9 @@ public class MainActivity extends AppCompatActivity
         Fragment miFragment = null;
         boolean fragmentSeleccionado = false;
 
+
         if (id == R.id.nav_camera) {
             miFragment = new com.example5.lilian.caos_cwy.fragments.FormularioFragment();
-            fragmentSeleccionado = true;
-        } else if (id == R.id.nav_gallery) {
-            miFragment = new Fragment1();
             fragmentSeleccionado = true;
         } else if (id == R.id.nav_slideshow) {
             miFragment = new Fragment2();
@@ -133,7 +128,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
+        else if (id == R.id.verincidentesmenulateral) {
+            Intent verIncidentes = new Intent(getApplicationContext(),incidenteListActivity.class);
+            startActivity(verIncidentes);
+        }
 
         if (fragmentSeleccionado == true){
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, miFragment).commit();
@@ -143,6 +141,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

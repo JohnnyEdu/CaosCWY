@@ -12,7 +12,7 @@ public class Incidente {
     private String tipo;
     private String zona;
     private Date fechaYhora;
-    private Integer idImagen;
+    private Captura captura;
     private String comentario;
 
 
@@ -56,12 +56,12 @@ public class Incidente {
         this.fechaYhora = fechaYhora;
     }
 
-    public Integer getIdImagen() {
-        return idImagen;
+    public Captura getCaptura() {
+        return captura;
     }
 
-    public void setIdImagen(Integer idImagen) {
-        this.idImagen = idImagen;
+    public void setCaptura(Captura captura) {
+        this.captura = captura;
     }
 
     public String getComentario() {

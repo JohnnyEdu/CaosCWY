@@ -9,7 +9,7 @@ import com.example5.lilian.caos_cwy.database.Incidente;
  * Created by Johnny on 5/11/2017.
  */
 
-public class IncidenteCRUDTask extends AsyncTask<Incidente, Void, Void> {
+public class IncidenteINSERTTask extends AsyncTask<Incidente, Void, Void> {
 
     @Override
     protected Void doInBackground(Incidente... incidentes) {

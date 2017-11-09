@@ -32,49 +32,46 @@ import java.util.List;
 public class BDServidorPublico {
     private URL url;
 
-    public BDServidorPublico(String urlLink){
-        try{
+    public BDServidorPublico(String urlLink) {
+        try {
             this.url = new URL(urlLink);
-        }catch(MalformedURLException mue){
+        } catch (MalformedURLException mue) {
             //TODO: catch
         }
     }
 
-    public HttpURLConnection conectarServidorPost(){
+    public HttpURLConnection conectarServidorPost() {
         HttpURLConnection conexion = null;
-        try{
-            conexion= (HttpURLConnection)this.url.openConnection();
+        try {
+            conexion = (HttpURLConnection) this.url.openConnection();
             conexion.setReadTimeout(15000 /* milliseconds */);
             conexion.setConnectTimeout(15000 /* milliseconds */);
             conexion.setRequestMethod("POST");
             conexion.setDoInput(true);
             conexion.setDoOutput(true);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return conexion;
     }
 
-    public List<Incidente> consultarIncidentesZona(String zona){
-        String msgResp="";
+    public List<Incidente> consultarIncidentesZona(String zona) {
+        String msgResp = "";
         List<Incidente> resultado = new ArrayList<>();
-        try{
+        try {
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("zona", zona);
-            JSONObject respuesta = new JSONObject(realizarPeticion(postDataParams));
-//TODO: revisar bien
-            JSONArray incidentes = respuesta.getJSONArray("incidentes");
-            for(int i = 0; i < incidentes.length();i++){
+            JSONArray incidentes = new JSONArray(realizarPeticion(postDataParams));
+            for (int i = 0; i < incidentes.length(); i++) {
                 Incidente incidente = new Incidente();
-                JSONObject objecto = (JSONObject)incidentes.get(i);
-                incidente.setId((Integer) objecto.get("id"));
+                JSONObject objecto = (JSONObject) incidentes.get(i);
+                incidente.setId(Integer.valueOf(objecto.get("id").toString()));
                 incidente.setTipo((String) objecto.get("tipo"));
                 incidente.setZona((String) objecto.get("zona"));
                 resultado.add(incidente);
             }
-        }
-        catch(JSONException json){
+        } catch (JSONException json) {
             msgResp = json.getMessage();
         }
 
@@ -82,9 +79,9 @@ public class BDServidorPublico {
     }
 
 
-    public String insertarIncidente(Incidente incidente){
-        String msgResp="";
-        try{
+    public String insertarIncidente(Incidente incidente) {
+        String msgResp = "";
+        try {
             JSONObject postDataParams = new JSONObject();
             //TODO: hacer ID autoincremental en BD
             postDataParams.put("id", incidente.getId());
@@ -92,55 +89,73 @@ public class BDServidorPublico {
             postDataParams.put("tipo", incidente.getTipo());
             postDataParams.put("zona", incidente.getZona());
             postDataParams.put("comentario", incidente.getComentario());
+            if(incidente.getCaptura().getImagen()!=null){
+                String base64encode = Base64.encodeToString(ConvertirBitmapEnByteArray.convertir(incidente.getCaptura().getImagen()), Base64.DEFAULT);
+                postDataParams.put("imagen",base64encode);
+            }
             realizarPeticion(postDataParams);
-        }
-        catch(JSONException json){
+        } catch (JSONException json) {
             msgResp = json.getMessage();
         }
         return msgResp;
     }
+
+
+    //@Deprecated no se usa ya que nunca se inserta una imagen sola sin incidente
     //Codifica a Base64 una imagen Bitmap y la envía al servidor para insertar en un MEDIUMTEXT de MySQL
     //MEDIUM TEXT ya que van a ser imágenes de:  64KB >  tamañoimagen < 16MB
-    public String insertarImagen(String usuario,byte[] imagen,Integer id_incidente) {
-        String msgResp="";
-        try{
-            String base64encode = Base64.encodeToString(imagen,Base64.DEFAULT);
+    //@return string JSON, en base a los echo del PHP
+    public String insertarImagen(String usuario, byte[] imagen, Integer id_incidente) {
+        String msgResp = "";
+
+        try {
+            String base64encode = Base64.encodeToString(imagen, Base64.DEFAULT);
             JSONObject postDataParams = new JSONObject();
-            //pasar parametro para CRUD
-            //postDataParams.put("tipoconsulta", "insert");
             postDataParams.put("usuario", usuario);
             postDataParams.put("imagen", base64encode);
             postDataParams.put("id_incidente", id_incidente);
+            //HttpConnection a la URL
             realizarPeticion(postDataParams);
-        }
-        catch(JSONException json){
+        } catch (JSONException json) {
             msgResp = json.getMessage();
         }
         return msgResp;
+    }
+
+
+    private List<Captura> convertirBase64BD(String json) {
+        List<Captura> capturas = new ArrayList<>();
+        try {
+            JSONArray respuesta  = new JSONArray(json);
+            for(int i = 0; i < respuesta.length();i++){
+                JSONObject obj = (JSONObject)respuesta.get(i);
+                String base64bd = (String) obj.get("imagen");
+                Bitmap img = ConvertirBitmapEnByteArray.convertirByteArrayToBitmap(Base64.decode(base64bd, Base64.DEFAULT));
+                Captura captura = new Captura((String) obj.get("usuario"), img);
+                capturas.add(captura);
+            }
+        } catch (JSONException jsone) {
+            jsone.printStackTrace();
+        }
+        return capturas;
     }
 
 
 //trae las capturas de la tabla IMAGENES por usuario
-    public Bitmap selectImagenesPorUsuario(String usuario) {
+    public List<Captura> selectImagenesPorUsuario(String usuario) {
         String msgResp="";
-        Bitmap imagen = null;
+        List<Captura> capturas = null;
         try{
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("usuario", usuario);
             msgResp = realizarPeticion(postDataParams);
-            JSONArray respuesta  = new JSONArray(msgResp);
-            JSONObject jsonob = (JSONObject) respuesta.get(0);
-            String base64bd = (String)jsonob.get("imagen");
-            imagen = ConvertirBitmapEnByteArray.convertirByteArrayToBitmap(Base64.decode(base64bd,Base64.DEFAULT));
+            capturas = convertirBase64BD(msgResp);
 
         }
         catch(JSONException json){
             msgResp = json.getMessage();
         }
-
-
-
-        return imagen;
+        return capturas;
     }
 
     //trae todas las capturas de todos los usuarios
@@ -151,13 +166,7 @@ public class BDServidorPublico {
         try{
             msgResp = realizarPeticion(new JSONObject());
             JSONArray respuesta  = new JSONArray(msgResp);
-            for(int i = 0; i < respuesta.length();i++){
-                JSONObject obj = (JSONObject)respuesta.get(i);
-                String base64bd = (String)obj.get("imagen");
-                Bitmap img= ConvertirBitmapEnByteArray.convertirByteArrayToBitmap(Base64.decode(base64bd,Base64.DEFAULT));
-                Captura captura = new Captura((String)obj.get("usuario"),img);
-                capturas.add(captura);
-            }
+            capturas = convertirBase64BD(msgResp);
         }
         catch(JSONException json){
             msgResp = json.getMessage();
@@ -203,6 +212,7 @@ public class BDServidorPublico {
         return msgResp;
     }
 
+    //crea a partir de un JSON Oject un request string con query params
     public String crearParametrosEnUrl(JSONObject params) throws Exception {
 
         StringBuilder result = new StringBuilder();

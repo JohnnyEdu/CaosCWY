@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
 import com.example5.lilian.caos_cwy.fragments.incidenteDetailFragment;
+import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 
 import java.util.List;
 
@@ -40,6 +41,9 @@ public class incidenteListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        IncidentesContent inc = new IncidentesContent();
+
         setContentView(R.layout.activity_incidente_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -63,14 +67,14 @@ public class incidenteListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.incidente_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        //traer los incidentes para mostrar
+        IncidenteSELECTTask slect = new IncidenteSELECTTask();
+        slect.setActivity(this);
+        slect.execute(mTwoPane);
+
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, IncidentesContent.ITEMS, mTwoPane));
-    }
+
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
@@ -100,7 +104,7 @@ public class incidenteListActivity extends AppCompatActivity {
             }
         };
 
-        SimpleItemRecyclerViewAdapter(incidenteListActivity parent,
+        public SimpleItemRecyclerViewAdapter(incidenteListActivity parent,
                                       List<Incidente> items,
                                       boolean twoPane) {
             mValues = items;

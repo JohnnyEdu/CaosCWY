@@ -2,6 +2,7 @@ package com.example5.lilian.caos_cwy.dummy;
 
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
 import com.example5.lilian.caos_cwy.database.Incidente;
+import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,14 +37,12 @@ public class IncidentesContent {
         }
     }*/
 
-    private static void addItem(Incidente item) {
+    public static void addItem(Incidente item) {
         ITEMS.add(item);
         ITEM_MAP.put(String.valueOf(item.getId()), item);
     }
 
     public IncidentesContent(){
-        BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
-        bdpub.consultarIncidentesZona("");
     }
 
 

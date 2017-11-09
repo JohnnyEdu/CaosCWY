@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/imagenContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <ImageView
             android:id="@+id/imagenPrueba"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="250dp" />
 
         <ImageButton
             android:id="@+id/eliminarFoto"
@@ -20,14 +20,17 @@
             android:layout_height="wrap_content"
             android:background="@android:drawable/ic_menu_close_clear_cancel" />
 
-    </LinearLayout>
 
-    <Button
-        android:text="Capturar"
-        android:id="@+id/capturarIncidente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/imagenContainer"/>
+
+        <Button
+            android:background="@drawable/ic_menu_camera"
+            android:id="@+id/capturarIncidente"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            app:layout_constraintTop_toBottomOf="@+id/imagenContainer"/>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
 
