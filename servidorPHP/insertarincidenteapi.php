@@ -14,7 +14,7 @@
   
   
   $stmt = $con->prepare("INSERT INTO incidentes (usuario,fechaYhora,tipo,zona,comentarios) VALUES (?,NOW(),?,?,?)");
-$stmt->bind_param("sss",$_POST["usuario"],$_POST["tipo"],$_POST["zona"],$_POST["comentario"]);
+$stmt->bind_param("ssss",$_POST["usuario"],$_POST["tipo"],$_POST["zona"],$_POST["comentario"]);
 
 /* ejecuta sentencias prepradas */
 
@@ -28,5 +28,17 @@ echo "se termino la consulta";
       echo "Se insertó el incidente en la BD";
    }else{
       echo "No se pudo insertar";
+   }
+   
+   if(isset($_POST["imagen"])){
+       $id_incidente = $con->insert_id;
+       
+        $sql="INSERT INTO imagenes (usuario,imagen,id_incidente) VALUES ('".$_POST["usuario"]."','".$_POST["imagen"]."',".$id_incidente.")";
+    
+       if (mysqli_query($con,$sql)) {
+          echo "Se insertó la imagen en la BD";
+       }else{
+          echo "No se pudo insertar";
+       }
    }
 ?>

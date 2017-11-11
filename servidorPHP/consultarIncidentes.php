@@ -4,7 +4,7 @@
 
 
  	//fetch table rows from mysql db
-	$sql = "SELECT * FROM incidentes WHERE zona = '".$_POST["zona"]."'";
+		$sql = "SELECT COUNT(*) as cantidad, id,usuario,fechaYhora,tipo,zona,comentarios FROM incidentes GROUP BY tipo HAVING zona = '".$_POST["zona"]."'";
 	$result = mysqli_query($conn, $sql) or die("Error in Selecting " . mysqli_error($conn));
 
 	 //create an array

@@ -2,6 +2,7 @@ package com.example5.lilian.caos_cwy.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -90,14 +91,20 @@ public class FormularioFragment extends Fragment {
                 String comentario = comentarios != null?comentarios.getText().toString():"";
 
 
-
-                ImageView img = (ImageView) getActivity().findViewById(R.id.imagenPrueba);
                 Incidente incidente = new Incidente();
                 incidente.setUsuario(usuario);
                 incidente.setTipo(spinner.getSelectedItem().toString());
                 incidente.setZona("PODRIAN SER COORDENADAS");
                 incidente.setComentario(comentario);
-                incidente.setCaptura(new Captura(usuario,((BitmapDrawable)img.getDrawable()).getBitmap()));
+
+                try{
+                    ImageView img = (ImageView) getActivity().findViewById(R.id.imagenPrueba);
+                    Bitmap imagen = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                    incidente.setCaptura(new Captura(usuario,imagen));
+                }catch(Exception e){
+
+                }
+
                 IncidenteINSERTTask taskIncidente = new IncidenteINSERTTask();
                 taskIncidente.execute(incidente);
         //TODO: ver para la entrega que no se guarda el ID porque tengo que hacerlo desde php

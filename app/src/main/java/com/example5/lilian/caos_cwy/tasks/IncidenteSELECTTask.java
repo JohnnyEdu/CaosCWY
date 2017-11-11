@@ -36,6 +36,8 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, List<Incidente
         //mTwoPane parametro que viene de la vista desde maestro detalle, es predeterminado de android
         this.mTwoPane = mTwoPane[0];
         BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
+
+        //BUSCARZONA
         List<Incidente> resultado = bdpub.consultarIncidentesZona("PODRIAN SER COORDENADAS");
 
         return resultado;
@@ -56,4 +58,6 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, List<Incidente
         setupRecyclerView((RecyclerView) recyclerView);
 
     }
+
+
 }

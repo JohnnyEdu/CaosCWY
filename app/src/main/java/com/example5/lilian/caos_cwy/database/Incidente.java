@@ -14,6 +14,7 @@ public class Incidente {
     private Date fechaYhora;
     private Captura captura;
     private String comentario;
+    private Integer cantidad;
 
 
     public Integer getId() {
@@ -70,5 +71,13 @@ public class Incidente {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 }

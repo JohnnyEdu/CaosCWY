@@ -49,7 +49,7 @@ public class incidenteListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
+        //Boton flotante
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +68,9 @@ public class incidenteListActivity extends AppCompatActivity {
         }
 
         //traer los incidentes para mostrar
-        IncidenteSELECTTask slect = new IncidenteSELECTTask();
-        slect.setActivity(this);
-        slect.execute(mTwoPane);
+        IncidenteSELECTTask selct = new IncidenteSELECTTask();
+        selct.setActivity(this);
+        selct.execute(mTwoPane);
 
     }
 
@@ -112,30 +112,32 @@ public class incidenteListActivity extends AppCompatActivity {
             mTwoPane = twoPane;
         }
 
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.incidente_list_content, parent, false);
-            return new ViewHolder(view);
-        }
+            @Override
+            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.incidente_list_content, parent, false);
+                return new ViewHolder(view);
+            }
 
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).getId());
-            holder.mContentView.setText(mValues.get(position).getTipo());
+            @Override
+            public void onBindViewHolder(final ViewHolder holder, int position) {
+            //Faltaba pasar a toString, probee con setText("hola") y andaba jaj
+                holder.mIdView.setText(mValues.get(position).getCantidad().toString());
+                holder.mContentView.setText(mValues.get(position).getTipo());
 
-            holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
-        }
+                holder.itemView.setTag(mValues.get(position));
+                holder.itemView.setOnClickListener(mOnClickListener);
+            }
 
-        @Override
-        public int getItemCount() {
-            return mValues.size();
+            @Override
+            public int getItemCount() {
+                return mValues.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
+
 
             ViewHolder(View view) {
                 super(view);

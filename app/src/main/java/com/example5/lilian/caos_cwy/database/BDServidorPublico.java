@@ -69,6 +69,7 @@ public class BDServidorPublico {
                 incidente.setId(Integer.valueOf(objecto.get("id").toString()));
                 incidente.setTipo((String) objecto.get("tipo"));
                 incidente.setZona((String) objecto.get("zona"));
+                incidente.setCantidad(Integer.valueOf(objecto.get("cantidad").toString()));
                 resultado.add(incidente);
             }
         } catch (JSONException json) {
@@ -89,7 +90,7 @@ public class BDServidorPublico {
             postDataParams.put("tipo", incidente.getTipo());
             postDataParams.put("zona", incidente.getZona());
             postDataParams.put("comentario", incidente.getComentario());
-            if(incidente.getCaptura().getImagen()!=null){
+            if(incidente.getCaptura()!=null){
                 String base64encode = Base64.encodeToString(ConvertirBitmapEnByteArray.convertir(incidente.getCaptura().getImagen()), Base64.DEFAULT);
                 postDataParams.put("imagen",base64encode);
             }
