@@ -44,6 +44,9 @@
 
     <!--FIN: Errores generales-->
     <string name="title_activity_image">ImageActivity</string>
-    <string name="title_incidente_list">incidentes</string>
+    <string name="title_incidente_list">INCIDENTES EN TU ZONA</string>
     <string name="title_incidente_detail">incidente Detail</string>
+
+    <string name="title_activity_maps">Mapa</string>
+    <string name="google_maps_key">AIzaSyB6VLOQjU6T5j7RUtm6vFmf2D-k0puK_Gc</string>
 </resources>

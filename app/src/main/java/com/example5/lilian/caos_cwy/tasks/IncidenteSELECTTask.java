@@ -50,11 +50,15 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
 
     @Override
     protected void onPostExecute(HashMap<String,List<Incidente>> incidentes) {
-        for(Incidente incidente: incidentes.get("agrupada")){
-            IncidentesContent.addItem(incidente);
+        if(incidentes.get("agrupada")!=null){
+            for(Incidente incidente: incidentes.get("agrupada")){
+                IncidentesContent.addItem(incidente);
+            }
         }
-        for(Incidente incidente: incidentes.get("sinagrupar")){
-            IncidentesContent.addItemSinAgrupar(incidente);
+        if(incidentes.get("sinagrupar")!=null) {
+            for (Incidente incidente : incidentes.get("sinagrupar")) {
+                IncidentesContent.addItemSinAgrupar(incidente);
+            }
         }
 
         View recyclerView = activity.findViewById(R.id.incidente_list);

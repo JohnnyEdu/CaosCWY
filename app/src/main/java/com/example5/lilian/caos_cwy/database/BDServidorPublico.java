@@ -84,6 +84,7 @@ public class BDServidorPublico {
                 incidente.setId(Integer.valueOf(objecto.get("id").toString()));
                 incidente.setTipo((String) objecto.get("tipo"));
                 incidente.setZona((String) objecto.get("zona"));
+                incidente.setComentario(String.valueOf(objecto.get("comentarios")));
                 incidente.setFechaYhora(String.valueOf(objecto.get("fechaYhora")));
                 incidentesNoAg.add(incidente);
             }

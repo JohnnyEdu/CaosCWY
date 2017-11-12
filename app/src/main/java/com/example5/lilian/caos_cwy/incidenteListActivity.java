@@ -4,19 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.example5.lilian.caos_cwy.database.Incidente;
@@ -24,11 +19,7 @@ import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
 import com.example5.lilian.caos_cwy.fragments.incidenteDetailFragment;
 import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * An activity representing a list of incidentes. This activity
@@ -58,14 +49,14 @@ public class incidenteListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
         //Boton flotante
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         if (findViewById(R.id.incidente_detail_container) != null) {
             // The detail container view will be present only in the
@@ -127,7 +118,7 @@ public class incidenteListActivity extends AppCompatActivity {
                 //Calendar cal= Calendar.getInstance();
                 for(final Incidente incidente: mValuesSinAgrupar){
                     if(incidente.getTipo().equalsIgnoreCase(mValues.get(position).getTipo())){
-                        TextView v = (TextView)vi.inflate(R.layout.incidente_detail_item, null);
+                        TextView v = (TextView)vi.inflate(R.layout.item_incidentes_agrupados_content, null);
                         v.setTag(incidente);
                         v.setText("Fecha: "+ incidente.getFechaYhora());
                         v.setOnClickListener(new View.OnClickListener() {

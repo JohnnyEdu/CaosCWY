@@ -46,6 +46,24 @@
             />
 
         <EditText
+            android:id="@+id/editTextLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+
+        <Button
+            android:id="@+id/btnLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Obtener Coordenadas"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_weight="0.05" />
+
+
+        <EditText
             android:id="@+id/comentario"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -54,7 +72,6 @@
             android:paddingBottom="30dp"
             android:hint="Comentario"
             />
-
 
         <RelativeLayout
             android:layout_width="wrap_content"
