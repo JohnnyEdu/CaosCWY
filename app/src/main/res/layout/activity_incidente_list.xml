@@ -7,6 +7,14 @@
     android:fitsSystemWindows="true"
     tools:context="com.example5.lilian.caos_cwy.incidenteListActivity">
 
+    <ProgressBar
+        android:id="@+id/cargandoIncidentes"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true" />
+
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"

@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
 import com.example5.lilian.caos_cwy.fragments.incidenteDetailFragment;
+import com.example5.lilian.caos_cwy.tasks.ImagenesSELECTTask;
 import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 
 import java.util.List;
@@ -66,9 +68,12 @@ public class incidenteListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.cargandoIncidentes);
         //traer los incidentes para mostrar
         IncidenteSELECTTask selct = new IncidenteSELECTTask();
         selct.setActivity(this);
+        selct.setProgressBar(progressBar);
         selct.execute(mTwoPane);
 
     }
@@ -101,7 +106,7 @@ public class incidenteListActivity extends AppCompatActivity {
             @Override
             public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.incidente_list_content, parent, false);
+                        .inflate(R.layout.item_incidentes, parent, false);
                 return new ViewHolder(view);
             }
 

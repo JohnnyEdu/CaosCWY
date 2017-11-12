@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
@@ -22,6 +23,7 @@ import java.util.List;
 public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String,List<Incidente>>> {
     private Activity activity;
     private Boolean mTwoPane;
+    private ProgressBar progressBar;
 
 
     public Activity getActivity() {
@@ -30,6 +32,15 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
     }
 
     @Override
@@ -50,6 +61,7 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
 
     @Override
     protected void onPostExecute(HashMap<String,List<Incidente>> incidentes) {
+        progressBar.setVisibility(View.GONE);
         if(incidentes.get("agrupada")!=null){
             for(Incidente incidente: incidentes.get("agrupada")){
                 IncidentesContent.addItem(incidente);

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example5.lilian.caos_cwy.R;
@@ -15,6 +16,7 @@ import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
 import com.example5.lilian.caos_cwy.incidenteDetailActivity;
 import com.example5.lilian.caos_cwy.incidenteListActivity;
+import com.example5.lilian.caos_cwy.tasks.ImagenesSELECTTask;
 
 /**
  * A fragment representing a single incidente detail screen.
@@ -64,10 +66,20 @@ public class incidenteDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.incidente_detail, container, false);
-        TextView tipoDeIncidente = (TextView) rootView.findViewById(R.id.tipoIncidente);
+
         ImageView capturaTomada = (ImageView) rootView.findViewById(R.id.capturaTomada);
+
+
+        ProgressBar progressBar = (ProgressBar)rootView.findViewById(R.id.cargandoimagen);
+
+
+        //traer la captura del detalle
+        ImagenesSELECTTask imgSelect = new ImagenesSELECTTask(getContext());
+        imgSelect.setNroIncidente(String.valueOf(mItem.getId()));
+        imgSelect.setVista(capturaTomada );
+        imgSelect.setProgressBar(progressBar );
+        imgSelect.execute();
         TextView comentarios = (TextView) rootView.findViewById(R.id.comentarios);
-        tipoDeIncidente.setText(mItem.getTipo());
         comentarios.setText(mItem.getComentario());
         return rootView;
     }

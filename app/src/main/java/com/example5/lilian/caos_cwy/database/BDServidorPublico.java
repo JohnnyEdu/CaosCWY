@@ -161,7 +161,24 @@ public class BDServidorPublico {
     }
 
 
-//trae las capturas de la tabla IMAGENES por usuario
+    public List<Captura> selectImagenesPorIncidente(String nroIncidente) {
+        String msgResp="";
+        List<Captura> capturas = null;
+        try{
+            JSONObject postDataParams = new JSONObject();
+            postDataParams.put("nroincidente", nroIncidente);
+            msgResp = realizarPeticion(postDataParams);
+            capturas = convertirBase64BD(msgResp);
+
+        }
+        catch(JSONException json){
+            msgResp = json.getMessage();
+        }
+        return capturas;
+    }
+
+
+    //trae las capturas de la tabla IMAGENES por usuario
     public List<Captura> selectImagenesPorUsuario(String usuario) {
         String msgResp="";
         List<Captura> capturas = null;
