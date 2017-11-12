@@ -13,7 +13,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Contraseña (opcional)</string>
+    <string name="prompt_password">Contraseña </string>
     <string name="action_sign_in">Entrar o registrarse</string>
     <string name="action_sign_in_short">Entrar</string>
     <string name="error_invalid_email">Este mail es inválido</string>

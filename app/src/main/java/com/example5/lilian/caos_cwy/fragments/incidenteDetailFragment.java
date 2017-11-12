@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.Incidente;
@@ -25,7 +27,7 @@ public class incidenteDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    //public static final String ARG_ITEM_ID = "item_id";
 
     /**
      * The dummy content this fragment is presenting.
@@ -43,17 +45,18 @@ public class incidenteDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        if (getArguments().containsKey(incidenteDetailActivity.ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = IncidentesContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = IncidentesContent.ITEM_MAP.get(getArguments().getString(incidenteDetailActivity.ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.getTipo());
             }
+
         }
     }
 
@@ -61,6 +64,11 @@ public class incidenteDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.incidente_detail, container, false);
+        TextView tipoDeIncidente = (TextView) rootView.findViewById(R.id.tipoIncidente);
+        ImageView capturaTomada = (ImageView) rootView.findViewById(R.id.capturaTomada);
+        TextView comentarios = (TextView) rootView.findViewById(R.id.comentarios);
+        tipoDeIncidente.setText(mItem.getTipo());
+        comentarios.setText(mItem.getComentario());
         return rootView;
     }
 }

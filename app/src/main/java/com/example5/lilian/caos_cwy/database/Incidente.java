@@ -11,7 +11,7 @@ public class Incidente {
     private String usuario;
     private String tipo;
     private String zona;
-    private Date fechaYhora;
+    private String fechaYhora;
     private Captura captura;
     private String comentario;
     private Integer cantidad;
@@ -49,11 +49,11 @@ public class Incidente {
         this.zona = zona;
     }
 
-    public Date getFechaYhora() {
+    public String getFechaYhora() {
         return fechaYhora;
     }
 
-    public void setFechaYhora(Date fechaYhora) {
+    public void setFechaYhora(String fechaYhora) {
         this.fechaYhora = fechaYhora;
     }
 

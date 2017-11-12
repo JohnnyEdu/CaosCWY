@@ -20,6 +20,7 @@ import com.example5.lilian.caos_cwy.fragments.incidenteDetailFragment;
  */
 public class incidenteDetailActivity extends AppCompatActivity {
 
+    public static final String ARG_ITEM_ID = "item_id";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +56,8 @@ public class incidenteDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(incidenteDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(incidenteDetailFragment.ARG_ITEM_ID));
+            arguments.putString(ARG_ITEM_ID,
+                    getIntent().getStringExtra(ARG_ITEM_ID));
             incidenteDetailFragment fragment = new incidenteDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

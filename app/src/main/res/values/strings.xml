@@ -45,6 +45,6 @@
 
     <!--FIN: Errores generales-->
     <string name="title_activity_image">ImageActivity</string>
-    <string name="title_incidente_list">incidentes</string>
+    <string name="title_incidente_list">Incidentes</string>
     <string name="title_incidente_detail">incidente Detail</string>
 </resources>

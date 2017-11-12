@@ -20,7 +20,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -56,22 +60,36 @@ public class BDServidorPublico {
         return conexion;
     }
 
-    public List<Incidente> consultarIncidentesZona(String zona) {
+    public HashMap<String,List<Incidente>> consultarIncidentesZona(String zona) {
         String msgResp = "";
-        List<Incidente> resultado = new ArrayList<>();
+        HashMap<String,List<Incidente>> resultado = new HashMap<>();
         try {
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("zona", zona);
-            JSONArray incidentes = new JSONArray(realizarPeticion(postDataParams));
-            for (int i = 0; i < incidentes.length(); i++) {
+            JSONArray incidentesAgrupados = (JSONArray)(new JSONObject(realizarPeticion(postDataParams)).get("agrupada"));
+            JSONArray incidentesSinagrupar  = (JSONArray)(new JSONObject(realizarPeticion(postDataParams)).get("sinagrupar"));
+            List<Incidente> incidentesAg = new ArrayList<>();
+            for (int i = 0; i < incidentesAgrupados.length(); i++) {
                 Incidente incidente = new Incidente();
-                JSONObject objecto = (JSONObject) incidentes.get(i);
+                JSONObject objecto = (JSONObject) incidentesAgrupados.get(i);
+                incidente.setTipo((String) objecto.get("tipo"));
+                incidente.setCantidad(Integer.valueOf(objecto.get("cantidad").toString()));
+                incidentesAg.add(incidente);
+            }
+
+            List<Incidente> incidentesNoAg = new ArrayList<>();
+            for (int i = 0; i < incidentesSinagrupar.length(); i++) {
+                Incidente incidente = new Incidente();
+                JSONObject objecto = (JSONObject) incidentesSinagrupar.get(i);
                 incidente.setId(Integer.valueOf(objecto.get("id").toString()));
                 incidente.setTipo((String) objecto.get("tipo"));
                 incidente.setZona((String) objecto.get("zona"));
-                incidente.setCantidad(Integer.valueOf(objecto.get("cantidad").toString()));
-                resultado.add(incidente);
+                incidente.setFechaYhora(String.valueOf(objecto.get("fechaYhora")));
+                incidentesNoAg.add(incidente);
             }
+
+            resultado.put("agrupada",incidentesAg);
+            resultado.put("sinagrupar",incidentesNoAg);
         } catch (JSONException json) {
             msgResp = json.getMessage();
         }

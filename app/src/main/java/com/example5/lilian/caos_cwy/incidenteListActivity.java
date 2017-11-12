@@ -1,5 +1,6 @@
 package com.example5.lilian.caos_cwy;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,10 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example5.lilian.caos_cwy.database.Incidente;
@@ -20,7 +24,11 @@ import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
 import com.example5.lilian.caos_cwy.fragments.incidenteDetailFragment;
 import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
 import java.util.List;
+import java.util.zip.Inflater;
 
 /**
  * An activity representing a list of incidentes. This activity
@@ -75,39 +83,26 @@ public class incidenteListActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        IncidentesContent.reset();
+        //Toast.makeText(getApplicationContext(),"Se destruye",Toast.LENGTH_LONG).show();
+    }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final incidenteListActivity mParentActivity;
         private final List<Incidente> mValues;
+        private List<Incidente> mValuesSinAgrupar;
         private final boolean mTwoPane;
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Incidente item = (Incidente) view.getTag();
-                if (mTwoPane) {
-                    Bundle arguments = new Bundle();
-                    arguments.putString(incidenteDetailFragment.ARG_ITEM_ID, String.valueOf(item.getId()));
-                    incidenteDetailFragment fragment = new incidenteDetailFragment();
-                    fragment.setArguments(arguments);
-                    mParentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.incidente_detail_container, fragment)
-                            .commit();
-                } else {
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, incidenteDetailActivity.class);
-                    intent.putExtra(incidenteDetailFragment.ARG_ITEM_ID, String.valueOf(item.getId()));
-
-                    context.startActivity(intent);
-                }
-            }
-        };
 
         public SimpleItemRecyclerViewAdapter(incidenteListActivity parent,
-                                      List<Incidente> items,
+                                      List<Incidente> items, List<Incidente> itemsSinAgrupar,
                                       boolean twoPane) {
             mValues = items;
+            mValuesSinAgrupar = itemsSinAgrupar;
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
@@ -122,11 +117,48 @@ public class incidenteListActivity extends AppCompatActivity {
             @Override
             public void onBindViewHolder(final ViewHolder holder, int position) {
             //Faltaba pasar a toString, probee con setText("hola") y andaba jaj
-                holder.mIdView.setText(mValues.get(position).getCantidad().toString());
-                holder.mContentView.setText(mValues.get(position).getTipo());
+                holder.mIdView.setText(  mValues.get(position).getTipo().toString() + "   ("+ mValues.get(position).getCantidad().toString() +")");
 
-                holder.itemView.setTag(mValues.get(position));
-                holder.itemView.setOnClickListener(mOnClickListener);
+                //LayoutInflater inflat = LayoutInflater.from(mParentActivity.getApplicationContext());
+                //LinearLayout laview =(LinearLayout) inflat.inflate(R.layout.detalle_incidente_agrupado,holder.mContentView,true);
+                //holder.mContentView.setText(mValues.get(position).getTipo());
+
+                LayoutInflater vi = (LayoutInflater) mParentActivity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                //Calendar cal= Calendar.getInstance();
+                for(final Incidente incidente: mValuesSinAgrupar){
+                    if(incidente.getTipo().equalsIgnoreCase(mValues.get(position).getTipo())){
+                        TextView v = (TextView)vi.inflate(R.layout.incidente_detail_item, null);
+                        v.setTag(incidente);
+                        v.setText("Fecha: "+ incidente.getFechaYhora());
+                        v.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Incidente incidenteSelec =(Incidente) view.getTag();
+                                if (mTwoPane) {
+                                    Bundle arguments = new Bundle();
+                                    arguments.putString(incidenteDetailActivity.ARG_ITEM_ID, String.valueOf(incidenteSelec.getId()));
+                                    incidenteDetailFragment fragment = new incidenteDetailFragment();
+                                    fragment.setArguments(arguments);
+                                    mParentActivity.getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.incidente_detail_container, fragment)
+                                            .commit();
+                                } else {
+                                    Context context = mParentActivity;
+                                    Intent intent = new Intent(context, incidenteDetailActivity.class);
+                                    intent.putExtra("item_id", incidenteSelec.getId());
+                                    intent.putExtra(incidenteDetailActivity.ARG_ITEM_ID, String.valueOf(incidenteSelec.getId()));
+                                   // Integer itemid = intent.getExtras().getInt("item_id");
+                                    context.startActivity(intent);
+                                }
+                            }
+                        });
+
+                        holder.mContentView.addView(v);
+                    }
+                }
+                holder.mContentView.setVisibility(View.GONE);
+                //holder.mIdView.setTag(mValues.get(position));
+
             }
 
             @Override
@@ -136,13 +168,30 @@ public class incidenteListActivity extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
-            final TextView mContentView;
+            final LinearLayout mContentView;
+            TextView mItemDetail = null;
+
+            private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Activity contenedor = (Activity) view.getContext();
+                    boolean isVisible = mContentView.getVisibility() == View.VISIBLE;
+                    if(isVisible){
+                        mContentView.setVisibility(View.GONE);
+                    }else{
+                        mContentView.setVisibility(View.VISIBLE);
+                    }
+                }
+            };
+
 
 
             ViewHolder(View view) {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mItemDetail = (TextView) view.findViewById(R.id.content);
+                mContentView = (LinearLayout) view.findViewById(R.id.contenedorDetalle);
+                mIdView.setOnClickListener(mOnClickListener);
             }
         }
     }

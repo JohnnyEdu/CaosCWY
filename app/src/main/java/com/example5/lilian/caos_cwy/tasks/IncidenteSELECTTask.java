@@ -12,13 +12,14 @@ import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
 import com.example5.lilian.caos_cwy.incidenteListActivity;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Johnny on 5/11/2017.
  */
 
-public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, List<Incidente>> {
+public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String,List<Incidente>>> {
     private Activity activity;
     private Boolean mTwoPane;
 
@@ -32,25 +33,28 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, List<Incidente
     }
 
     @Override
-    protected List<Incidente> doInBackground(Boolean... mTwoPane) {
+    protected HashMap<String,List<Incidente>> doInBackground(Boolean... mTwoPane) {
         //mTwoPane parametro que viene de la vista desde maestro detalle, es predeterminado de android
         this.mTwoPane = mTwoPane[0];
         BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
 
         //BUSCARZONA
-        List<Incidente> resultado = bdpub.consultarIncidentesZona("PODRIAN SER COORDENADAS");
+        HashMap<String,List<Incidente>> resultado = bdpub.consultarIncidentesZona("PODRIAN SER COORDENADAS");
 
         return resultado;
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new incidenteListActivity.SimpleItemRecyclerViewAdapter((incidenteListActivity) getActivity(), IncidentesContent.ITEMS, mTwoPane));
+        recyclerView.setAdapter(new incidenteListActivity.SimpleItemRecyclerViewAdapter((incidenteListActivity) getActivity(), IncidentesContent.ITEMS,IncidentesContent.ITEMS_SIN_AGRUPAR, mTwoPane));
     }
 
     @Override
-    protected void onPostExecute(List<Incidente> incidentes) {
-        for(Incidente incidente: incidentes){
+    protected void onPostExecute(HashMap<String,List<Incidente>> incidentes) {
+        for(Incidente incidente: incidentes.get("agrupada")){
             IncidentesContent.addItem(incidente);
+        }
+        for(Incidente incidente: incidentes.get("sinagrupar")){
+            IncidentesContent.addItemSinAgrupar(incidente);
         }
 
         View recyclerView = activity.findViewById(R.id.incidente_list);

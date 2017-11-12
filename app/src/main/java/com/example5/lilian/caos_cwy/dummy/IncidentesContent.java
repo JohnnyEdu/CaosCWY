@@ -20,7 +20,8 @@ public class IncidentesContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<Incidente> ITEMS = new ArrayList<Incidente>();
+    public static  List<Incidente> ITEMS = new ArrayList<Incidente>();
+    public static  List<Incidente> ITEMS_SIN_AGRUPAR = new ArrayList<Incidente>();
 
     /**
      * A map of sample (dummy) items, by ID.
@@ -37,8 +38,18 @@ public class IncidentesContent {
         }
     }*/
 
+   public static void reset(){
+       ITEMS = new ArrayList<>();
+       ITEMS_SIN_AGRUPAR = new ArrayList<Incidente>();
+   }
+
     public static void addItem(Incidente item) {
         ITEMS.add(item);
+    }
+
+
+    public static void addItemSinAgrupar(Incidente item) {
+        ITEMS_SIN_AGRUPAR.add(item);
         ITEM_MAP.put(String.valueOf(item.getId()), item);
     }
 
