@@ -6,9 +6,11 @@
 	    die("Connection failed: " . $conn->connect_error);
 	} 
 	if(isset($_POST["usuario"])){
-	    echo $_POST["usuario"];
 		$sql = "SELECT usuario, imagen FROM imagenes WHERE usuario = '".$_POST["usuario"]."'";	
-	}else{
+	}else if(isset($_POST["nroincidente"])){
+		$sql = "SELECT usuario, imagen FROM imagenes WHERE id_incidente = ".$_POST["nroincidente"];	
+	}
+	else{
 		$sql = "SELECT usuario, imagen FROM imagenes";
 	}
 
