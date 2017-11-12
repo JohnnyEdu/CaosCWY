@@ -1,6 +1,7 @@
 package com.example5.lilian.caos_cwy.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example5.lilian.caos_cwy.MapsActivity;
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.Captura;
 import com.example5.lilian.caos_cwy.database.Incidente;
@@ -111,6 +114,14 @@ public class FormularioFragment extends Fragment {
 
 
                 Toast.makeText(getContext(),"Insertando en BD, checkear...",Toast.LENGTH_LONG).show();
+            }
+        });
+        ImageButton botonVerMapa = (ImageButton)fragm.findViewById(R.id.verMapa);
+        botonVerMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent vermapa = new Intent(getContext(),MapsActivity.class);
+                startActivity(vermapa);
             }
         });
 

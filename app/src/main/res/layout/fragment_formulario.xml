@@ -45,6 +45,13 @@
             android:name="com.example5.lilian.caos_cwy.fragments.AdjuntarCapturaFragment"
             />
 
+        <ImageButton
+            android:id="@+id/verMapa"
+            android:background="@drawable/logo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"/>
+
         <EditText
             android:id="@+id/editTextLocation"
             android:layout_width="match_parent"
