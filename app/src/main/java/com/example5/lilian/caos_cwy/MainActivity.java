@@ -15,15 +15,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example5.lilian.caos_cwy.fragments.FormularioFragment;
 import com.example5.lilian.caos_cwy.fragments.Fragment1;
 import com.example5.lilian.caos_cwy.fragments.Fragment2;
 import com.example5.lilian.caos_cwy.utils.Utilidades;
 import com.example5.lilian.caos_cwy.fragments.ContenedorFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Fragment1.OnFragmentInteractionListener,
-        Fragment2.OnFragmentInteractionListener , com.example5.lilian.caos_cwy.fragments.FormularioFragment.OnFragmentInteractionListener ,
-        com.example5.lilian.caos_cwy.fragments.ContenedorFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        Fragment1.OnFragmentInteractionListener,
+        Fragment2.OnFragmentInteractionListener ,
+        FormularioFragment.OnFragmentInteractionListener ,
+        ContenedorFragment.OnFragmentInteractionListener {
 
     int REQUEST_IMAGE_CAPTURE = 1;
     public static String coordLat;
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_camera) {
-            miFragment = new com.example5.lilian.caos_cwy.fragments.FormularioFragment();
+            miFragment = new FormularioFragment();
             fragmentSeleccionado = true;
         } else if (id == R.id.nav_slideshow) {
             miFragment = new Fragment2();
