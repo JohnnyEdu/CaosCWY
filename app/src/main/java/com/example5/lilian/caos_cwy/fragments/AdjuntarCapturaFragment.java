@@ -77,6 +77,7 @@ public class AdjuntarCapturaFragment extends Fragment {
             //muestro el boton de eliminar imagen
             final ImageButton eliminar = (ImageButton)vista.findViewById(R.id.eliminarFoto);
             eliminar.setVisibility(View.VISIBLE);
+            //logica para la crucecita de borrar imagen
             eliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

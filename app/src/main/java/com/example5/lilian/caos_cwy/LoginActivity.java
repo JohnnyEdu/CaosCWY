@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        //attemptLogin es el método principal para el logeo
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+        //método principal
         if (mAuthTask != null) {
             return;
         }
@@ -191,11 +192,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
+            //se crea una tarea en background para el logeo, es asincrónica pero el login no avanza hasta que termine
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
     }
 
+    //verifica si el usuario intentando logearse esta en la bd local
+    //TODO: pasar  a MySQL para multiusuario
     public Boolean validarUsuario(String usuario,String password){
         DatabaseHelper basededatos = new DatabaseHelper(getApplicationContext());
         User usuarioDesdeBd = basededatos.getUsuario(usuario);
@@ -350,7 +354,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             byte[] bites = "hola".getBytes();
             bdmysql.insertarImagen("jb",null);*/
 
-
+            //se crea una consulta a la base de datos local (por ahora) en SQLite
+            //la cual valida si el usuario que se logeó se intertó anteriormente
             DatabaseHelper helperdb = new DatabaseHelper(getApplicationContext());
             Boolean usuarioValido = validarUsuario(mEmail,mPassword);
             if(usuarioValido){
@@ -372,7 +377,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
+            //si no "success" hay errores en la validación
             if (success) {
                 finish();
             } else {

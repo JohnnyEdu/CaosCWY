@@ -42,7 +42,7 @@ public class incidenteListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //inicializo el contenedor de los incidentes del maestro - detalle
         IncidentesContent inc = new IncidentesContent();
 
         setContentView(R.layout.activity_incidente_list);
@@ -90,6 +90,7 @@ public class incidenteListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final incidenteListActivity mParentActivity;
+        //guardo mValues y mValuesSinAgrupar para tener el detalle de cada grupo a mano
         private final List<Incidente> mValues;
         private List<Incidente> mValuesSinAgrupar;
         private final boolean mTwoPane;
@@ -114,11 +115,9 @@ public class incidenteListActivity extends AppCompatActivity {
             public void onBindViewHolder(final ViewHolder holder, int position) {
             //Faltaba pasar a toString, probee con setText("hola") y andaba jaj
                 holder.mIdView.setText(  mValues.get(position).getTipo().toString() + "   ("+ mValues.get(position).getCantidad().toString() +")");
-
-                //LayoutInflater inflat = LayoutInflater.from(mParentActivity.getApplicationContext());
-                //LinearLayout laview =(LinearLayout) inflat.inflate(R.layout.detalle_incidente_agrupado,holder.mContentView,true);
-                //holder.mContentView.setText(mValues.get(position).getTipo());
-
+                //este método "onBindViewHolder" contiene cada uno de los items agrupados, es decir cada item que usa la RecyclerView
+                //por cada uno de los items que se va generando en la vista, le seteo su detalle sacando de mValuesSinAgrupar y localizando por tipo
+                //de agrupamiento ej: "ACCIDENTE" sería uno de los que entra a este método y por cada elemento en mValuesSinAgrupar, muestro los ACCIDENTE
                 LayoutInflater vi = (LayoutInflater) mParentActivity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 //Calendar cal= Calendar.getInstance();
                 for(final Incidente incidente: mValuesSinAgrupar){
@@ -126,10 +125,13 @@ public class incidenteListActivity extends AppCompatActivity {
                         TextView v = (TextView)vi.inflate(R.layout.item_incidentes_agrupados_content, null);
                         v.setTag(incidente);
                         v.setText("Fecha: "+ incidente.getFechaYhora());
+                        //a cada item del detalle de cada grupo, le pongo en su onclick que me lleve al activity del detalle
                         v.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Incidente incidenteSelec =(Incidente) view.getTag();
+                                //mTwoPane, pareciera que se usa para cuando no queres que el detalle te cambie de activity, sino de fragment
+                                //por ahora esta hecho con activity, asi que entra al else siempre
                                 if (mTwoPane) {
                                     Bundle arguments = new Bundle();
                                     arguments.putString(incidenteDetailActivity.ARG_ITEM_ID, String.valueOf(incidenteSelec.getId()));
@@ -141,7 +143,7 @@ public class incidenteListActivity extends AppCompatActivity {
                                 } else {
                                     Context context = mParentActivity;
                                     Intent intent = new Intent(context, incidenteDetailActivity.class);
-                                    intent.putExtra("item_id", incidenteSelec.getId());
+                                    //le paso el id al detalle, para mostrar su info
                                     intent.putExtra(incidenteDetailActivity.ARG_ITEM_ID, String.valueOf(incidenteSelec.getId()));
                                    // Integer itemid = intent.getExtras().getInt("item_id");
                                     context.startActivity(intent);

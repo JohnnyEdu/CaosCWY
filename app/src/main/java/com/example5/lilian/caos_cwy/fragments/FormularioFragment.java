@@ -98,11 +98,14 @@ public class FormularioFragment extends Fragment {
                 final String usuario = sharedpreferences.getString("usuario","");
                 EditText comentarios = (EditText)getActivity().findViewById(R.id.comentario);
                 String comentario = comentarios != null?comentarios.getText().toString():"";
-
+                //se crea un incidente para guardarlo en la BD MySQL
 
                 Incidente incidente = new Incidente();
                 incidente.setUsuario(usuario);
                 incidente.setTipo(spinner.getSelectedItem().toString());
+
+                //coordLat y coordLong , las seteo en MainActivity cuando en el activity del Mapa, se le da al boton flotante
+                //linea 77 de MapsActivity y lo agarra MainActivity en la linea 67
                 incidente.setZona(MainActivity.coordLat + "/" + MainActivity.coordLong);
                 if(MainActivity.coordLat != null){
                     incidente.setLatitud(Double.valueOf(MainActivity.coordLat));
@@ -112,6 +115,7 @@ public class FormularioFragment extends Fragment {
                 }
                 incidente.setComentario(comentario);
 
+                //le seteo la imagen al Incidente, tomando la que puse en el ImageView
                 try{
                     ImageView img = (ImageView) getActivity().findViewById(R.id.imagenPrueba);
                     Bitmap imagen = ((BitmapDrawable)img.getDrawable()).getBitmap();
@@ -129,6 +133,7 @@ public class FormularioFragment extends Fragment {
             }
         });
 
+        //boton de "Zona", abre el activity del mapa para setear coordLag y coordLong
         Button btnLocation = (Button)fragm.findViewById(R.id.btnLocation);
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override

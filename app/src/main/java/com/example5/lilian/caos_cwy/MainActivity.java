@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        //cuando haces click en el boton de la lupa para buscar incidentes en tu zona
         View.OnClickListener onclick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,13 +67,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
-
-        /*AdjuntarCapturaFragment newFragment = new AdjuntarCapturaFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.adjuntarCaptura,newFragment).commit();*/
-
     }
 
     @Override
@@ -86,6 +81,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //tomo las coordenadas que devuelve el MapsActivity cuando se la llama desde el click
+        //en el boton "Zona", ver el código de MapsActivity cuando se le da click al boton R.id.coords
         super.onActivityResult(requestCode, resultCode, data);
         this.coordLat= data.getStringExtra("coordLat")!=null?data.getStringExtra("coordLat"):"";
         this.coordLong= data.getStringExtra("coordLong")!=null?data.getStringExtra("coordLong"):"";
@@ -137,6 +134,7 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if (id == R.id.verincidentesmenulateral) {
+            //en el menu lateral, para ver los incidentes por zona tambien
             Intent verIncidentes = new Intent(getApplicationContext(),incidenteListActivity.class);
             startActivity(verIncidentes);
         }

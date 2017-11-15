@@ -41,6 +41,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.context = context;
     }
     public void onCreate(SQLiteDatabase db) {
+        //se crean las tablas de la base de datos
+
+        //la tabla imagenes se usaba para guardar las imagenes en el dispositivo,(una imagen de internet)
+
         db.execSQL(SQL_CREATE_USUARIOS);
         db.execSQL(SQL_CREATE_IMAGENES);
         String passwrdD = null;
@@ -49,6 +53,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        //TODO: sacar hardcode cuando pase a ser una aplicacón productiva
+
         //db.execSQL("INSERT INTO USUARIOS (USUARIO,PASSWORD)VALUES ('adm@adm',"+ passwrdD + "'");
         db.execSQL("INSERT INTO USUARIOS (USUARIO,PASSWORD)VALUES ('adm@adm','11111111')");
     }
@@ -72,6 +79,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertarImagen(String usuario, Bitmap imagenParam){
         //inserto en blob
         try {
+            //borro cualquier imagen que tiene el usuario primero (al principio un usuario iba a poder)
+            //ya no se usa porque el usuario puede insertar varios incidentes
             SQLiteDatabase basededatos = this.getReadableDatabase();
 
             String deletePrimero = "DELETE FROM IMAGENES WHERE USUARIO = ?";
@@ -80,6 +89,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String consultaInsert = "INSERT INTO IMAGENES (USUARIO,IMAGEN) VALUES (?,?)";
             SQLiteStatement sentencia = basededatos.compileStatement(consultaInsert);
             sentencia.clearBindings();
+
+            //le paso la imagen y el usuario a la BD
             sentencia.bindString(1, usuario);
             //convertidor de Bitmap de android en byte[] java
             sentencia.bindBlob(2, ConvertirBitmapEnByteArray.convertir(imagenParam));
@@ -89,7 +100,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             setError(context.getResources().getString(R.string.errorIsertarImagen));
         }
     }
-//no se utiliza
+    //no se utiliza
+    //pero costo trabajo jaj
     private byte[] traerImagenDeInternet(String imgurl){
         try {
             URL url = new URL(imgurl);
@@ -144,6 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
         }
         byte[] imagenBd = null;
+        //BLOB es el tipo de dato de SQL para almacenar binarios
         try {
             imagenBd = cursor.getBlob(cursor.getColumnIndex("IMAGEN"));
             cursor.close();

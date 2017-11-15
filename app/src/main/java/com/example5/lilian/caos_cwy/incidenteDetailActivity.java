@@ -48,6 +48,9 @@ public class incidenteDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
+
+            //tomo los parametros que vienen del listado maestro, cuando le das el click a un item para ver el detalle
+            //a partir de la linea 144 de incidenteListActivity
             arguments.putString(ARG_ITEM_ID,
                     getIntent().getStringExtra(ARG_ITEM_ID));
             incidenteDetailFragment fragment = new incidenteDetailFragment();
