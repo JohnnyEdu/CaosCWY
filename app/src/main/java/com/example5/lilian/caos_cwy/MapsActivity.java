@@ -1,14 +1,21 @@
 package com.example5.lilian.caos_cwy;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,9 +41,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Obtain the Support   MapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
     }
 
@@ -49,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // creo un metodo que sirve para agregar el marcador al mapa, creo un objeto Latlng en el cual se incluye la longitud y la latitud
     //luego utilizo el elemento CameraUpdate, para centrar la camara en la posisicon del marker.
     private void agregarMarcador(Double lat, Double lng) {
-        LatLng coordenadas= new LatLng(lat, lng);
+        final LatLng coordenadas= new LatLng(lat, lng);
         CameraUpdate miUbicacion=CameraUpdateFactory.newLatLngZoom(coordenadas,16);
         //si el marcador es diferente de null se debera remover. Agrego unas propiedades al marker, como titulo y una imagen
         //y se le agrega un metodo animateCamera para  mover la camara desde una posicion a otra.
@@ -60,6 +68,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
                 mMap.animateCamera(miUbicacion);
 
+        FloatingActionButton imgbtn = (FloatingActionButton)findViewById(R.id.coords);
+        imgbtn.setVisibility(View.VISIBLE);
+        imgbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"guardando...",Toast.LENGTH_LONG).show();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("coordLat", String.valueOf(coordenadas.latitude));
+                resultIntent.putExtra("coordLong", String.valueOf(coordenadas.longitude));
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
+        });
+
     }
     //creo un metodo que sirve para obtener la longitud y la latitud de mi posicion actual utilizando los metodos metodos que proporciona
     //la clase Location, la cual utilizo como parametro en el medodo.
@@ -67,6 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // para evitar que la app se cierre al ejecutar.
 
     private void actualizarUbicacion(Location location){
+
         if (location!=null){
             lat=location.getLatitude();
             lng=location.getLongitude();

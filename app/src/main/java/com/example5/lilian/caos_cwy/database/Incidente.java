@@ -15,6 +15,8 @@ public class Incidente {
     private Captura captura;
     private String comentario;
     private Integer cantidad;
+    private Double latitud;
+    private Double longitud;
 
 
     public Integer getId() {
@@ -79,5 +81,21 @@ public class Incidente {
 
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
     }
 }

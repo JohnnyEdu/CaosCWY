@@ -50,7 +50,7 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
         BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
 
         //BUSCARZONA
-        HashMap<String,List<Incidente>> resultado = bdpub.consultarIncidentesZona("PODRIAN SER COORDENADAS");
+        HashMap<String,List<Incidente>> resultado = bdpub.consultarIncidentesZona(-35.0,-58.0);
 
         return resultado;
     }

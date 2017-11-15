@@ -26,4 +26,5 @@
    if (mysqli_query($con,$sql)) {
       echo "Se creó la tabla INCIDENTES";
    }
+   mysqli_query($con,"ALTER TABLE incidentes ADD (LATITUD INT(5), LONGITUD INT(5))")mysqli_query($con,"ALTER TABLE incidentes ADD (LATITUD INT(5), LONGITUD INT(5))")
 ?>

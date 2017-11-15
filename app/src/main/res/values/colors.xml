@@ -9,4 +9,5 @@
     <color name="colorLightBlue">#A9E2F3</color>
     <color name="colorOrange">#FF8000</color>
     <color name="colorGris">#B4B4B4</color>
+    <color name="colorTransparente">#80000000</color>
 </resources>

@@ -45,25 +45,19 @@
             android:name="com.example5.lilian.caos_cwy.fragments.AdjuntarCapturaFragment"
             />
 
-        <ImageButton
-            android:id="@+id/verMapa"
-            android:background="@drawable/logo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="right"/>
 
-        <EditText
+        <!--<EditText
             android:id="@+id/editTextLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>-->
 
         <Button
             android:id="@+id/btnLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Obtener Coordenadas"
+            android:text="Zona"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"

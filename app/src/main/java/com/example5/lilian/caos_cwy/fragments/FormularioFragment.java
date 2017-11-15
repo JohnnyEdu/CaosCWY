@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example5.lilian.caos_cwy.MainActivity;
 import com.example5.lilian.caos_cwy.MapsActivity;
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.Captura;
@@ -87,6 +88,11 @@ public class FormularioFragment extends Fragment {
         subitIncidente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //si no se obtuvieron las coordenadas
+                if(MainActivity.coordLat == null || MainActivity.coordLong == null ){
+                    return ;
+                }
+
                 final Spinner spinner = (Spinner)getActivity().findViewById(R.id.spAnimals);
                 SharedPreferences sharedpreferences = getActivity().getSharedPreferences("sesion",getActivity().getApplication().MODE_PRIVATE);
                 final String usuario = sharedpreferences.getString("usuario","");
@@ -97,7 +103,13 @@ public class FormularioFragment extends Fragment {
                 Incidente incidente = new Incidente();
                 incidente.setUsuario(usuario);
                 incidente.setTipo(spinner.getSelectedItem().toString());
-                incidente.setZona("PODRIAN SER COORDENADAS");
+                incidente.setZona(MainActivity.coordLat + "/" + MainActivity.coordLong);
+                if(MainActivity.coordLat != null){
+                    incidente.setLatitud(Double.valueOf(MainActivity.coordLat));
+                }
+                if(MainActivity.coordLong != null){
+                    incidente.setLongitud(Double.valueOf(MainActivity.coordLong));
+                }
                 incidente.setComentario(comentario);
 
                 try{
@@ -107,24 +119,25 @@ public class FormularioFragment extends Fragment {
                 }catch(Exception e){
 
                 }
-
                 IncidenteINSERTTask taskIncidente = new IncidenteINSERTTask();
                 taskIncidente.execute(incidente);
         //TODO: ver para la entrega que no se guarda el ID porque tengo que hacerlo desde php
 
 
-                Toast.makeText(getContext(),"Insertando en BD, checkear...",Toast.LENGTH_LONG).show();
-            }
-        });
-        ImageButton botonVerMapa = (ImageButton)fragm.findViewById(R.id.verMapa);
-        botonVerMapa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent vermapa = new Intent(getContext(),MapsActivity.class);
-                startActivity(vermapa);
+                Toast.makeText(getContext(),"Guardando...",Toast.LENGTH_LONG).show();
+
             }
         });
 
+        Button btnLocation = (Button)fragm.findViewById(R.id.btnLocation);
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent vermapa = new Intent(getContext(),MapsActivity.class);
+                final int ACTIVITY_RESULT_INTENT_1 = 1;
+                startActivityForResult(vermapa,ACTIVITY_RESULT_INTENT_1);
+            }
+        });
         return fragm;
     }
 

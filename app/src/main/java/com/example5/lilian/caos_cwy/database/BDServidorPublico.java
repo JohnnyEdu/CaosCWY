@@ -60,35 +60,38 @@ public class BDServidorPublico {
         return conexion;
     }
 
-    public HashMap<String,List<Incidente>> consultarIncidentesZona(String zona) {
+    public HashMap<String,List<Incidente>> consultarIncidentesZona(Double latitud, Double longitud) {
         String msgResp = "";
         HashMap<String,List<Incidente>> resultado = new HashMap<>();
         try {
             JSONObject postDataParams = new JSONObject();
-            postDataParams.put("zona", zona);
+            postDataParams.put("latitud", latitud);
+            postDataParams.put("longitud", longitud);
             JSONArray incidentesAgrupados = (JSONArray)(new JSONObject(realizarPeticion(postDataParams)).get("agrupada"));
             JSONArray incidentesSinagrupar  = (JSONArray)(new JSONObject(realizarPeticion(postDataParams)).get("sinagrupar"));
             List<Incidente> incidentesAg = new ArrayList<>();
-            for (int i = 0; i < incidentesAgrupados.length(); i++) {
-                Incidente incidente = new Incidente();
-                JSONObject objecto = (JSONObject) incidentesAgrupados.get(i);
-                incidente.setTipo((String) objecto.get("tipo"));
-                incidente.setCantidad(Integer.valueOf(objecto.get("cantidad").toString()));
-                incidentesAg.add(incidente);
+            if(incidentesAgrupados!=null) {
+                for (int i = 0; i < incidentesAgrupados.length(); i++) {
+                    Incidente incidente = new Incidente();
+                    JSONObject objecto = (JSONObject) incidentesAgrupados.get(i);
+                    incidente.setTipo((String) objecto.get("tipo"));
+                    incidente.setCantidad(Integer.valueOf(objecto.get("cantidad").toString()));
+                    incidentesAg.add(incidente);
+                }
             }
-
             List<Incidente> incidentesNoAg = new ArrayList<>();
-            for (int i = 0; i < incidentesSinagrupar.length(); i++) {
-                Incidente incidente = new Incidente();
-                JSONObject objecto = (JSONObject) incidentesSinagrupar.get(i);
-                incidente.setId(Integer.valueOf(objecto.get("id").toString()));
-                incidente.setTipo((String) objecto.get("tipo"));
-                incidente.setZona((String) objecto.get("zona"));
-                incidente.setComentario(String.valueOf(objecto.get("comentarios")));
-                incidente.setFechaYhora(String.valueOf(objecto.get("fechaYhora")));
-                incidentesNoAg.add(incidente);
+            if(incidentesSinagrupar!=null) {
+                for (int i = 0; i < incidentesSinagrupar.length(); i++) {
+                    Incidente incidente = new Incidente();
+                    JSONObject objecto = (JSONObject) incidentesSinagrupar.get(i);
+                    incidente.setId(Integer.valueOf(objecto.get("id").toString()));
+                    incidente.setTipo((String) objecto.get("tipo"));
+                    incidente.setZona((String) objecto.get("zona"));
+                    incidente.setComentario(String.valueOf(objecto.get("comentarios")));
+                    incidente.setFechaYhora(String.valueOf(objecto.get("fechaYhora")));
+                    incidentesNoAg.add(incidente);
+                }
             }
-
             resultado.put("agrupada",incidentesAg);
             resultado.put("sinagrupar",incidentesNoAg);
         } catch (JSONException json) {
@@ -108,6 +111,8 @@ public class BDServidorPublico {
             postDataParams.put("usuario", incidente.getUsuario());
             postDataParams.put("tipo", incidente.getTipo());
             postDataParams.put("zona", incidente.getZona());
+            postDataParams.put("latitud", incidente.getLatitud());
+            postDataParams.put("longitud", incidente.getLongitud());
             postDataParams.put("comentario", incidente.getComentario());
             if(incidente.getCaptura()!=null){
                 String base64encode = Base64.encodeToString(ConvertirBitmapEnByteArray.convertir(incidente.getCaptura().getImagen()), Base64.DEFAULT);

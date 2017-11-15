@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity
         com.example5.lilian.caos_cwy.fragments.ContenedorFragment.OnFragmentInteractionListener {
 
     int REQUEST_IMAGE_CAPTURE = 1;
+    public static String coordLat;
+    public static String coordLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +81,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        this.coordLat= data.getStringExtra("coordLat")!=null?data.getStringExtra("coordLat"):"";
+        this.coordLong= data.getStringExtra("coordLong")!=null?data.getStringExtra("coordLong"):"";
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
