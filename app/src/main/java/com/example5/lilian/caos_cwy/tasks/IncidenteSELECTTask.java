@@ -56,7 +56,7 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new incidenteListActivity.SimpleItemRecyclerViewAdapter((incidenteListActivity) getActivity(), IncidentesContent.ITEMS,IncidentesContent.ITEMS_SIN_AGRUPAR, mTwoPane));
+        recyclerView.setAdapter(new incidenteListActivity.SimpleItemRecyclerViewAdapter(getActivity(), IncidentesContent.ITEMS,IncidentesContent.ITEMS_SIN_AGRUPAR, mTwoPane));
     }
 
     @Override

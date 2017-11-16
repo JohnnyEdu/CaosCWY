@@ -89,13 +89,13 @@ public class incidenteListActivity extends AppCompatActivity {
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final incidenteListActivity mParentActivity;
+        private final Activity mParentActivity;
         //guardo mValues y mValuesSinAgrupar para tener el detalle de cada grupo a mano
         private final List<Incidente> mValues;
         private List<Incidente> mValuesSinAgrupar;
         private final boolean mTwoPane;
 
-        public SimpleItemRecyclerViewAdapter(incidenteListActivity parent,
+        public SimpleItemRecyclerViewAdapter(Activity parent,
                                       List<Incidente> items, List<Incidente> itemsSinAgrupar,
                                       boolean twoPane) {
             mValues = items;
@@ -133,17 +133,18 @@ public class incidenteListActivity extends AppCompatActivity {
                                 //mTwoPane, pareciera que se usa para cuando no queres que el detalle te cambie de activity, sino de fragment
                                 //por ahora esta hecho con activity, asi que entra al else siempre
                                 if (mTwoPane) {
-                                    Bundle arguments = new Bundle();
+                                    /*Bundle arguments = new Bundle();
                                     arguments.putString(incidenteDetailActivity.ARG_ITEM_ID, String.valueOf(incidenteSelec.getId()));
                                     incidenteDetailFragment fragment = new incidenteDetailFragment();
                                     fragment.setArguments(arguments);
-                                    mParentActivity.getSupportFragmentManager().beginTransaction()
+                                       mParentActivity.getSupportFragmentManager().beginTransaction()
                                             .replace(R.id.incidente_detail_container, fragment)
-                                            .commit();
+                                            .commit();*/
                                 } else {
                                     Context context = mParentActivity;
                                     Intent intent = new Intent(context, incidenteDetailActivity.class);
-                                    //le paso el id al detalle, para mostrar su info
+                                    //le paso
+                                    intent.putExtra("item_id", incidenteSelec.getId());
                                     intent.putExtra(incidenteDetailActivity.ARG_ITEM_ID, String.valueOf(incidenteSelec.getId()));
                                    // Integer itemid = intent.getExtras().getInt("item_id");
                                     context.startActivity(intent);

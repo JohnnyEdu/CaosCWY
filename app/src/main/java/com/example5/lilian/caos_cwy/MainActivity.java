@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         //cuando haces click en el boton de la lupa para buscar incidentes en tu zona
         View.OnClickListener onclick = new View.OnClickListener() {
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(verIncidentes);
             }
         };
-        fab.setOnClickListener(onclick);
+        fab.setOnClickListener(onclick);*/
 
 
 
@@ -58,8 +58,14 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+
+        /********
+         * Aca inicia los tabs, poniendo el de formulario primero y lo pega en content_main
+         * *******/
         if (Utilidades.validaPantalla== true){
-            Fragment  fragment = new com.example5.lilian.caos_cwy.fragments.FormularioFragment();
+            //Fragment  fragment = new com.example5.lilian.caos_cwy.fragments.FormularioFragment();
+            Fragment  fragment = new ContenedorFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
             Utilidades.validaPantalla=false;
         }

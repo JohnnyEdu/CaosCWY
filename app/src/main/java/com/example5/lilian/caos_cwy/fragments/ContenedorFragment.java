@@ -99,10 +99,12 @@ public class ContenedorFragment extends Fragment {
     }
 //creamos un adaptador con los fragments que se van a mostrar en cada pestaña, con el metodo add se van a ir guardando en la lista
     private void llenarViewPeger(ViewPager viewPager) {
+        /***
+         * ListadoIncidentesFragment, es el maestro / detalle en un fragment
+         * **/
         SeccionesAdapter adapter = new SeccionesAdapter(getFragmentManager());
-        adapter.addFragments(new Fragment1(),"celeste");
-        adapter.addFragments(new FormularioFragment(), "formulario");
-        adapter.addFragments(new Fragment2(), "naranja");
+        adapter.addFragments(new FormularioFragment(), "CARGA INCIDENTE");
+        adapter.addFragments(new ListadoIncidentesFragment(),"INCIDENTES EN ZONA");
 
         viewPager.setAdapter(adapter);
     }

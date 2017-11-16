@@ -90,6 +90,7 @@ public class FormularioFragment extends Fragment {
             public void onClick(View v) {
                 //si no se obtuvieron las coordenadas
                 if(MainActivity.coordLat == null || MainActivity.coordLong == null ){
+                    Toast.makeText(getContext(),"Debés adjuntar la ubicación",Toast.LENGTH_LONG).show();
                     return ;
                 }
 
