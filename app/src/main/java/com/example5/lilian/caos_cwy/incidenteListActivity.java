@@ -95,6 +95,7 @@ public class incidenteListActivity extends AppCompatActivity {
         private List<Incidente> mValuesSinAgrupar;
         private final boolean mTwoPane;
 
+
         public SimpleItemRecyclerViewAdapter(Activity parent,
                                       List<Incidente> items, List<Incidente> itemsSinAgrupar,
                                       boolean twoPane) {
@@ -110,6 +111,11 @@ public class incidenteListActivity extends AppCompatActivity {
                         .inflate(R.layout.item_incidentes, parent, false);
                 return new ViewHolder(view);
             }
+            /*public void removeAt(int position) {
+                mDataset.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, mDataSet.size());
+            }*/
 
             @Override
             public void onBindViewHolder(final ViewHolder holder, int position) {
@@ -182,8 +188,6 @@ public class incidenteListActivity extends AppCompatActivity {
                     }
                 }
             };
-
-
 
             ViewHolder(View view) {
                 super(view);

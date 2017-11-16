@@ -1,8 +1,10 @@
 package com.example5.lilian.caos_cwy.tasks;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -13,6 +15,7 @@ import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
 import com.example5.lilian.caos_cwy.incidenteListActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,6 +48,8 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
 
     @Override
     protected HashMap<String,List<Incidente>> doInBackground(Boolean... mTwoPane) {
+        IncidentesContent.ITEMS = new ArrayList<>();
+        IncidentesContent.ITEMS_SIN_AGRUPAR = new ArrayList<>();
         //mTwoPane parametro que viene de la vista desde maestro detalle, es predeterminado de android
         this.mTwoPane = mTwoPane[0];
         BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
@@ -62,6 +67,7 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
     @Override
     protected void onPostExecute(HashMap<String,List<Incidente>> incidentes) {
         progressBar.setVisibility(View.GONE);
+
         if(incidentes.get("agrupada")!=null){
             for(Incidente incidente: incidentes.get("agrupada")){
                 IncidentesContent.addItem(incidente);
@@ -74,6 +80,7 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
         }
 
         View recyclerView = activity.findViewById(R.id.incidente_list);
+
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 

@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
 import com.example5.lilian.caos_cwy.database.Captura;
@@ -81,10 +82,11 @@ public class ImagenesSELECTTask extends AsyncTask <Void,Void,List<Captura> >{
     }
     @Override
     protected void onPostExecute(List<Captura> imagen) {
-
+        progressBar.setVisibility(View.GONE);
         if(vista instanceof  ImageView && imagen.size()>0){
-            progressBar.setVisibility(View.GONE);
             ((ImageView)vista).setImageBitmap(imagen.get(0).getImagen());
+        }else{
+            Toast.makeText(context,"No se subío captura",Toast.LENGTH_LONG).show();
         }
 
         //traer la imagen luego de insertarla

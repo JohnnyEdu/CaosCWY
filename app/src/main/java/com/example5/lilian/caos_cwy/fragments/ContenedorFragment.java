@@ -10,11 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example5.lilian.caos_cwy.fragments.Fragment1;
 import com.example5.lilian.caos_cwy.fragments.Fragment2;
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.adapters.SeccionesAdapter;
+import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 import com.example5.lilian.caos_cwy.utils.Utilidades;
 
 /**
@@ -85,6 +87,14 @@ public class ContenedorFragment extends Fragment {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                         super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                        if(position == 1){
+                            ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
+                            progressBar.setVisibility(View.VISIBLE);
+                            IncidenteSELECTTask selct = new IncidenteSELECTTask();
+                            selct.setActivity(getActivity());
+                            selct.setProgressBar(progressBar);
+                            selct.execute(false);
+                        }
                     }
                 });
                 pestanas.setupWithViewPager(viewPager);

@@ -92,13 +92,15 @@ public class ListadoIncidentesFragment extends android.support.v4.app.Fragment {
         /***Aca hace exactamente lo mismo que el maestro / detalle original , va a buscar a la base
          * y cuando vuelve, crea los RecyclerView
         ***/
-        ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
+
+        /**ahora lo ejecuto en el click del tab**/
+        /*ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
         //traer los incidentes para mostrar
         IncidenteSELECTTask selct = new IncidenteSELECTTask();
         selct.setActivity(getActivity());
         selct.setProgressBar(progressBar);
         selct.execute(false);
-
+*/
         return vista;
     }
 
