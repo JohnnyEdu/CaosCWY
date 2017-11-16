@@ -32,6 +32,12 @@ public class MainActivity extends AppCompatActivity
     public static String coordLat;
     public static String coordLong;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

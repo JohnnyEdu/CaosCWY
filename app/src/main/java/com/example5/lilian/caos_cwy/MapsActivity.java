@@ -14,7 +14,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -68,7 +70,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
                 mMap.animateCamera(miUbicacion);
 
-        FloatingActionButton imgbtn = (FloatingActionButton)findViewById(R.id.coords);
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.cargaMapa);
+        progressBar.setVisibility(View.GONE);
+        Button imgbtn = (Button)findViewById(R.id.coords);
         imgbtn.setVisibility(View.VISIBLE);
         imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override

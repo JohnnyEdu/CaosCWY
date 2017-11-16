@@ -15,15 +15,25 @@
 
     </fragment>
 
-    <android.support.design.widget.FloatingActionButton
-        app:backgroundTint="@color/colorTransparente"
+    <ProgressBar
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/cargaMapa"
+        android:layout_width="250dp"
+        android:layout_height="250dp" />
+
+
+    <Button
         android:visibility="gone"
+        android:text="Aquí"
+        android:background="@color/colorOrange"
+        android:textColor="@color/colorBlanco"
         android:id="@+id/coords"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/selectmark"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
-        android:layout_marginLeft="30dp">
-    </android.support.design.widget.FloatingActionButton>
+        android:layout_marginLeft="30dp"/>
+
+
 </RelativeLayout>
