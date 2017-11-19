@@ -60,6 +60,8 @@ public class BDServidorPublico {
         return conexion;
     }
 
+
+
     public HashMap<String,List<Incidente>> consultarIncidentesZona(Double latitud, Double longitud) {
         String msgResp = "";
         HashMap<String,List<Incidente>> resultado = new HashMap<>();
@@ -67,18 +69,7 @@ public class BDServidorPublico {
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("latitud", latitud);
             postDataParams.put("longitud", longitud);
-            JSONArray incidentesAgrupados = (JSONArray)(new JSONObject(realizarPeticion(postDataParams)).get("agrupada"));
             JSONArray incidentesSinagrupar  = (JSONArray)(new JSONObject(realizarPeticion(postDataParams)).get("sinagrupar"));
-            List<Incidente> incidentesAg = new ArrayList<>();
-            if(incidentesAgrupados!=null) {
-                for (int i = 0; i < incidentesAgrupados.length(); i++) {
-                    Incidente incidente = new Incidente();
-                    JSONObject objecto = (JSONObject) incidentesAgrupados.get(i);
-                    incidente.setTipo((String) objecto.get("tipo"));
-                    incidente.setCantidad(Integer.valueOf(objecto.get("cantidad").toString()));
-                    incidentesAg.add(incidente);
-                }
-            }
             List<Incidente> incidentesNoAg = new ArrayList<>();
             if(incidentesSinagrupar!=null) {
                 for (int i = 0; i < incidentesSinagrupar.length(); i++) {
@@ -89,10 +80,15 @@ public class BDServidorPublico {
                     incidente.setZona((String) objecto.get("zona"));
                     incidente.setComentario(String.valueOf(objecto.get("comentarios")));
                     incidente.setFechaYhora(String.valueOf(objecto.get("fechaYhora")));
+                    if(objecto.get("imagen")!=null && !"".equals(objecto.get("imagen"))){
+                        Bitmap img = ConvertirBitmapEnByteArray.convertirByteArrayToBitmap(Base64.decode(
+                                String.valueOf(objecto.get("imagen")), Base64.DEFAULT));
+                        Captura captura = new Captura(incidente.getUsuario(),img);
+                        incidente.setCaptura(captura);
+                    }
                     incidentesNoAg.add(incidente);
                 }
             }
-            resultado.put("agrupada",incidentesAg);
             resultado.put("sinagrupar",incidentesNoAg);
         } catch (JSONException json) {
             msgResp = json.getMessage();

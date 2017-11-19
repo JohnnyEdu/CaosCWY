@@ -1,8 +1,6 @@
 package com.example5.lilian.caos_cwy.dummy;
 
-import com.example5.lilian.caos_cwy.database.BDServidorPublico;
 import com.example5.lilian.caos_cwy.database.Incidente;
-import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,13 +18,14 @@ public class IncidentesContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static  List<Incidente> ITEMS = new ArrayList<Incidente>();
-    public static  List<Incidente> ITEMS_SIN_AGRUPAR = new ArrayList<Incidente>();
+    public static  ArrayList<Incidente> TODOS_LOS_INCIDENTES = new ArrayList<Incidente>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
     public static final Map<String, Incidente> ITEM_MAP = new HashMap<String, Incidente>();
+    public static Map<String, List<Incidente>> INCIDENTES_AGRUPADOS = new HashMap<String, List<Incidente>>();
+
 
     private static final int COUNT = 25;
 
@@ -39,18 +38,23 @@ public class IncidentesContent {
     }*/
 
    public static void reset(){
-       ITEMS = new ArrayList<>();
-       ITEMS_SIN_AGRUPAR = new ArrayList<Incidente>();
+       TODOS_LOS_INCIDENTES = new ArrayList<>();
+       INCIDENTES_AGRUPADOS = new HashMap<>();
    }
 
     public static void addItem(Incidente item) {
-        ITEMS.add(item);
+
+       TODOS_LOS_INCIDENTES.add(item);
+       ITEM_MAP.put(String.valueOf(item.getId()),item);
+       addListaAgrupada(item.getTipo(),item);
     }
 
 
-    public static void addItemSinAgrupar(Incidente item) {
-        ITEMS_SIN_AGRUPAR.add(item);
-        ITEM_MAP.put(String.valueOf(item.getId()), item);
+
+    public static void addListaAgrupada(String grupo, Incidente item) {
+        List<Incidente> listaAactualizar = INCIDENTES_AGRUPADOS.get(grupo)!=null?INCIDENTES_AGRUPADOS.get(grupo):new ArrayList<Incidente>();
+        listaAactualizar.add(item);
+        INCIDENTES_AGRUPADOS.put(grupo,listaAactualizar);
     }
 
     public IncidentesContent(){

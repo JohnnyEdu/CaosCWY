@@ -1,19 +1,22 @@
 package com.example5.lilian.caos_cwy.fragments;
 
-import android.content.Context;
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.example5.lilian.caos_cwy.R;
+import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
-import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
+import com.example5.lilian.caos_cwy.incidenteListActivity;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Johnny on 15/11/2017.
@@ -28,6 +31,8 @@ public class ListadoIncidentesFragment extends android.support.v4.app.Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public static ArrayList<Incidente> listadoAux;
 
     private ListadoIncidentesFragment.OnFragmentInteractionListener mListener;
 
@@ -101,7 +106,34 @@ public class ListadoIncidentesFragment extends android.support.v4.app.Fragment {
         selct.setProgressBar(progressBar);
         selct.execute(false);
 */
+
+
+        /**creo filtro por tipo de incidente*/
+
+        final ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
+        final Spinner selectortipo = (Spinner)vista.findViewById(R.id.tipoIncidenteFiltro);
+        selectortipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                filtrarIncidentes(selectortipo.getSelectedItem().toString(),getActivity());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return vista;
+    }
+
+
+    public static void filtrarIncidentes(String filtro, Activity activity){
+        RecyclerView recyclerView = (RecyclerView)activity.findViewById(R.id.incidente_list);
+        assert recyclerView != null;
+        incidenteListActivity.SimpleItemRecyclerViewAdapter recyclerAdapter= new incidenteListActivity.SimpleItemRecyclerViewAdapter(activity, IncidentesContent.TODOS_LOS_INCIDENTES, false,true,filtro);
+        recyclerAdapter.setFiltro(filtro);
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

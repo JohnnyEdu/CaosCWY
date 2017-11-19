@@ -7,4 +7,12 @@
         <item>Accidente</item>
         <item>Embotellamiento</item>
     </string-array>
+    <string-array name="tipoIncidentesConTodos">
+        <item>Todos</item>
+        <item>Manifestación/Marcha</item>
+        <item>Obras Viáles</item>
+        <item>Desvío</item>
+        <item>Accidente</item>
+        <item>Embotellamiento</item>
+    </string-array>
 </resources>

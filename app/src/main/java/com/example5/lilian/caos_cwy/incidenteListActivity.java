@@ -3,6 +3,7 @@ package com.example5.lilian.caos_cwy;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -10,18 +11,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
-import com.example5.lilian.caos_cwy.fragments.incidenteDetailFragment;
-import com.example5.lilian.caos_cwy.tasks.ImagenesSELECTTask;
 import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An activity representing a list of incidentes. This activity
@@ -90,101 +97,96 @@ public class incidenteListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final Activity mParentActivity;
-        //guardo mValues y mValuesSinAgrupar para tener el detalle de cada grupo a mano
-        private final List<Incidente> mValues;
-        private List<Incidente> mValuesSinAgrupar;
+        private List<Incidente> itemslistado = new ArrayList<>();
         private final boolean mTwoPane;
-
+        private boolean agruparItems;
+        private String filtro;
+        private Map<String,List<Incidente>> itemsAgrupados;
 
         public SimpleItemRecyclerViewAdapter(Activity parent,
-                                      List<Incidente> items, List<Incidente> itemsSinAgrupar,
-                                      boolean twoPane) {
-            mValues = items;
-            mValuesSinAgrupar = itemsSinAgrupar;
-            mParentActivity = parent;
-            mTwoPane = twoPane;
-        }
+                                      List<Incidente> items,
+                                      boolean twoPane,boolean agruparItemsParam,String filtro) {
+                mParentActivity = parent;
+                mTwoPane = twoPane;
+                if(!"".equals(filtro) && !"Todos".equals(filtro) &&  !IncidentesContent.INCIDENTES_AGRUPADOS.isEmpty()){
+                    itemslistado = IncidentesContent.INCIDENTES_AGRUPADOS.get(filtro);
+                }
+                else{
+                    itemslistado = items;
+                }
+                agruparItems = agruparItemsParam;
+            }
 
             @Override
             public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
+                View view = null;
+                view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_incidentes, parent, false);
                 return new ViewHolder(view);
             }
-            /*public void removeAt(int position) {
-                mDataset.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, mDataSet.size());
-            }*/
 
-            @Override
+        public String getFiltro() {
+            return filtro;
+        }
+
+        public void setFiltro(String filtro) {
+            this.filtro = filtro;
+        }
+
+        @Override
             public void onBindViewHolder(final ViewHolder holder, int position) {
-            //Faltaba pasar a toString, probee con setText("hola") y andaba jaj
-                holder.mIdView.setText(  mValues.get(position).getTipo().toString() + "   ("+ mValues.get(position).getCantidad().toString() +")");
-                //este método "onBindViewHolder" contiene cada uno de los items agrupados, es decir cada item que usa la RecyclerView
-                //por cada uno de los items que se va generando en la vista, le seteo su detalle sacando de mValuesSinAgrupar y localizando por tipo
-                //de agrupamiento ej: "ACCIDENTE" sería uno de los que entra a este método y por cada elemento en mValuesSinAgrupar, muestro los ACCIDENTE
-                LayoutInflater vi = (LayoutInflater) mParentActivity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                //Calendar cal= Calendar.getInstance();
-                for(final Incidente incidente: mValuesSinAgrupar){
-                    if(incidente.getTipo().equalsIgnoreCase(mValues.get(position).getTipo())){
-                        TextView v = (TextView)vi.inflate(R.layout.item_incidentes_agrupados_content, null);
-                        v.setTag(incidente);
-                        v.setText("Fecha: "+ incidente.getFechaYhora());
-                        //a cada item del detalle de cada grupo, le pongo en su onclick que me lleve al activity del detalle
-                        v.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Incidente incidenteSelec =(Incidente) view.getTag();
-                                //mTwoPane, pareciera que se usa para cuando no queres que el detalle te cambie de activity, sino de fragment
-                                //por ahora esta hecho con activity, asi que entra al else siempre
-                                if (mTwoPane) {
-                                    /*Bundle arguments = new Bundle();
-                                    arguments.putString(incidenteDetailActivity.ARG_ITEM_ID, String.valueOf(incidenteSelec.getId()));
-                                    incidenteDetailFragment fragment = new incidenteDetailFragment();
-                                    fragment.setArguments(arguments);
-                                       mParentActivity.getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.incidente_detail_container, fragment)
-                                            .commit();*/
-                                } else {
-                                    Context context = mParentActivity;
-                                    Intent intent = new Intent(context, incidenteDetailActivity.class);
-                                    //le paso
-                                    intent.putExtra("item_id", incidenteSelec.getId());
-                                    intent.putExtra(incidenteDetailActivity.ARG_ITEM_ID, String.valueOf(incidenteSelec.getId()));
-                                   // Integer itemid = intent.getExtras().getInt("item_id");
-                                    context.startActivity(intent);
-                                }
-                            }
-                        });
+                /***YA NO SE USA AGRUPADOS DESDE LA BASE*
+                 * agruparItems viene en true solo cuando filtra, el filtro muestra colapsado
+                 * **/
+                    final Incidente incidente = itemslistado.get(position);
+                    holder.mIdView.setText(incidente.getTipo());
+                    LayoutInflater vi = (LayoutInflater) mParentActivity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    //a cada item del detalle de cada grupo, le pongo en su onclick que me lleve al activity del detalle
+                    holder.mIdView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //mTwoPane, pareciera que se usa para cuando no queres que el detalle te cambie de activity, sino de fragment
+                            //por ahora esta hecho con activity, asi que entra al else siempre
+                            Context context = mParentActivity;
+                            Intent intent = new Intent(context, incidenteDetailActivity.class);
+                            //le paso
+                            intent.putExtra("item_id", incidente.getId());
+                            intent.putExtra(incidenteDetailActivity.ARG_ITEM_ID, String.valueOf(incidente.getId()));
+                            // Integer itemid = intent.getExtras().getInt("item_id");
+                            context.startActivity(intent);
+                        }
+                    });
 
-                        holder.mContentView.addView(v);
+                    ViewGroup detalle = (ViewGroup)holder.mContentView.findViewById(R.id.itemDetalleMaestro);
+                    TextView texto = (TextView) detalle.findViewById(R.id.content);
+                        texto.setText(incidente.getComentario());
+                    TextView textoFecha = (TextView) detalle.findViewById(R.id.fechacontent);
+                        textoFecha .setText(incidente.getFechaYhora());
+                    if(incidente.getCaptura()!=null) {
+                        ImageView imagen = (ImageView) detalle.findViewById(R.id.imagenMaestroDetalle);
+                        imagen.setImageBitmap(incidente.getCaptura().getImagen());
                     }
-                }
-                holder.mContentView.setVisibility(View.GONE);
-                //holder.mIdView.setTag(mValues.get(position));
 
             }
 
             @Override
             public int getItemCount() {
-                return mValues.size();
+                return itemslistado.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
-            final LinearLayout mContentView;
-            TextView mItemDetail = null;
+            ViewGroup mContentView;
 
             private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Activity contenedor = (Activity) view.getContext();
-                    boolean isVisible = mContentView.getVisibility() == View.VISIBLE;
+                    View detalle = mContentView.findViewById(R.id.itemDetalleMaestro);
+                    boolean isVisible = detalle.getVisibility() == View.VISIBLE;
                     if(isVisible){
-                        mContentView.setVisibility(View.GONE);
+                        detalle.setVisibility(View.GONE);
                     }else{
-                        mContentView.setVisibility(View.VISIBLE);
+                        detalle.setVisibility(View.VISIBLE);
                     }
                 }
             };
@@ -192,9 +194,10 @@ public class incidenteListActivity extends AppCompatActivity {
             ViewHolder(View view) {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
-                mItemDetail = (TextView) view.findViewById(R.id.content);
-                mContentView = (LinearLayout) view.findViewById(R.id.contenedorDetalle);
-                mIdView.setOnClickListener(mOnClickListener);
+                mContentView = (ViewGroup) view.findViewById(R.id.contenedorItemMaestro);
+                if(mIdView!=null) {
+                    mIdView.setOnClickListener(mOnClickListener);
+                }
             }
         }
     }

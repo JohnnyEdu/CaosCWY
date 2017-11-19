@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contenedorItemMaestro"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -16,15 +17,5 @@
         android:textAppearance="?attr/textAppearanceListItem"
         />
 
-    <LinearLayout
-        android:id="@+id/contenedorDetalle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginLeft="20dp">
-
-    </LinearLayout>
-
-
-
+    <include layout="@layout/item_incidentes_agrupados_content"/>
 </LinearLayout>

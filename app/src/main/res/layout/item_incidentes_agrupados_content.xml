@@ -1,12 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TextView
+<LinearLayout
+    android:id="@+id/itemDetalleMaestro"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
-    android:textColor="@color/colorGris"
-    android:textSize="20dp"
-    android:padding="10dp"
-    android:text="detalle"
-    android:layout_marginLeft="10dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    >
+
+
+    <ImageView
+        android:id="@+id/imagenMaestroDetalle"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/comentarioslbl"
+            android:textColor="@color/colorOrange"
+            android:textSize="20dp"
+            android:padding="3dp"
+            android:text="Comentarios: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/content"
+            android:textColor="@color/colorGris"
+            android:textSize="20dp"
+            android:padding="5dp"
+            android:text="detalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"/>
+
+        <TextView
+            android:id="@+id/fechalbl"
+            android:textColor="@color/colorOrange"
+            android:textSize="20dp"
+            android:padding="3dp"
+            android:text="Fecha: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/fechacontent"
+            android:textColor="@color/colorGris"
+            android:textSize="20dp"
+            android:padding="5dp"
+            android:text="detalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"/>
+
+    </LinearLayout>
+
+</LinearLayout>
