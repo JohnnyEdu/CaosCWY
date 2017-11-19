@@ -1,6 +1,8 @@
 package com.example5.lilian.caos_cwy;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +13,9 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.example5.lilian.caos_cwy.fragments.incidenteDetailFragment;
+
+import java.util.List;
+import java.util.Locale;
 
 /**
  * An activity representing a single incidente detail screen. This
@@ -63,6 +68,7 @@ public class incidenteDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         int id = item.getItemId();
         if (id == android.R.id.home) {
             // This ID represents the Home or Up button. In the case of this
@@ -76,4 +82,5 @@ public class incidenteDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

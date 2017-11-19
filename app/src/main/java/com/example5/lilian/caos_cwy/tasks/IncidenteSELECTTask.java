@@ -1,10 +1,8 @@
 package com.example5.lilian.caos_cwy.tasks;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -13,11 +11,15 @@ import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
+import com.example5.lilian.caos_cwy.fragments.ListadoIncidentesFragment;
 import com.example5.lilian.caos_cwy.incidenteListActivity;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Johnny on 5/11/2017.
@@ -48,8 +50,7 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
 
     @Override
     protected HashMap<String,List<Incidente>> doInBackground(Boolean... mTwoPane) {
-        IncidentesContent.ITEMS = new ArrayList<>();
-        IncidentesContent.ITEMS_SIN_AGRUPAR = new ArrayList<>();
+        IncidentesContent.reset();
         //mTwoPane parametro que viene de la vista desde maestro detalle, es predeterminado de android
         this.mTwoPane = mTwoPane[0];
         BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
@@ -61,21 +62,16 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new incidenteListActivity.SimpleItemRecyclerViewAdapter(getActivity(), IncidentesContent.ITEMS,IncidentesContent.ITEMS_SIN_AGRUPAR, mTwoPane));
+        recyclerView.setAdapter(new incidenteListActivity.SimpleItemRecyclerViewAdapter(getActivity(), IncidentesContent.TODOS_LOS_INCIDENTES, mTwoPane,false,""));
     }
 
     @Override
     protected void onPostExecute(HashMap<String,List<Incidente>> incidentes) {
         progressBar.setVisibility(View.GONE);
-
-        if(incidentes.get("agrupada")!=null){
-            for(Incidente incidente: incidentes.get("agrupada")){
-                IncidentesContent.addItem(incidente);
-            }
-        }
         if(incidentes.get("sinagrupar")!=null) {
             for (Incidente incidente : incidentes.get("sinagrupar")) {
-                IncidentesContent.addItemSinAgrupar(incidente);
+                IncidentesContent.addItem(incidente);
+
             }
         }
 

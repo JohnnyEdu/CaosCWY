@@ -77,7 +77,13 @@ public class incidenteDetailFragment extends Fragment {
         imgSelect.setProgressBar(progressBar );
         imgSelect.execute();
         TextView comentarios = (TextView) rootView.findViewById(R.id.comentarios);
+        TextView users = (TextView) rootView.findViewById(R.id.user);
+        TextView date = (TextView) rootView.findViewById(R.id.date);
+        TextView location = (TextView) rootView.findViewById(R.id.location);
         comentarios.setText(mItem.getComentario());
+        users.setText(mItem.getUsuario());
+        date.setText(mItem.getFechaYhora());
+        location.setText(mItem.getZona());
         return rootView;
     }
 }
