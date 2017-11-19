@@ -66,10 +66,7 @@ public class incidenteDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.incidente_detail, container, false);
-
         ImageView capturaTomada = (ImageView) rootView.findViewById(R.id.capturaTomada);
-
-
         ProgressBar progressBar = (ProgressBar)rootView.findViewById(R.id.cargandoimagen);
 
 

@@ -15,6 +15,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:background="@color/colorLightBlue"
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,6 +28,7 @@
                 android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorBlue"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -38,6 +40,7 @@
         android:id="@+id/incidente_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorOrange"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
  <!--   <android.support.design.widget.FloatingActionButton
