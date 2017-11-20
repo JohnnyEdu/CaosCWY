@@ -29,39 +29,53 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView android:text = "Login" android:layout_width="wrap_content"
-                android:layout_height = "wrap_content"
-                android:id = "@+id/textview"
-                android:textSize = "35dp"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/colorOrange"
-                android:fontFamily="serif"
-                android:layout_alignParentTop = "true"
-                android:layout_centerHorizontal = "true"
-                android:layout_marginTop="30dp"
-                />
-
-            <TextView android:text = "Caos ClearWay" android:layout_width="wrap_content"
-                android:layout_height = "wrap_content"
-                android:id = "@+id/textview2"
-                android:textSize = "35dp"
-                android:layout_gravity="center"
-                android:fontFamily="serif"
-                android:textColor="@color/colorGreen"
-                android:textStyle="bold"
-                android:layout_centerHorizontal = "true"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"/>
-
-            <ImageView
+            <TextView
+                android:id="@+id/textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:fontFamily="serif"
+                android:text="Login"
+                android:textColor="@color/colorOrange"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textview2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="serif"
+                android:text="Caos ClearWay"
+                android:textColor="@color/colorGreen"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+            <ImageView
                 android:id="@+id/imageView"
+                android:layout_width="179dp"
+                android:layout_height="149dp"
                 android:layout_gravity="center"
                 android:src="@drawable/logo"
+                android:layout_marginBottom="20dp"
 
                 />
+
+            <Button
+                android:id="@+id/seleccionIdioma"
+                android:layout_width="211dp"
+                android:layout_height="23dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@color/colorOrange"
+                android:text="@string/str_seleccion"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

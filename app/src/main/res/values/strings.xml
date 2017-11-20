@@ -25,28 +25,42 @@
     </string>
     <!--SALIO LILI , SALIOO!-->
     <string name="login">login2</string>
-
-    <string name="credencialesErroneas">Usuario o password incorrecto :(</string>
+    <string name="credencialesErroneas">Incorrect username or password :(</string>
     <string name="title_app">Caos ClearWay</string>
-    <string name="title_home">Formulario</string>
-    <string name="title_incidente">Seleccione Tipo de Incidente en el Transito</string>
+    <string name="title_home">Form</string>
+    <string name="title_incidente">Select Type of Incident in Transit</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="incidente">SELECT THE INCIDENT</string>
+    <string name="miUbicacion">my location</string>
+    <string name="cargaIncidente">INCIDENT LOAD</string>
+    <string name="incidenteZona">INCIDENTS IN ZONE</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--INICIO: Errores generales-->
-    <string name="errorComprimirImagen">No se pudo comprimir la imagen</string>
-    <string name="errorIsertarImagen">No se pudo insertar la imagen en la base</string>
-    <string name="errorObtenerImagen">No se pudo obtener la imagen de la base</string>
-    <string name="errorNoExisteElUsuario">No existe el usuario en la base</string>
+    <string name="errorComprimirImagen">Could not compress the image</string>
+    <string name="errorIsertarImagen">The image could not be inserted in the base</string>
+    <string name="errorObtenerImagen">The base image could not be obtained</string>
+    <string name="errorNoExisteElUsuario">There is no user in the base</string>
 
     <!--FIN: Errores generales-->
     <string name="title_activity_image">ImageActivity</string>
-    <string name="title_incidente_list">Incidentes</string>
-    <string name="title_incidente_detail">incidente Detail</string>
+    <string name="title_incidente_list">Incidents</string>
+    <string name="title_incidente_detail">incident Detail</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key">AIzaSyB6VLOQjU6T5j7RUtm6vFmf2D-k0puK_Gc</string>
+    <string name="str_en">English</string>
+    <string name="str_es" >Spanish</string>
+    <string name="str_pt" >Portuguese</string>
+    <string-array name="languages" >
+        <item>@string/str_en</item>
+        <item>@string/str_es</item>
+        <item>@string/str_pt</item>
+    </string-array>
+    <string name="str_seleccion">Select the Language</string>
+    <string name="comentario">make a comment</string>
+    <string name="compartir">Share</string>
 </resources>

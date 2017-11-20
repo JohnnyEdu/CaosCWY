@@ -17,12 +17,16 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+
+import android.content.res.Configuration;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -37,14 +41,17 @@ import com.example5.lilian.caos_cwy.database.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Locale;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+    private Button seleccion;
 
+    private Locale locale;
+    private Configuration config = new Configuration();
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -73,6 +80,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        seleccion = ((Button)findViewById(R.id.seleccionIdioma));
+        seleccion.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        showDialog();
+                    }});
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         //attemptLogin es el método principal para el logeo
@@ -393,5 +406,47 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+    /**
+     * Muestra una ventana de dialogo para elegir el nuevo idioma de la aplicacion
+     * Cuando se hace clic en uno de los idiomas, se cambia el idioma de la aplicacion
+     * y se recarga la actividad para ver los cambios
+     * */
+    private void showDialog(){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(getResources().getString(R.string.str_seleccion));
+        //obtiene los idiomas del array de string.xml
+        String[] types = getResources().getStringArray(R.array.languages);
+        b.setItems(types, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                switch(which){
+                    case 0:
+                        locale = new Locale("en");
+                        config.locale =locale;
+                        break;
+                    case 1:
+                        locale = new Locale("es");
+                        config.locale =locale;
+                        break;
+                    case 2:
+                        locale = new Locale("pt");
+                        config.locale =locale;
+                        break;
+                }
+                getResources().updateConfiguration(config, null);
+                Intent refresh = new Intent(LoginActivity.this, LoginActivity.class);
+                startActivity(refresh);
+                finish();
+            }
+
+        });
+
+        b.show();
+    }
+
+
 }
 

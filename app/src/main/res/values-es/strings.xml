@@ -49,4 +49,9 @@
 
     <string name="title_activity_maps">Mapa</string>
     <string name="google_maps_key">AIzaSyB6VLOQjU6T5j7RUtm6vFmf2D-k0puK_Gc</string>
+    <string name="str_seleccion">Seleccione el Idioma</string>
+    <string name="miUbicacion">mi Ubicacion</string>
+    <string name="comentario">haga un Comentario</string>
+    <string name="compartir">Compartir</string>
+    <string name="incidente">SELECCIONE UN INCICENTE</string>
 </resources>

@@ -21,7 +21,7 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SELECCIONE EL INCIDENTE"
+            android:text="@string/incidente"
             android:paddingTop="30dp"
             />
 
@@ -61,7 +61,7 @@
             android:id="@+id/btnLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ubicación"
+            android:text="@string/miUbicacion"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="30dp"
-            android:hint="Comentario"
+            android:hint="@string/comentario"
             />
 
         <RelativeLayout
@@ -90,7 +90,7 @@
                 android:id="@+id/compartir"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Compartir"
+                android:text="@string/compartir"
                 android:background="@color/colorTurquoise"
                 />
         </RelativeLayout>
