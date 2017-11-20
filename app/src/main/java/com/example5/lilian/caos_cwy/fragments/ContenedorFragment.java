@@ -83,7 +83,7 @@ public class ContenedorFragment extends Fragment {
                 viewPager= (ViewPager) vista.findViewById(R.id.idViewPagerInformacion);
 
                 llenarViewPeger(viewPager);
-                viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+                /*viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                         super.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -95,7 +95,7 @@ public class ContenedorFragment extends Fragment {
                         selct.execute(false);
 
                     }
-                });
+                });*/
                 pestanas.setupWithViewPager(viewPager);
 
             }

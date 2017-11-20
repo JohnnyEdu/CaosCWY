@@ -193,14 +193,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             //se crea una tarea en background para el logeo, es asincrónica pero el login no avanza hasta que termine
-            SharedPreferences sharedpreferences = getSharedPreferences("sesion",MODE_PRIVATE);
-            if(String.valueOf(sharedpreferences.getString("usuario","")).equals("")){
-                mAuthTask = new UserLoginTask(email, password);
-                mAuthTask.execute((Void) null);
-            }else{
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
-            }
+
+            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask.execute((Void) null);
         }
     }
 
