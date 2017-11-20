@@ -3,7 +3,7 @@
     <string-array name="animals">
         <item>Manifestación/Marcha</item>
         <item>Roadworks</item>
-        <item>Detour></item>
+        <item>Detour</item>
         <item>Accidente</item>
         <item>Embotellamiento</item>
     </string-array>
