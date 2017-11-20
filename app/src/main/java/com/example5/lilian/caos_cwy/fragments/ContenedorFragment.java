@@ -83,19 +83,22 @@ public class ContenedorFragment extends Fragment {
                 viewPager= (ViewPager) vista.findViewById(R.id.idViewPagerInformacion);
 
                 llenarViewPeger(viewPager);
-                /*viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                        super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                        ProgressBar progressBar = (ProgressBar) vista.findViewById(R.id.cargandoIncidentes);
-                        progressBar.setVisibility(View.VISIBLE);
-                        IncidenteSELECTTask selct = new IncidenteSELECTTask();
-                        selct.setActivity(getActivity());
-                        selct.setProgressBar(progressBar);
-                        selct.execute(false);
+                viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
 
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        super.onPageSelected(position);
+                        if(position == 1 || position == 2){
+                            ProgressBar progressBar = (ProgressBar) vista.findViewById(R.id.cargandoIncidentes);
+                            progressBar.setVisibility(View.VISIBLE);
+                            IncidenteSELECTTask selct = new IncidenteSELECTTask();
+                            selct.setActivity(getActivity());
+                            selct.setProgressBar(progressBar);
+                            selct.execute(false);
+                        }
                     }
-                });*/
+                });
                 pestanas.setupWithViewPager(viewPager);
 
             }
@@ -113,7 +116,8 @@ public class ContenedorFragment extends Fragment {
          * **/
         SeccionesAdapter adapter = new SeccionesAdapter(getFragmentManager());
         adapter.addFragments(new FormularioFragment(), "CARGA INCIDENTE");
-        adapter.addFragments(new ListadoIncidentesFragment(),"INCIDENTES EN ZONA");
+        adapter.addFragments(new ListadoIncidentesFragment(),"INCIDENTES EN MI ZONA");
+        adapter.addFragments(new ListadoIncidentesFragment(),"MIS INCIDENTES");
 
         viewPager.setAdapter(adapter);
     }

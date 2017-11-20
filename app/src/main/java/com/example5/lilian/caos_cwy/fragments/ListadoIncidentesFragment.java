@@ -107,14 +107,14 @@ public class ListadoIncidentesFragment extends android.support.v4.app.Fragment {
             }
         });*/
 
-        ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
+        /*ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
         progressBar.setVisibility(View.VISIBLE);
         IncidenteSELECTTask selct = new IncidenteSELECTTask();
         selct.setActivity(getActivity());
         selct.setProgressBar(progressBar);
-        selct.execute(false);
+        selct.execute(false);*/
         //inicializo el contenedor de los incidentes del maestro - detalle
-        IncidentesContent inc = new IncidentesContent();
+
 
         if (vista.findViewById(R.id.incidente_detail_container) != null) {
             // The detail container view will be present only in the
@@ -160,7 +160,7 @@ public class ListadoIncidentesFragment extends android.support.v4.app.Fragment {
     public static void filtrarIncidentes(String filtro, Activity activity){
         RecyclerView recyclerView = (RecyclerView)activity.findViewById(R.id.incidente_list);
         assert recyclerView != null;
-        incidenteListActivity.SimpleItemRecyclerViewAdapter recyclerAdapter= new incidenteListActivity.SimpleItemRecyclerViewAdapter(activity, IncidentesContent.TODOS_LOS_INCIDENTES, false,true,filtro);
+        incidenteListActivity.SimpleItemRecyclerViewAdapter recyclerAdapter= new incidenteListActivity.SimpleItemRecyclerViewAdapter(activity, IncidentesContent.TODOS_LOS_INCIDENTES,true,filtro);
         recyclerAdapter.setFiltro(filtro);
         recyclerView.setAdapter(recyclerAdapter);
     }

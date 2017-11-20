@@ -61,10 +61,6 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
         return resultado;
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new incidenteListActivity.SimpleItemRecyclerViewAdapter(getActivity(), IncidentesContent.TODOS_LOS_INCIDENTES, mTwoPane,false,""));
-    }
-
     @Override
     protected void onPostExecute(HashMap<String,List<Incidente>> incidentes) {
         IncidentesContent.reset();
@@ -75,13 +71,8 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
 
             }
         }
-
-        View recyclerView = activity.findViewById(R.id.incidente_list);
-
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
-
+        CrearRecyclerViewBackgroundTask creador = new CrearRecyclerViewBackgroundTask(getActivity());
+        creador.execute();
     }
-
 
 }

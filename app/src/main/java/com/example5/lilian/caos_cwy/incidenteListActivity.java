@@ -98,16 +98,13 @@ public class incidenteListActivity extends AppCompatActivity {
 
         private final Activity mParentActivity;
         private List<Incidente> itemslistado = new ArrayList<>();
-        private final boolean mTwoPane;
         private boolean agruparItems;
         private String filtro;
         private Map<String,List<Incidente>> itemsAgrupados;
 
         public SimpleItemRecyclerViewAdapter(Activity parent,
-                                      List<Incidente> items,
-                                      boolean twoPane,boolean agruparItemsParam,String filtro) {
+                                      List<Incidente> items,boolean agruparItemsParam,String filtro) {
                 mParentActivity = parent;
-                mTwoPane = twoPane;
                 if(!"".equals(filtro) && !"Todos".equals(filtro) &&  !IncidentesContent.INCIDENTES_AGRUPADOS.isEmpty()){
                     itemslistado = IncidentesContent.INCIDENTES_AGRUPADOS.get(filtro);
                 }
