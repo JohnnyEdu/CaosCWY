@@ -1,13 +1,17 @@
 package com.example5.lilian.caos_cwy.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -15,6 +19,7 @@ import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
 import com.example5.lilian.caos_cwy.incidenteListActivity;
+import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 
 import java.util.ArrayList;
 
@@ -78,12 +83,36 @@ public class ListadoIncidentesFragment extends android.support.v4.app.Fragment {
 
     }
 
+
+    @SuppressLint({"ClickableViewAccessibility", "NewApi"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View vista = inflater.inflate(R.layout.listado_incidentes_fragment, container, false);
+
+        final View vista = inflater.inflate(R.layout.listado_incidentes_fragment, container, false);
+
+
+        /*RecyclerView frameLayout = (RecyclerView )vista.findViewById(R.id.incidente_list);
+        frameLayout.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                ProgressBar progressBar = (ProgressBar) vista.findViewById(R.id.cargandoIncidentes);
+                progressBar.setVisibility(View.VISIBLE);
+                IncidenteSELECTTask selct = new IncidenteSELECTTask();
+                selct.setActivity(getActivity());
+                selct.setProgressBar(progressBar);
+                selct.execute(false);
+            }
+        });*/
+
+        ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
+        progressBar.setVisibility(View.VISIBLE);
+        IncidenteSELECTTask selct = new IncidenteSELECTTask();
+        selct.setActivity(getActivity());
+        selct.setProgressBar(progressBar);
+        selct.execute(false);
         //inicializo el contenedor de los incidentes del maestro - detalle
         IncidentesContent inc = new IncidentesContent();
 
@@ -110,7 +139,7 @@ public class ListadoIncidentesFragment extends android.support.v4.app.Fragment {
 
         /**creo filtro por tipo de incidente*/
 
-        final ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
+       // final ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
         final Spinner selectortipo = (Spinner)vista.findViewById(R.id.tipoIncidenteFiltro);
         selectortipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 

@@ -87,14 +87,13 @@ public class ContenedorFragment extends Fragment {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                         super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                        if(position == 1){
-                            ProgressBar progressBar = (ProgressBar)vista.findViewById(R.id.cargandoIncidentes);
-                            progressBar.setVisibility(View.VISIBLE);
-                            IncidenteSELECTTask selct = new IncidenteSELECTTask();
-                            selct.setActivity(getActivity());
-                            selct.setProgressBar(progressBar);
-                            selct.execute(false);
-                        }
+                        ProgressBar progressBar = (ProgressBar) vista.findViewById(R.id.cargandoIncidentes);
+                        progressBar.setVisibility(View.VISIBLE);
+                        IncidenteSELECTTask selct = new IncidenteSELECTTask();
+                        selct.setActivity(getActivity());
+                        selct.setProgressBar(progressBar);
+                        selct.execute(false);
+
                     }
                 });
                 pestanas.setupWithViewPager(viewPager);

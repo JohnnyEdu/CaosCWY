@@ -67,6 +67,7 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
 
     @Override
     protected void onPostExecute(HashMap<String,List<Incidente>> incidentes) {
+        IncidentesContent.reset();
         progressBar.setVisibility(View.GONE);
         if(incidentes.get("sinagrupar")!=null) {
             for (Incidente incidente : incidentes.get("sinagrupar")) {
