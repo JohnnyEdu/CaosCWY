@@ -1,6 +1,7 @@
 package com.example5.lilian.caos_cwy;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -117,6 +118,16 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if(id == R.id.logout){
+            SharedPreferences sharedPreferences = getSharedPreferences("sesion",MODE_PRIVATE);
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.remove("usuario");
+            //se podria utilizar apply para hacerlo en background.
+            edit.commit();
+            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(intent);
+
         }
 
         return super.onOptionsItemSelected(item);
