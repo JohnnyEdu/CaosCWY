@@ -29,11 +29,15 @@
 	    //-35, -58
 	$latitudArea = floatval($_POST["latitud"]);
 	$longitudArea = floatval($_POST["longitud"]);
-    	$where = " WHERE latitud >= ".$_POST["latitud"]." AND longitud <= ".$_POST["longitud"];
+    	$where = " WHERE i.latitud  BETWEEN  (".$_POST["latitud"]." -200) AND (".$_POST["longitud"]."+200) AND i.longitud BETWEEN
+	(".$_POST["longitud"]."-200) AND (".$_POST["latitud"]." +200");
     }
-    
+    //$sql = "SELECT incs.id,incs.usuario,DATE_FORMAT(fechayhora,'%d %M %Y  %h:%m:%s') fechaYhora,tipo,zona,comentarios,latitud,longitud,imgs.imagen FROM incidentes incs JOIN imagenes imgs ON imgs.id_incidente = incs.id".$where; 
 
-    $sql = "SELECT incs.id,incs.usuario,DATE_FORMAT(fechayhora,'%d %M %Y  %h:%m:%s') fechaYhora,tipo,zona,comentarios,latitud,longitud,imgs.imagen FROM incidentes incs JOIN imagenes imgs ON imgs.id_incidente = incs.id".$where; 
+	$sql = " SELECT i.id,i.usuario, DATE_FORMAT(i.fechayhora,'%d %M %Y  %h:%m:%s') as fechaYhora, i.tipo, i.zona, i.comentarios, i.latitud, i.longitud, im.imagen 
+FROM incidentes i 
+inner JOIN imagenes im ON im.id_incidente = i.id"
+
 	$result = mysqli_query($conn, $sql) or die("Error in Selecting " . mysqli_error($conn));
 
     $sinagrupararray = array();
