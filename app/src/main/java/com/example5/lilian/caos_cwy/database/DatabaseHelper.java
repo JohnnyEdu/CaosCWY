@@ -111,8 +111,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 incidente.setLatitud(Double.valueOf(cursor.getInt(cursor.getColumnIndex("latitud"))));
                 incidente.setLongitud(Double.valueOf(cursor.getInt(cursor.getColumnIndex("longitud"))));
                 byte[] imagen= cursor.getBlob(cursor.getColumnIndex("imagen"));
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(imagen, 0, imagen.length);
-                if(decodedByte!=null){
+                if(imagen!=null){
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(imagen, 0, imagen.length);
                     incidente.setCaptura(new Captura(usuario ,decodedByte));
                 }
                 incidentes.add(incidente);

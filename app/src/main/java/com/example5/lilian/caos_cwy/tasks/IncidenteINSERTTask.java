@@ -1,5 +1,6 @@
 package com.example5.lilian.caos_cwy.tasks;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
@@ -11,6 +12,16 @@ import com.example5.lilian.caos_cwy.database.Incidente;
  */
 
 public class IncidenteINSERTTask extends AsyncTask<Incidente, Void, Void> {
+    private Activity activity;
+
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     @Override
     protected Void doInBackground(Incidente... incidentes) {
@@ -19,6 +30,8 @@ public class IncidenteINSERTTask extends AsyncTask<Incidente, Void, Void> {
         //TODO: preguntar al profe si es correcto iterar y conectar por cada incidente
         for (Incidente incidente : incidentes){
             bdpub.insertarIncidente(incidente);
+            DatabaseHelper dblocal = new DatabaseHelper(getActivity().getApplicationContext());
+            dblocal.guardarIncidentesLocalmente(incidente);
         }
         return null;
     }

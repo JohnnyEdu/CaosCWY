@@ -93,39 +93,6 @@ public class FormularioFragment extends Fragment {
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            //el Bundle toma los parametros del activity
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-            //muestro el contenedor de la imagen
-            final ImageView imageView = (ImageView)fragm.findViewById(R.id.imagenPrueba);
-            imageView.setVisibility(View.VISIBLE);
-
-            //oculto la cámara
-            final Button capturarIncidente =  (Button)getActivity().findViewById(R.id.capturarIncidente);
-            capturarIncidente.setVisibility(View.GONE);
-            imageView.setImageBitmap(imageBitmap);
-
-
-            //muestro el boton de eliminar imagen
-            final ImageButton eliminar = (ImageButton)fragm.findViewById(R.id.eliminarFoto);
-            eliminar.setVisibility(View.VISIBLE);
-            //logica para la crucecita de borrar imagen
-            eliminar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    imageView.setImageDrawable(null);
-                    imageView.setVisibility(View.GONE);
-                    eliminar.setVisibility(View.GONE);
-                    capturarIncidente.setVisibility(View.VISIBLE);
-
-                }
-            });
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -149,7 +116,7 @@ public class FormularioFragment extends Fragment {
 
                 Intent abrirCamara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (abrirCamara.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivityForResult(abrirCamara, REQUEST_IMAGE_CAPTURE);
+                    getActivity().startActivityForResult(abrirCamara, REQUEST_IMAGE_CAPTURE);
                 }
             }
         });
@@ -208,10 +175,9 @@ public class FormularioFragment extends Fragment {
                 }catch(Exception e){
 
                 }
-                DatabaseHelper dblocal  = new DatabaseHelper(getContext());
-                dblocal.guardarIncidentesLocalmente(incidente);
 
                 IncidenteINSERTTask taskIncidente = new IncidenteINSERTTask();
+                taskIncidente.setActivity(getActivity());
                 taskIncidente.execute(incidente);
         //TODO: ver para la entrega que no se guarda el ID porque tengo que hacerlo desde php
 
@@ -249,6 +215,10 @@ public class FormularioFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    public OnFragmentInteractionListener getmListener() {
+        return mListener;
     }
 
     @Override

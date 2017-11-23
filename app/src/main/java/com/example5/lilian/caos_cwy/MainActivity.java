@@ -2,6 +2,7 @@ package com.example5.lilian.caos_cwy;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example5.lilian.caos_cwy.fragments.FormularioFragment;
 import com.example5.lilian.caos_cwy.fragments.Fragment1;
@@ -103,9 +107,44 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //mis incidentes
         if(requestCode == 3){
            resetTabs = true;
-        }else{
+        }
+        //camara
+        else if(requestCode == 1){
+            //el Bundle toma los parametros del activity
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            //muestro el contenedor de la imagen
+            final ImageView imageView = (ImageView)findViewById(R.id.imagenPrueba);
+            imageView.setVisibility(View.VISIBLE);
+
+            //oculto la cámara
+            final Button capturarIncidente =  (Button)findViewById(R.id.capturarIncidente);
+            capturarIncidente.setVisibility(View.GONE);
+            imageView.setImageBitmap(imageBitmap);
+
+
+            //muestro el boton de eliminar imagen
+            final ImageButton eliminar = (ImageButton)findViewById(R.id.eliminarFoto);
+            eliminar.setVisibility(View.VISIBLE);
+            //logica para la crucecita de borrar imagen
+            eliminar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imageView.setImageDrawable(null);
+                    imageView.setVisibility(View.GONE);
+                    eliminar.setVisibility(View.GONE);
+                    capturarIncidente.setVisibility(View.VISIBLE);
+
+                }
+            });
+
+        }
+        else{
+            //mapa
             if(data!=null) {
                 /***vuelta del mis incidentes ***/
                 //tomo las coordenadas que devuelve el MapsActivity cuando se la llama desde el click
@@ -118,6 +157,8 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
+
+
     }
 
     @Override
