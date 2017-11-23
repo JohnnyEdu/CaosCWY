@@ -26,7 +26,10 @@
     if(isset($_POST["usuario"])){
     	$where = "WHERE usuario = ".$_POST["usuario"];
     }else{
-    	$where = "WHERE latitud = ".$_POST["latitud"]." AND longitud = ".$_POST["longitud"];
+	    //-35, -58
+	$latitudArea = floatval($_POST["latitud"]);
+	$longitudArea = floatval($_POST["longitud"]);
+    	$where = " WHERE latitud >= ".$_POST["latitud"]." AND longitud <= ".$_POST["longitud"];
     }
     
 
