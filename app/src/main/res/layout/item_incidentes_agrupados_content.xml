@@ -59,6 +59,22 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"/>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/editar"
+                android:visibility="gone"
+                android:background="@drawable/editar_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageButton
+                android:id="@+id/eliminar"
+                android:visibility="gone"
+                android:background="@drawable/delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

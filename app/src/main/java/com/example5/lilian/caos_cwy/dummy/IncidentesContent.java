@@ -37,10 +37,24 @@ public class IncidentesContent {
         }
     }*/
 
+   public static void removeItem(Incidente incidente){
+       TODOS_LOS_INCIDENTES.remove(incidente);
+       INCIDENTES_AGRUPADOS.get(incidente.getTipo()).remove(incidente);
+       ITEM_MAP.remove(incidente.getId());
+   }
+
    public static void reset(){
        TODOS_LOS_INCIDENTES = new ArrayList<>();
        INCIDENTES_AGRUPADOS = new HashMap<>();
    }
+
+
+    public static void fillContent() {
+       for(Incidente item: TODOS_LOS_INCIDENTES){
+           ITEM_MAP.put(String.valueOf(item.getId()),item);
+           addListaAgrupada(item.getTipo(),item);
+       }
+    }
 
     public static void addItem(Incidente item) {
 

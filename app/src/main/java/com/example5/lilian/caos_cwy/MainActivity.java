@@ -2,6 +2,7 @@ package com.example5.lilian.caos_cwy;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example5.lilian.caos_cwy.fragments.FormularioFragment;
 import com.example5.lilian.caos_cwy.fragments.Fragment1;
@@ -32,11 +36,18 @@ public class MainActivity extends AppCompatActivity
     int REQUEST_IMAGE_CAPTURE = 1;
     public static String coordLat;
     public static String coordLong;
-
+    private boolean resetTabs = false;
 
     @Override
     protected void onResume() {
+
         super.onResume();
+        if(resetTabs){
+            Fragment  fragment = new ContenedorFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+        }
+
+
     }
 
     @Override
@@ -70,12 +81,13 @@ public class MainActivity extends AppCompatActivity
         /********
          * Aca inicia los tabs, poniendo el de formulario primero y lo pega en content_main
          * *******/
-        if (Utilidades.validaPantalla== true){
+        //if (Utilidades.validaPantalla== true){
             //Fragment  fragment = new com.example5.lilian.caos_cwy.fragments.FormularioFragment();
-            Fragment  fragment = new ContenedorFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
-            Utilidades.validaPantalla=false;
-        }
+
+        //}
+        Fragment  fragment = new ContenedorFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+        //Utilidades.validaPantalla=false;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -94,11 +106,59 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //tomo las coordenadas que devuelve el MapsActivity cuando se la llama desde el click
-        //en el boton "Zona", ver el código de MapsActivity cuando se le da click al boton R.id.coords
         super.onActivityResult(requestCode, resultCode, data);
-        this.coordLat= data.getStringExtra("coordLat")!=null?data.getStringExtra("coordLat"):"";
-        this.coordLong= data.getStringExtra("coordLong")!=null?data.getStringExtra("coordLong"):"";
+        //mis incidentes
+        if(requestCode == 3){
+           resetTabs = true;
+        }
+        //camara
+        else if(requestCode == 1){
+            //el Bundle toma los parametros del activity
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            //muestro el contenedor de la imagen
+            final ImageView imageView = (ImageView)findViewById(R.id.imagenPrueba);
+            imageView.setVisibility(View.VISIBLE);
+
+            //oculto la cámara
+            final Button capturarIncidente =  (Button)findViewById(R.id.capturarIncidente);
+            capturarIncidente.setVisibility(View.GONE);
+            imageView.setImageBitmap(imageBitmap);
+
+
+            //muestro el boton de eliminar imagen
+            final ImageButton eliminar = (ImageButton)findViewById(R.id.eliminarFoto);
+            eliminar.setVisibility(View.VISIBLE);
+            //logica para la crucecita de borrar imagen
+            eliminar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imageView.setImageDrawable(null);
+                    imageView.setVisibility(View.GONE);
+                    eliminar.setVisibility(View.GONE);
+                    capturarIncidente.setVisibility(View.VISIBLE);
+
+                }
+            });
+
+        }
+        else{
+            //mapa
+            if(data!=null) {
+                /***vuelta del mis incidentes ***/
+                //tomo las coordenadas que devuelve el MapsActivity cuando se la llama desde el click
+                //en el boton "Zona", ver el código de MapsActivity cuando se le da click al boton R.id.coords
+                if (data.getStringExtra("coordLat") != null && !data.getStringExtra("coordLat").equals("")) {
+                    coordLat = data.getStringExtra("coordLat");
+                }
+                if (data.getStringExtra("coordLong") != null && !data.getStringExtra("coordLong").equals("")) {
+                    coordLong = data.getStringExtra("coordLong");
+                }
+            }
+        }
+
+
     }
 
     @Override
@@ -127,6 +187,7 @@ public class MainActivity extends AppCompatActivity
             edit.commit();
             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
+            this.finish();
 
         }
 

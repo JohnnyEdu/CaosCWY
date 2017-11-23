@@ -25,8 +25,12 @@ import com.example5.lilian.caos_cwy.MainActivity;
 import com.example5.lilian.caos_cwy.MapsActivity;
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.Captura;
+import com.example5.lilian.caos_cwy.database.DatabaseHelper;
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.tasks.IncidenteINSERTTask;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -89,39 +93,6 @@ public class FormularioFragment extends Fragment {
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            //el Bundle toma los parametros del activity
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-            //muestro el contenedor de la imagen
-            final ImageView imageView = (ImageView)fragm.findViewById(R.id.imagenPrueba);
-            imageView.setVisibility(View.VISIBLE);
-
-            //oculto la cámara
-            final Button capturarIncidente =  (Button)getActivity().findViewById(R.id.capturarIncidente);
-            capturarIncidente.setVisibility(View.GONE);
-            imageView.setImageBitmap(imageBitmap);
-
-
-            //muestro el boton de eliminar imagen
-            final ImageButton eliminar = (ImageButton)fragm.findViewById(R.id.eliminarFoto);
-            eliminar.setVisibility(View.VISIBLE);
-            //logica para la crucecita de borrar imagen
-            eliminar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    imageView.setImageDrawable(null);
-                    imageView.setVisibility(View.GONE);
-                    eliminar.setVisibility(View.GONE);
-                    capturarIncidente.setVisibility(View.VISIBLE);
-
-                }
-            });
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -145,7 +116,7 @@ public class FormularioFragment extends Fragment {
 
                 Intent abrirCamara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (abrirCamara.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivityForResult(abrirCamara, REQUEST_IMAGE_CAPTURE);
+                    getActivity().startActivityForResult(abrirCamara, REQUEST_IMAGE_CAPTURE);
                 }
             }
         });
@@ -182,6 +153,11 @@ public class FormularioFragment extends Fragment {
                 incidente.setUsuario(usuario);
                 incidente.setTipo(spinner.getSelectedItem().toString());
 
+
+                SimpleDateFormat iso8601Format = new SimpleDateFormat(
+                        "yyyy-MM-dd HH:mm:ss");
+                incidente.setFechaYhora(iso8601Format.format(new Date()));
+
                 //coordLat y coordLong , las seteo en MainActivity cuando en el activity del Mapa, se le da al boton flotante
                 //linea 77 de MapsActivity y lo agarra MainActivity en la linea 67
                 incidente.setZona(MainActivity.coordLat + "/" + MainActivity.coordLong);
@@ -199,7 +175,9 @@ public class FormularioFragment extends Fragment {
                 }catch(Exception e){
 
                 }
+
                 IncidenteINSERTTask taskIncidente = new IncidenteINSERTTask();
+                taskIncidente.setActivity(getActivity());
                 taskIncidente.execute(incidente);
         //TODO: ver para la entrega que no se guarda el ID porque tengo que hacerlo desde php
 
@@ -237,6 +215,10 @@ public class FormularioFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    public OnFragmentInteractionListener getmListener() {
+        return mListener;
     }
 
     @Override

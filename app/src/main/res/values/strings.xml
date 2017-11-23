@@ -64,9 +64,10 @@
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key">AIzaSyB6VLOQjU6T5j7RUtm6vFmf2D-k0puK_Gc</string>
     <string name="str_en">English</string>
-    <string name="str_es" >Spanish</string>
-    <string name="str_de" >German</string>
-    <string-array name="languages" >
+    <string name="str_es">Spanish</string>
+    <string name="str_de">Portuguese</string>
+    <string-array name="languages">
+
         <item>@string/str_en</item>
         <item>@string/str_es</item>
         <item>@string/str_de</item>
@@ -79,4 +80,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_fullscreen2">FullscreenActivity2</string>
+    <string name="title_activity_editar_incidente">EditarIncidenteActivity</string>
 </resources>
