@@ -46,6 +46,17 @@
     <string name="errorObtenerImagen">The base image could not be obtained</string>
     <string name="errorNoExisteElUsuario">There is no user in the base</string>
 
+    <!--MENU CONTEXTUAL TEXT VIEW-->
+    <string name="accion_nuevo">New</string>
+    <string name="accion_actualizar">Update</string>
+    <string name="accion_eliminar">Delete</string>
+    <!--MENU CONTEXTUAL IMAGE VIEW-->
+    <string name="accion_nuevo2">New</string>
+    <string name="accion_actualizar2">Update</string>
+    <string name="accion_eliminar2">Delete</string>
+
+
+
     <!--FIN: Errores generales-->
     <string name="title_activity_image">ImageActivity</string>
     <string name="title_incidente_list">Incidents</string>
@@ -54,11 +65,11 @@
     <string name="google_maps_key">AIzaSyB6VLOQjU6T5j7RUtm6vFmf2D-k0puK_Gc</string>
     <string name="str_en">English</string>
     <string name="str_es" >Spanish</string>
-    <string name="str_pt" >Portuguese</string>
+    <string name="str_de" >German</string>
     <string-array name="languages" >
         <item>@string/str_en</item>
         <item>@string/str_es</item>
-        <item>@string/str_pt</item>
+        <item>@string/str_de</item>
     </string-array>
     <string name="str_seleccion">Select the Language</string>
     <string name="comentario">make a comment</string>

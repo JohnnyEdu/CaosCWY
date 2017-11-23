@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Caos CWY</string>
+    <string name="action_settings_logout">Sitzung schließen</string>
+    <string name="navigation_drawer_close">Navigationsleiste schließen</string>
+    <string name="permission_rationale">Für die Bereitstellung von E-Mails sind Kontaktberechtigungen erforderlich</string>
+    <string name="errorComprimirImagen">"EmailFertigstellungen."</string>
+    <string name="hello_blank_fragment">Hallo leeres Fragment</string>
+    <string name="title_activity_image">ImageAktivität</string>
+    <string name="credencialesErroneas">Falscher Benutzername oder Passwort :(</string>
+    <string name="comentario">Kommentar abgeben</string>
+    <string name="title_activity_maps">Karte</string>
+    <string name="miUbicacion">mein Standort</string>
+    <string name="incidente">WÄHLEN SIE DEN VORFALL</string>
+    <string name="str_seleccion">Wählen Sie die Sprache</string>
+    <string name="title_incidente">Typ des Vorfalls im Transit auswählen</string>
+    <string name="compartir">Aktie</string>
+    <string name="errorObtenerImagen">Das Basisbild konnte nicht erhalten werden</string>
+    <string name="error_invalid_password">Das Basis-Image konnte nicht erhalten werdenDieses Passwort ist zu kurz</string>
+    <string name="error_incorrect_password">Dieses Passwort ist falsch</string>
+    <string name="error_field_required">Dieses Feld wird benötigt</string>
+    <string name="error_invalid_email">Diese E-Mail-Adresse ist ungültig</string>
+    <string name="errorNoExisteElUsuario">Es gibt keinen Benutzer in der Basis</string>
+    <string name="errorIsertarImagen">Es gibt keinen Benutzer in der Basis</string>
+    <string name="title_activity_login">Anmelden</string>
+    <string name="action_sign_in_short">Anmelden</string>
+    <string name="action_sign_in">Einloggen oder Registrieren</string>
+    <string name="prompt_password">Passwort</string>
+    <string name="title_incidente_list">Vorfälle</string>
+    <string name="action_settings">die Einstellungen</string>
+</resources>

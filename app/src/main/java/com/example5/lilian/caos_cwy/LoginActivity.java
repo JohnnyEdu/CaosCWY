@@ -433,7 +433,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         config.locale =locale;
                         break;
                     case 2:
-                        locale = new Locale("pt");
+                        locale = new Locale("de");
                         config.locale =locale;
                         break;
                 }

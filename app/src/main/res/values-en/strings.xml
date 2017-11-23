@@ -51,7 +51,7 @@
     <string name="google_maps_key">AIzaSyB6VLOQjU6T5j7RUtm6vFmf2D-k0puK_Gc</string>
     <string name="credencialesErroneas">Incorrect username or password :(</string>
     <string name="title_incidente">Select Type of Incident in Transit</string>
-    <string name="errorIsertarImagen">The image could not be inserted in the base</string>
+    <string name="errorIsertarImagen">Es gibt keinen Benutzer in der Basis</string>
     <string name="str_seleccion">Select the Language</string>
     <string name="incidente">SELECT THE INCIDENT</string>
     <string name="miUbicacion">my location</string>
