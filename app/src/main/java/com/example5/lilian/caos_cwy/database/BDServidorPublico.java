@@ -62,9 +62,9 @@ public class BDServidorPublico {
 
 
 
-    public HashMap<String,List<Incidente>> consultarIncidentesZona(Double latitud, Double longitud) {
+    public ArrayList<Incidente> consultarIncidentesZona(Double latitud, Double longitud) {
         String msgResp = "";
-        HashMap<String,List<Incidente>> resultado = new HashMap<>();
+        ArrayList<Incidente> resultado = new ArrayList<>();
         try {
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("latitud", latitud);
@@ -87,10 +87,9 @@ public class BDServidorPublico {
                         Captura captura = new Captura(incidente.getUsuario(),img);
                         incidente.setCaptura(captura);
                     }
-                    incidentesNoAg.add(incidente);
+                    resultado.add(incidente);
                 }
             }
-            resultado.put("sinagrupar",incidentesNoAg);
         } catch (JSONException json) {
             msgResp = json.getMessage();
         }

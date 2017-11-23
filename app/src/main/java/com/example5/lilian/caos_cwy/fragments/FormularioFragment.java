@@ -25,6 +25,7 @@ import com.example5.lilian.caos_cwy.MainActivity;
 import com.example5.lilian.caos_cwy.MapsActivity;
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.Captura;
+import com.example5.lilian.caos_cwy.database.DatabaseHelper;
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.tasks.IncidenteINSERTTask;
 
@@ -199,6 +200,9 @@ public class FormularioFragment extends Fragment {
                 }catch(Exception e){
 
                 }
+                DatabaseHelper dblocal  = new DatabaseHelper(getContext());
+                dblocal.guardarIncidentesLocalmente(incidente);
+
                 IncidenteINSERTTask taskIncidente = new IncidenteINSERTTask();
                 taskIncidente.execute(incidente);
         //TODO: ver para la entrega que no se guarda el ID porque tengo que hacerlo desde php

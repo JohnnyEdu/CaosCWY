@@ -25,7 +25,7 @@ import java.util.Set;
  * Created by Johnny on 5/11/2017.
  */
 
-public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String,List<Incidente>>> {
+public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, ArrayList<Incidente>> {
     private Activity activity;
     private Boolean mTwoPane;
     private ProgressBar progressBar;
@@ -49,30 +49,35 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, HashMap<String
     }
 
     @Override
-    protected HashMap<String,List<Incidente>> doInBackground(Boolean... mTwoPane) {
+    protected ArrayList<Incidente> doInBackground(Boolean... mTwoPane) {
         IncidentesContent.reset();
         //mTwoPane parametro que viene de la vista desde maestro detalle, es predeterminado de android
         this.mTwoPane = mTwoPane[0];
-        BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
+        ArrayList<Incidente> resultado = null;
+        if(IncidentesContent.TODOS_LOS_INCIDENTES.isEmpty()) {
+            BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
 
-        //BUSCARZONA
-        HashMap<String,List<Incidente>> resultado = bdpub.consultarIncidentesZona(-35.0,-58.0);
+            //BUSCARZONA
+            resultado = bdpub.consultarIncidentesZona(-35.0, -58.0);
 
+        }else{
+            resultado = new ArrayList<>();
+        }
         return resultado;
     }
 
     @Override
-    protected void onPostExecute(HashMap<String,List<Incidente>> incidentes) {
+    protected void onPostExecute(ArrayList<Incidente> incidentes) {
         IncidentesContent.reset();
         progressBar.setVisibility(View.GONE);
-        if(incidentes.get("sinagrupar")!=null) {
-            for (Incidente incidente : incidentes.get("sinagrupar")) {
-                IncidentesContent.addItem(incidente);
-
-            }
-        }
-        CrearRecyclerViewBackgroundTask creador = new CrearRecyclerViewBackgroundTask(getActivity());
-        creador.execute();
+        IncidentesContent.TODOS_LOS_INCIDENTES = incidentes;
+        IncidentesContent.fillContent();
+        incidenteListActivity.SimpleItemRecyclerViewAdapter adapter =
+                new incidenteListActivity.SimpleItemRecyclerViewAdapter(
+                        getActivity(),IncidentesContent.TODOS_LOS_INCIDENTES,false,""
+                );
+        RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.incidente_list);
+        recyclerView.setAdapter(adapter);
     }
 
 }

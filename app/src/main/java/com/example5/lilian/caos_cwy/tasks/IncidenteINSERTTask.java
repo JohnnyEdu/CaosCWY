@@ -3,6 +3,7 @@ package com.example5.lilian.caos_cwy.tasks;
 import android.os.AsyncTask;
 
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
+import com.example5.lilian.caos_cwy.database.DatabaseHelper;
 import com.example5.lilian.caos_cwy.database.Incidente;
 
 /**

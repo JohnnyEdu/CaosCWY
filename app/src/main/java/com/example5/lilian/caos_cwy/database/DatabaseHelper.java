@@ -1,11 +1,13 @@
 package com.example5.lilian.caos_cwy.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.example5.lilian.caos_cwy.encriptado.AES256Cipher;
 import com.example5.lilian.caos_cwy.utils.ConvertirBitmapEnByteArray;
@@ -16,6 +18,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Johnny on 28/10/2017.
@@ -26,12 +30,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String BASE_DE_DATOS = "cwy";
     private static final String TABLA_USUARIOS="USUARIOS";
     private static final String TABLA_IMAGENES="IMAGENES";
+    private static final String TABLA_INCIDENTES="INCIDENTES";
     private static final String SQL_CREATE_USUARIOS = "CREATE TABLE "+TABLA_USUARIOS+
             "(USUARIO VARCHAR(100) PRIMARY KEY,PASSWORD VARCHAR(255))";
     private static final String SQL_CREATE_IMAGENES = "CREATE TABLE "+TABLA_IMAGENES+
             "(USUARIO TEXT PRIMARY KEY,IMAGEN BLOB)";
+    private static final String SQL_CREATE_INCIDENTES = "CREATE TABLE "+TABLA_INCIDENTES+
+            "(id INTEGER PRIMARY KEY,usuario TEXT, fechaYhora TEXT,tipo TEXT, zona TEXT,comentarios TEXT," +
+            "latitud INTEGER, longitud INTEGER,imagen BLOB)";
     private static final String SQL_DELETE_USUARIOS = "DROP TABLE IF EXISTS "+TABLA_USUARIOS;
     private static final String SQL_DELETE_IMAGENES = "DROP TABLE IF EXISTS "+TABLA_IMAGENES;
+    private static final String SQL_DELETE_INCIDENTES = "DROP TABLE IF EXISTS "+TABLA_INCIDENTES;
 
     private String error;
     private Context context;
@@ -47,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(SQL_CREATE_USUARIOS);
         db.execSQL(SQL_CREATE_IMAGENES);
+        db.execSQL(SQL_CREATE_INCIDENTES);
         String passwrdD = null;
         try {
             passwrdD = new String(AES256Cipher.encrypt(new String("gmKxWAMTEBSk6K8w").getBytes(), new String("BLukTQoFfyOD6Mo4GIxHcfd2zrEXU4kf").getBytes(), new String("11111111").getBytes()));
@@ -63,6 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //al crear la base de datos, se borran los datos actuales.
         db.execSQL(SQL_DELETE_USUARIOS);
         db.execSQL(SQL_DELETE_IMAGENES);
+        db.execSQL(SQL_DELETE_INCIDENTES);
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -74,6 +85,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void setError(String e){
         this.error = e;
+    }
+
+
+    public ArrayList<Incidente>traerIncidentesLocalmente(){
+        SQLiteDatabase bd = this.getReadableDatabase();
+        ArrayList<Incidente> incidentes = new ArrayList<>();
+        String consultaSelect = "SELECT * FROM incidentes";
+        Cursor cursor = bd.rawQuery(consultaSelect,null);
+        //Cursor cursor = basededatos.rawQuery("SELECT * FROM USUARIOS",null);
+        if(cursor != null){
+            cursor.moveToFirst();
+        }
+        User user = null;
+        try {
+            while(cursor.moveToNext()){
+                Incidente incidente = new Incidente();
+                incidente.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                String usuario = cursor.getString(cursor.getColumnIndex("usuario"));
+                incidente.setUsuario(usuario );
+                incidente.setFechaYhora(cursor.getString(cursor.getColumnIndex("fechaYhora")));
+                incidente.setTipo(cursor.getString(cursor.getColumnIndex("tipo")));
+                incidente.setComentario(cursor.getString(cursor.getColumnIndex("comentarios")));
+                incidente.setLatitud(Double.valueOf(cursor.getInt(cursor.getColumnIndex("latitud"))));
+                incidente.setLongitud(Double.valueOf(cursor.getInt(cursor.getColumnIndex("longitud"))));
+                byte[] imagen= cursor.getBlob(cursor.getColumnIndex("imagen"));
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(imagen, 0, imagen.length);
+                if(decodedByte!=null){
+                    incidente.setCaptura(new Captura(usuario ,decodedByte));
+                }
+                incidentes.add(incidente);
+            }
+
+        }catch(Exception e) {
+            setError(context.getResources().getString(R.string.errorNoExisteElUsuario));
+        }
+        bd.close();
+        return  incidentes;
+    }
+
+    public void guardarIncidentesLocalmente(Incidente... incidentese){
+        SQLiteDatabase bd = this.getWritableDatabase();
+        for(int i = 0; i < incidentese.length; i++){
+            Incidente incidente = incidentese[i];
+            ContentValues values = new ContentValues();
+            values.put("id",incidente.getId());
+            values.put("usuario",incidente.getUsuario());
+            values.put("fechayhora",incidente.getFechaYhora());
+            values.put("tipo",incidente.getTipo());
+            values.put("zona",incidente.getZona());
+            values.put("latitud",incidente.getLatitud());
+            values.put("longitud",incidente.getLongitud());
+            values.put("imagen",ConvertirBitmapEnByteArray.convertir(incidente.getCaptura().getImagen()));
+            bd.insert("incidentes",null,values);
+        }
+        bd.close();
+
     }
 
     public void insertarImagen(String usuario, Bitmap imagenParam){

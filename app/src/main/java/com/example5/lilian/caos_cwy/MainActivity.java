@@ -97,8 +97,12 @@ public class MainActivity extends AppCompatActivity
         //tomo las coordenadas que devuelve el MapsActivity cuando se la llama desde el click
         //en el boton "Zona", ver el código de MapsActivity cuando se le da click al boton R.id.coords
         super.onActivityResult(requestCode, resultCode, data);
-        this.coordLat= data.getStringExtra("coordLat")!=null?data.getStringExtra("coordLat"):"";
-        this.coordLong= data.getStringExtra("coordLong")!=null?data.getStringExtra("coordLong"):"";
+        if(data.getStringExtra("coordLat")!=null && !data.getStringExtra("coordLat").equals("")){
+            coordLat= data.getStringExtra("coordLat");
+        }
+        if(data.getStringExtra("coordLong")!=null && !data.getStringExtra("coordLong").equals("")){
+            coordLong= data.getStringExtra("coordLong");
+        }
     }
 
     @Override

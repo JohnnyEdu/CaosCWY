@@ -42,6 +42,14 @@ public class IncidentesContent {
        INCIDENTES_AGRUPADOS = new HashMap<>();
    }
 
+
+    public static void fillContent() {
+       for(Incidente item: TODOS_LOS_INCIDENTES){
+           ITEM_MAP.put(String.valueOf(item.getId()),item);
+           addListaAgrupada(item.getTipo(),item);
+       }
+    }
+
     public static void addItem(Incidente item) {
 
        TODOS_LOS_INCIDENTES.add(item);
