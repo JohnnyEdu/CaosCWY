@@ -60,6 +60,51 @@ public class BDServidorPublico {
         return conexion;
     }
 
+    public ArrayList<Incidente> consultarIncidentesUsuario(String usuario){
+        String msgResp = "";
+        ArrayList<Incidente> resultado = new ArrayList<>();
+        try {
+            JSONObject postDataParams = new JSONObject();
+            postDataParams.put("usuario", usuario);
+            JSONArray incidentesSinagrupar  = (JSONArray)(new JSONObject(realizarPeticion(postDataParams)).get("sinagrupar"));
+            List<Incidente> incidentesNoAg = new ArrayList<>();
+            if(incidentesSinagrupar!=null) {
+                for (int i = 0; i < incidentesSinagrupar.length(); i++) {
+                    Incidente incidente = new Incidente();
+                    JSONObject objecto = (JSONObject) incidentesSinagrupar.get(i);
+                    incidente.setId(Integer.valueOf(objecto.get("id").toString()));
+                    incidente.setTipo((String) objecto.get("tipo"));
+                    incidente.setUsuario((String) objecto.get("usuario"));
+                    incidente.setZona((String) objecto.get("zona"));
+                    incidente.setComentario(String.valueOf(objecto.get("comentarios")));
+                    incidente.setFechaYhora(String.valueOf(objecto.get("fechaYhora")));
+                    if(objecto.get("imagen")!=null && !"".equals(objecto.get("imagen"))){
+                        Bitmap img = ConvertirBitmapEnByteArray.convertirByteArrayToBitmap(Base64.decode(
+                                String.valueOf(objecto.get("imagen")), Base64.DEFAULT));
+                        Captura captura = new Captura(incidente.getUsuario(),img);
+                        incidente.setCaptura(captura);
+                    }
+                    resultado.add(incidente);
+                }
+            }
+        } catch (JSONException json) {
+            msgResp = json.getMessage();
+        }
+
+        return resultado;
+    }
+
+    public void eliminarIncidenteDeServidor(Incidente incidente){
+        String msgResp = "";
+        ArrayList<Incidente> resultado = new ArrayList<>();
+        try {
+            JSONObject postDataParams = new JSONObject();
+            postDataParams.put("id_incidente", incidente.getId());
+            realizarPeticion(postDataParams);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
     public ArrayList<Incidente> consultarIncidentesZona(Double latitud, Double longitud) {

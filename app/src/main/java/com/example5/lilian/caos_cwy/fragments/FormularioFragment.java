@@ -29,6 +29,9 @@ import com.example5.lilian.caos_cwy.database.DatabaseHelper;
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.tasks.IncidenteINSERTTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static android.app.Activity.RESULT_OK;
 
 
@@ -182,6 +185,11 @@ public class FormularioFragment extends Fragment {
                 Incidente incidente = new Incidente();
                 incidente.setUsuario(usuario);
                 incidente.setTipo(spinner.getSelectedItem().toString());
+
+
+                SimpleDateFormat iso8601Format = new SimpleDateFormat(
+                        "yyyy-MM-dd HH:mm:ss");
+                incidente.setFechaYhora(iso8601Format.format(new Date()));
 
                 //coordLat y coordLong , las seteo en MainActivity cuando en el activity del Mapa, se le da al boton flotante
                 //linea 77 de MapsActivity y lo agarra MainActivity en la linea 67

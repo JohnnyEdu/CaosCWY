@@ -32,11 +32,18 @@ public class MainActivity extends AppCompatActivity
     int REQUEST_IMAGE_CAPTURE = 1;
     public static String coordLat;
     public static String coordLong;
-
+    private boolean resetTabs = false;
 
     @Override
     protected void onResume() {
+
         super.onResume();
+        if(resetTabs){
+            Fragment  fragment = new ContenedorFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+        }
+
+
     }
 
     @Override
@@ -70,12 +77,13 @@ public class MainActivity extends AppCompatActivity
         /********
          * Aca inicia los tabs, poniendo el de formulario primero y lo pega en content_main
          * *******/
-        if (Utilidades.validaPantalla== true){
+        //if (Utilidades.validaPantalla== true){
             //Fragment  fragment = new com.example5.lilian.caos_cwy.fragments.FormularioFragment();
-            Fragment  fragment = new ContenedorFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
-            Utilidades.validaPantalla=false;
-        }
+
+        //}
+        Fragment  fragment = new ContenedorFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+        //Utilidades.validaPantalla=false;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -94,14 +102,21 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //tomo las coordenadas que devuelve el MapsActivity cuando se la llama desde el click
-        //en el boton "Zona", ver el código de MapsActivity cuando se le da click al boton R.id.coords
         super.onActivityResult(requestCode, resultCode, data);
-        if(data.getStringExtra("coordLat")!=null && !data.getStringExtra("coordLat").equals("")){
-            coordLat= data.getStringExtra("coordLat");
-        }
-        if(data.getStringExtra("coordLong")!=null && !data.getStringExtra("coordLong").equals("")){
-            coordLong= data.getStringExtra("coordLong");
+        if(requestCode == 3){
+           resetTabs = true;
+        }else{
+            if(data!=null) {
+                /***vuelta del mis incidentes ***/
+                //tomo las coordenadas que devuelve el MapsActivity cuando se la llama desde el click
+                //en el boton "Zona", ver el código de MapsActivity cuando se le da click al boton R.id.coords
+                if (data.getStringExtra("coordLat") != null && !data.getStringExtra("coordLat").equals("")) {
+                    coordLat = data.getStringExtra("coordLat");
+                }
+                if (data.getStringExtra("coordLong") != null && !data.getStringExtra("coordLong").equals("")) {
+                    coordLong = data.getStringExtra("coordLong");
+                }
+            }
         }
     }
 
@@ -131,6 +146,7 @@ public class MainActivity extends AppCompatActivity
             edit.commit();
             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
+            this.finish();
 
         }
 

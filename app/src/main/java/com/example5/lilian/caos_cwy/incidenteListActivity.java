@@ -3,6 +3,7 @@ package com.example5.lilian.caos_cwy;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -21,6 +23,9 @@ import android.widget.TextView;
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
 import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
+import com.example5.lilian.caos_cwy.tasks.MisIncidenteDELETEUPDATETask;
+import com.example5.lilian.caos_cwy.tasks.MisIncidenteSELECTTask;
+import com.example5.lilian.caos_cwy.utils.Utilidades;
 
 import org.w3c.dom.Text;
 
@@ -45,27 +50,22 @@ public class incidenteListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private static boolean isMisIncidentesView = false;
+    private static Activity mainactivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //inicializo el contenedor de los incidentes del maestro - detalle
-        IncidentesContent inc = new IncidentesContent();
+
+        isMisIncidentesView = true;
 
         setContentView(R.layout.activity_incidente_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-        //Boton flotante
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         if (findViewById(R.id.incidente_detail_container) != null) {
             // The detail container view will be present only in the
@@ -75,13 +75,17 @@ public class incidenteListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        SharedPreferences sharedPreferences = getSharedPreferences("sesion",MODE_PRIVATE);
+        String usuario = sharedPreferences.getString("usuario","");
 
         ProgressBar progressBar = (ProgressBar)findViewById(R.id.cargandoIncidentes);
         //traer los incidentes para mostrar
-        IncidenteSELECTTask selct = new IncidenteSELECTTask();
+        MisIncidenteSELECTTask selct = new MisIncidenteSELECTTask();
+        selct.setUsuario(usuario);
         selct.setActivity(this);
         selct.setProgressBar(progressBar);
-        selct.execute(mTwoPane);
+        selct.execute();
+        mainactivity = this;
 
     }
 
@@ -90,7 +94,15 @@ public class incidenteListActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         IncidentesContent.reset();
+        isMisIncidentesView = false;
         //Toast.makeText(getApplicationContext(),"Se destruye",Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -121,6 +133,7 @@ public class incidenteListActivity extends AppCompatActivity {
                         .inflate(R.layout.item_incidentes, parent, false);
                 return new ViewHolder(view);
             }
+
 
         public String getFiltro() {
             return filtro;
@@ -162,6 +175,33 @@ public class incidenteListActivity extends AppCompatActivity {
                     if(incidente.getCaptura()!=null) {
                         ImageView imagen = (ImageView) detalle.findViewById(R.id.imagenMaestroDetalle);
                         imagen.setImageBitmap(incidente.getCaptura().getImagen());
+                    }
+                    if(isMisIncidentesView){
+                        ImageButton editarbtn = (ImageButton)detalle.findViewById(R.id.editar);
+                        editarbtn.setVisibility(View.VISIBLE);
+                        editarbtn.setOnClickListener(new View.OnClickListener() {
+                            private Incidente incidentecla = incidente;
+
+                            @Override
+                            public void onClick(View v) {
+                                Intent pantallaEditar = new Intent(mainactivity.getApplicationContext(),EditarIncidenteActivity.class);
+                                mParentActivity.startActivity(pantallaEditar);
+                            }
+                        });
+                        ImageButton eliminarbtn = (ImageButton)detalle.findViewById(R.id.eliminar);
+                        eliminarbtn.setVisibility(View.VISIBLE);
+                        eliminarbtn.setOnClickListener(new View.OnClickListener() {
+                            private Incidente incidentecla = incidente;
+                            @Override
+                            public void onClick(View v) {
+                                ProgressBar progressBar = (ProgressBar)mainactivity.findViewById(R.id.cargandoIncidentes);
+                                MisIncidenteDELETEUPDATETask eliminar = new MisIncidenteDELETEUPDATETask("DELETE");
+                                eliminar.setActivity(mainactivity);
+                                eliminar.setProgressBar(progressBar );
+                                eliminar.setIncidente(incidente);
+                                eliminar.execute();
+                            }
+                        });
                     }
 
             }

@@ -1,6 +1,7 @@
 package com.example5.lilian.caos_cwy.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -16,6 +17,7 @@ import com.example5.lilian.caos_cwy.fragments.Fragment1;
 import com.example5.lilian.caos_cwy.fragments.Fragment2;
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.adapters.SeccionesAdapter;
+import com.example5.lilian.caos_cwy.incidenteListActivity;
 import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 import com.example5.lilian.caos_cwy.utils.Utilidades;
 
@@ -89,13 +91,17 @@ public class ContenedorFragment extends Fragment {
                     @Override
                     public void onPageSelected(int position) {
                         super.onPageSelected(position);
-                        if(position == 1 || position == 2){
+                        if(position == 1){
                             ProgressBar progressBar = (ProgressBar) vista.findViewById(R.id.cargandoIncidentes);
                             progressBar.setVisibility(View.VISIBLE);
                             IncidenteSELECTTask selct = new IncidenteSELECTTask();
                             selct.setActivity(getActivity());
                             selct.setProgressBar(progressBar);
                             selct.execute(false);
+                        }
+                        if(position == 2){
+                            Intent intent = new Intent(getContext(),incidenteListActivity.class);
+                             getActivity().startActivityForResult(intent,3);
                         }
                     }
                 });
@@ -109,7 +115,17 @@ public class ContenedorFragment extends Fragment {
 
         return vista;
     }
-//creamos un adaptador con los fragments que se van a mostrar en cada pestaña, con el metodo add se van a ir guardando en la lista
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 3){
+            viewPager.clearFocus();
+        }
+
+    }
+
+    //creamos un adaptador con los fragments que se van a mostrar en cada pestaña, con el metodo add se van a ir guardando en la lista
     private void llenarViewPeger(ViewPager viewPager) {
         /***
          * ListadoIncidentesFragment, es el maestro / detalle en un fragment
