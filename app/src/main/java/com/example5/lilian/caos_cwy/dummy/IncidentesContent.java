@@ -1,5 +1,7 @@
 package com.example5.lilian.caos_cwy.dummy;
 
+import android.util.Log;
+
 import com.example5.lilian.caos_cwy.database.Incidente;
 
 import java.util.ArrayList;
@@ -50,10 +52,22 @@ public class IncidentesContent {
 
 
     public static void fillContent() {
-       for(Incidente item: TODOS_LOS_INCIDENTES){
+       for(int i =0; i< TODOS_LOS_INCIDENTES.size();i++){
+           Incidente item = TODOS_LOS_INCIDENTES.get(i);
+           if(item!=null){
+               ITEM_MAP.put(String.valueOf(item.getId()),item);
+               addListaAgrupada(item.getTipo(),item);
+           }else{
+               Log.d("ITEM NULL","El item null es : "+ i);
+           }
+
+       }
+
+       /*for(Incidente item: TODOS_LOS_INCIDENTES){
+           //TODO: ver porque viene null item
            ITEM_MAP.put(String.valueOf(item.getId()),item);
            addListaAgrupada(item.getTipo(),item);
-       }
+       }*/
     }
 
     public static void addItem(Incidente item) {

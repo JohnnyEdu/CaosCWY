@@ -48,8 +48,5 @@ LEFT JOIN imagenes im ON im.id_incidente = i.id ".$where;
     {
         array_push($sinagrupararray,$row);
     }
-    $respuesta = new stdClass();
-    //$respuesta->agrupada = $emparray;
-    $respuesta->sinagrupar = $sinagrupararray;
-     echo json_encode($respuesta);
+     echo json_encode($sinagrupararray);
 ?>

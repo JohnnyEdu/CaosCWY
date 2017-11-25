@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example5.lilian.caos_cwy.R;
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
@@ -25,10 +27,10 @@ import java.util.Set;
  * Created by Johnny on 5/11/2017.
  */
 
-public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, ArrayList<Incidente>> {
+public class IncidenteSELECTTask extends AsyncTask<Void, Void, ArrayList<Incidente>> {
     private Activity activity;
-    private Boolean mTwoPane;
     private ProgressBar progressBar;
+    private String usuario;
 
 
     public Activity getActivity() {
@@ -39,6 +41,13 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, ArrayList<Inci
         this.activity = activity;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     public ProgressBar getProgressBar() {
         return progressBar;
@@ -49,34 +58,39 @@ public class IncidenteSELECTTask extends AsyncTask<Boolean, Void, ArrayList<Inci
     }
 
     @Override
-    protected ArrayList<Incidente> doInBackground(Boolean... mTwoPane) {
+    protected ArrayList<Incidente> doInBackground(Void... voids) {
         IncidentesContent.reset();
         //mTwoPane parametro que viene de la vista desde maestro detalle, es predeterminado de android
         ArrayList<Incidente> resultado = null;
-        if(IncidentesContent.TODOS_LOS_INCIDENTES.isEmpty()) {
-            BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes.php");
-
-            //BUSCARZONA
-            resultado = bdpub.consultarIncidentesZona(-35.0, -58.0);
-
+        BDServidorPublico bdpub = BDServidorPublico.getInstancia("https://johnny032295.000webhostapp.com/servidor_cwy_android/consultarIncidentes2.php",activity.getApplicationContext());
+        //BUSCARZONA
+        Log.d("SELECT","#######trayendo incidentes ########");
+        Log.i("SELECT","#######trayendo incidentes ########");
+        if(usuario!=null) {
+            resultado = bdpub.consultarIncidentesUsuario(usuario);
         }else{
-            resultado = new ArrayList<>();
+            //TODO: pasar coordenadas de verdad
+            resultado = bdpub.consultarIncidentesZona(-35.0,-58.0);
         }
         return resultado;
     }
 
     @Override
     protected void onPostExecute(ArrayList<Incidente> incidentes) {
-        IncidentesContent.reset();
-        progressBar.setVisibility(View.GONE);
-        IncidentesContent.TODOS_LOS_INCIDENTES = incidentes;
-        IncidentesContent.fillContent();
-        incidenteListActivity.SimpleItemRecyclerViewAdapter adapter =
-                new incidenteListActivity.SimpleItemRecyclerViewAdapter(
-                        getActivity(),IncidentesContent.TODOS_LOS_INCIDENTES,false,""
-                );
-        RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.incidente_list);
-        recyclerView.setAdapter(adapter);
+        if(incidentes==null){
+            Toast.makeText(getActivity().getApplicationContext(),"Error en el servidor",Toast.LENGTH_LONG).show();
+        }else{
+            IncidentesContent.reset();
+            progressBar.setVisibility(View.GONE);
+            IncidentesContent.TODOS_LOS_INCIDENTES = incidentes;
+            IncidentesContent.fillContent();
+            incidenteListActivity.SimpleItemRecyclerViewAdapter adapter =
+                    new incidenteListActivity.SimpleItemRecyclerViewAdapter(
+                            getActivity(),IncidentesContent.TODOS_LOS_INCIDENTES,false,""
+                    );
+            RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.incidente_list);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
 }

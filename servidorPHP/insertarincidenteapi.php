@@ -9,22 +9,23 @@
         exit();
     }
   
-//  $sql="INSERT INTO incidentes (usuario,fechaYhora,tipo,zona) VALUES (?,?,?,?)";
- // $sql->bind_param($_POST["usuario"],$_POST["fechaYhora"],$_POST["tipo"],$_POST["zona"]);
+  $usuario = $_POST["usuario"];
+  $tipo = $_POST["tipo"];
+  $zona = $_POST["zona"];
+  $comentario = $_POST["comentario"];
+  $latitud = $_POST["latitud"];
+  $longitud = $_POST["longitud"];
   
-  
-  $stmt = $con->prepare("INSERT INTO incidentes (usuario,fechaYhora,tipo,zona,comentarios,latitud,longitud) VALUES (?,NOW(),?,?,?,?,?)");
-$stmt->bind_param("ssssss",$_POST["usuario"],$_POST["tipo"],$_POST["zona"],$_POST["comentario"],$_POST["latitud"],$_POST["longitud"]);
+ 
+$stmt = $con->prepare("INSERT INTO incidentes (usuario,fechaYhora,tipo,zona,comentarios,latitud,longitud) VALUES (?,NOW(),?,?,?,?,?)");
+$stmt->bind_param("ssssss",$usuario,$tipo,$zona,$comentario,$latitud,$longitud);
 
 /* ejecuta sentencias prepradas */
 
-echo "insertando ";
 $ejecuto = $stmt->execute();
 
 $stmt->close();
-echo $ejecuto;
-echo "se termino la consulta";
-   if ($ejecuto) {
+   if ($ejecuto === true) {
       echo "Se insertó el incidente en la BD";
    }else{
       echo "No se pudo insertar";
@@ -33,9 +34,10 @@ echo "se termino la consulta";
    if(isset($_POST["imagen"])){
        $id_incidente = $con->insert_id;
        
-        $sql="INSERT INTO imagenes (usuario,imagen,id_incidente) VALUES ('".$_POST["usuario"]."','".$_POST["imagen"]."',".$id_incidente.")";
+       $imagen = $_POST["imagen"];
+        $sql="INSERT INTO imagenes (usuario,imagen,id_incidente) VALUES ('".$usuario."','".$imagen."',".$id_incidente.")";
     
-       if (mysqli_query($con,$sql)) {
+       if (mysqli_query($con,$sql)===true) {
           echo "Se insertó la imagen en la BD";
        }else{
           echo "No se pudo insertar";

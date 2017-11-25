@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -14,24 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
-import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 import com.example5.lilian.caos_cwy.tasks.MisIncidenteDELETEUPDATETask;
-import com.example5.lilian.caos_cwy.tasks.MisIncidenteSELECTTask;
-import com.example5.lilian.caos_cwy.utils.Utilidades;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,11 +71,7 @@ public class incidenteListActivity extends AppCompatActivity {
 
         ProgressBar progressBar = (ProgressBar)findViewById(R.id.cargandoIncidentes);
         //traer los incidentes para mostrar
-        MisIncidenteSELECTTask selct = new MisIncidenteSELECTTask();
-        selct.setUsuario(usuario);
-        selct.setActivity(this);
-        selct.setProgressBar(progressBar);
-        selct.execute();
+
         mainactivity = this;
 
     }
@@ -113,7 +100,6 @@ public class incidenteListActivity extends AppCompatActivity {
         private boolean agruparItems;
         private String filtro;
         private Map<String,List<Incidente>> itemsAgrupados;
-
         public SimpleItemRecyclerViewAdapter(Activity parent,
                                       List<Incidente> items,boolean agruparItemsParam,String filtro) {
                 mParentActivity = parent;
@@ -169,12 +155,15 @@ public class incidenteListActivity extends AppCompatActivity {
 
                     ViewGroup detalle = (ViewGroup)holder.mContentView.findViewById(R.id.itemDetalleMaestro);
                     TextView texto = (TextView) detalle.findViewById(R.id.content);
-                        texto.setText(incidente.getComentario());
+                        texto.setText(incidente.getComentario()!=null
+                                && !incidente.getComentario().equals("")?incidente.getComentario():"Ninguno");
                     TextView textoFecha = (TextView) detalle.findViewById(R.id.fechacontent);
                         textoFecha .setText(incidente.getFechaYhora());
+                    ImageView imagen = (ImageView) detalle.findViewById(R.id.imagenMaestroDetalle);
                     if(incidente.getCaptura()!=null) {
-                        ImageView imagen = (ImageView) detalle.findViewById(R.id.imagenMaestroDetalle);
                         imagen.setImageBitmap(incidente.getCaptura().getImagen());
+                    }else{
+                        imagen.setVisibility(View.GONE);
                     }
                     if(isMisIncidentesView){
                         ImageButton editarbtn = (ImageButton)detalle.findViewById(R.id.editar);
@@ -213,9 +202,9 @@ public class incidenteListActivity extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
-            ViewGroup mContentView;
+            final ViewGroup mContentView;
 
-            private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+            /*private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     View detalle = mContentView.findViewById(R.id.itemDetalleMaestro);
@@ -226,15 +215,15 @@ public class incidenteListActivity extends AppCompatActivity {
                         detalle.setVisibility(View.VISIBLE);
                     }
                 }
-            };
+            };*/
 
             ViewHolder(View view) {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (ViewGroup) view.findViewById(R.id.contenedorItemMaestro);
-                if(mIdView!=null) {
+                /*if(mIdView!=null) {
                     mIdView.setOnClickListener(mOnClickListener);
-                }
+                }*/
             }
         }
     }

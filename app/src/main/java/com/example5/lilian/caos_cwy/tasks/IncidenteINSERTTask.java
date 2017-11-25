@@ -2,6 +2,7 @@ package com.example5.lilian.caos_cwy.tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example5.lilian.caos_cwy.database.BDServidorPublico;
 import com.example5.lilian.caos_cwy.database.DatabaseHelper;
@@ -25,13 +26,14 @@ public class IncidenteINSERTTask extends AsyncTask<Incidente, Void, Void> {
 
     @Override
     protected Void doInBackground(Incidente... incidentes) {
-        BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/insertarincidenteapi.php");
+        BDServidorPublico bdpub = BDServidorPublico.getInstancia("https://johnny032295.000webhostapp.com/servidor_cwy_android/insertarincidenteapi.php",activity.getApplicationContext());
 
         //TODO: preguntar al profe si es correcto iterar y conectar por cada incidente
         for (Incidente incidente : incidentes){
+            Log.d("INSERTAR","#######insertando incidente ########");
             bdpub.insertarIncidente(incidente);
-            DatabaseHelper dblocal = new DatabaseHelper(getActivity().getApplicationContext());
-            dblocal.guardarIncidentesLocalmente(incidente);
+           /* DatabaseHelper dblocal = new DatabaseHelper(getActivity().getApplicationContext());
+            dblocal.guardarIncidentesLocalmente(incidente);*/
         }
         return null;
     }

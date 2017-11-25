@@ -97,7 +97,7 @@ public class ContenedorFragment extends Fragment {
                             IncidenteSELECTTask selct = new IncidenteSELECTTask();
                             selct.setActivity(getActivity());
                             selct.setProgressBar(progressBar);
-                            selct.execute(false);
+                            selct.execute();
                         }
                         if(position == 2){
                             Intent intent = new Intent(getContext(),incidenteListActivity.class);

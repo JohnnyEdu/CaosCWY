@@ -68,7 +68,7 @@ public class MisIncidenteDELETEUPDATETask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         if(tipoOperacion.equals("DELETE")){
-            BDServidorPublico bdpub = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/eliminarIncidente.php");
+            BDServidorPublico bdpub = BDServidorPublico.getInstancia("https://johnny032295.000webhostapp.com/servidor_cwy_android/eliminarIncidente.php",activity.getApplicationContext());
             bdpub.eliminarIncidenteDeServidor(getIncidente());
             DatabaseHelper dblocal = new DatabaseHelper(getActivity().getApplicationContext());
             dblocal.eliminarIncidente(incidente.getId());

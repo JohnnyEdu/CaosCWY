@@ -66,7 +66,7 @@ public class ImagenesINSERTTask extends AsyncTask <Void,Void,Void>{
         //img.insertarImagen("adm@adm","https://38.media.tumblr.com/aea79d3c26acdcfe325e94c7ae251717/tumblr_inline_nqmfxalvCS1qk1op9_500.gif");
         imgDbHelper.insertarImagen(getUsuario(),getImagen());
         //creo las tablas y la BD
-        BDServidorPublico bdmysql = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/insertarimagenapi.php");
+        BDServidorPublico bdmysql = BDServidorPublico.getInstancia("https://johnny032295.000webhostapp.com/servidor_cwy_android/insertarimagenapi.php",context);
         if(this.imagen!=null) {
             bdmysql.insertarImagen(getUsuario(), ConvertirBitmapEnByteArray.convertir(getImagen()),getId_incidente());
         }

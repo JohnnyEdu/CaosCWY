@@ -2,6 +2,7 @@ package com.example5.lilian.caos_cwy.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
@@ -79,7 +80,6 @@ public class incidenteDetailFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        ImageView capturaTomada = (ImageView) rootView.findViewById(R.id.capturaTomada);
         ProgressBar progressBar = (ProgressBar)rootView.findViewById(R.id.cargandoimagen);
 
 
@@ -99,9 +99,40 @@ public class incidenteDetailFragment extends Fragment {
         users.setText(mItem.getUsuario());
         date.setText(mItem.getFechaYhora());
         if(mItem.getCaptura()!=null) {
-            captura.setImageBitmap(mItem.getCaptura().getImagen());
+            resizeImage(mItem.getCaptura().getImagen(),captura);
+        }else{
+            captura.setImageDrawable(getResources().getDrawable(R.drawable.no_image));
         }
         location.setText(mItem.getZona());
+        progressBar.setVisibility(View.GONE);
         return rootView;
     }
+/***
+ * Para resolver el error de que las imagenes de alta resolución se ven en negro en el detalle
+ * **/
+    public void resizeImage(Bitmap bitmapInputImage, ImageView newIV){
+        Bitmap bitmap;
+        if (bitmapInputImage.getWidth() > 2048 && bitmapInputImage.getHeight() > 2048)
+        {
+            bitmap = Bitmap.createScaledBitmap(bitmapInputImage, 1024, 1280, true);
+            newIV.setImageBitmap(bitmap);
+        }
+        else if (bitmapInputImage.getWidth() > 2048 && bitmapInputImage.getHeight() < 2048)
+        {
+            bitmap = Bitmap.createScaledBitmap(bitmapInputImage, 1920, 1200, true);
+            newIV.setImageBitmap(bitmap);
+        }
+        else if (bitmapInputImage.getWidth() < 2048 && bitmapInputImage.getHeight() > 2048)
+        {
+            bitmap = Bitmap.createScaledBitmap(bitmapInputImage, 1024, 1280, true);
+            newIV.setImageBitmap(bitmap);
+        }
+        else if (bitmapInputImage.getWidth() < 2048 && bitmapInputImage.getHeight() < 2048)
+        {
+            bitmap = Bitmap.createScaledBitmap(bitmapInputImage, bitmapInputImage.getWidth(), bitmapInputImage.getHeight(), true);
+            newIV.setImageBitmap(bitmap);
+        }
+    }
 }
+
+

@@ -69,7 +69,7 @@ public class ImagenesSELECTTask extends AsyncTask <Void,Void,List<Captura> >{
     @Override
     protected List<Captura> doInBackground(Void... params) {
         //creo las tablas y la BD
-        BDServidorPublico bdmysql = new BDServidorPublico("https://johnny032295.000webhostapp.com/servidor_cwy_android/selectimagenapi.php");
+        BDServidorPublico bdmysql = BDServidorPublico.getInstancia("https://johnny032295.000webhostapp.com/servidor_cwy_android/selectimagenapi.php",context);
 
         List<Captura> btmp = new ArrayList<>();
         if(getUsuario()!=null) {
@@ -81,21 +81,25 @@ public class ImagenesSELECTTask extends AsyncTask <Void,Void,List<Captura> >{
         return btmp;
     }
     @Override
-    protected void onPostExecute(List<Captura> imagen) {
-        progressBar.setVisibility(View.GONE);
-        if(vista instanceof  ImageView && imagen.size()>0){
-            ((ImageView)vista).setImageBitmap(imagen.get(0).getImagen());
+    protected void onPostExecute(List<Captura> imagenes) {
+        if(imagenes == null){
+            Toast.makeText(vista.getContext(),"Error en el servidor",Toast.LENGTH_LONG).show();
         }else{
-            Toast.makeText(context,"No se subío captura",Toast.LENGTH_LONG).show();
-        }
+            progressBar.setVisibility(View.GONE);
+            if(vista instanceof  ImageView && imagenes.size()>0){
+                ((ImageView)vista).setImageBitmap(imagenes.get(0).getImagen());
+            }else{
+                Toast.makeText(context,"No se subío captura",Toast.LENGTH_LONG).show();
+            }
 
-        //traer la imagen luego de insertarla
-        //codigo para imagen en SQLite
-        /*byte[] imagen = imgDbHelper.getImagen(getUsuario());
-        if(imgDbHelper.getError()==null){
-            vista.setImageBitmap(BitmapFactory.decodeByteArray(imagen,0,imagen.length));
-        }else{
-            Toast.makeText(context,imgDbHelper.getError(),Toast.LENGTH_LONG).show();
-        }*/
+                //traer la imagen luego de insertarla
+                //codigo para imagen en SQLite
+            /*byte[] imagen = imgDbHelper.getImagen(getUsuario());
+            if(imgDbHelper.getError()==null){
+                vista.setImageBitmap(BitmapFactory.decodeByteArray(imagen,0,imagen.length));
+            }else{
+                Toast.makeText(context,imgDbHelper.getError(),Toast.LENGTH_LONG).show();
+            }*/
+        }
     }
 }

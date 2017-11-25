@@ -153,7 +153,6 @@ public class FormularioFragment extends Fragment {
                 incidente.setUsuario(usuario);
                 incidente.setTipo(spinner.getSelectedItem().toString());
 
-
                 SimpleDateFormat iso8601Format = new SimpleDateFormat(
                         "yyyy-MM-dd HH:mm:ss");
                 incidente.setFechaYhora(iso8601Format.format(new Date()));
