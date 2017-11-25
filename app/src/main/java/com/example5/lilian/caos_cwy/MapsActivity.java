@@ -67,7 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         marcador =mMap.addMarker(new MarkerOptions()
                 .position(coordenadas)
                 .title("Mi posición actual")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
                 mMap.animateCamera(miUbicacion);
 
         ProgressBar progressBar = (ProgressBar)findViewById(R.id.cargaMapa);

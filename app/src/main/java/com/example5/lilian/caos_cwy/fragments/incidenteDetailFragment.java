@@ -2,6 +2,7 @@ package com.example5.lilian.caos_cwy.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -83,18 +84,23 @@ public class incidenteDetailFragment extends Fragment {
 
 
         //traer la captura del detalle
-        ImagenesSELECTTask imgSelect = new ImagenesSELECTTask(getContext());
+        /*ImagenesSELECTTask imgSelect = new ImagenesSELECTTask(getContext());
         imgSelect.setNroIncidente(String.valueOf(mItem.getId()));
         imgSelect.setVista(capturaTomada );
         imgSelect.setProgressBar(progressBar );
-        imgSelect.execute();
+        imgSelect.execute();*/
+        /**ya no se consulta denuevo en MySQL**/
         TextView comentarios = (TextView) rootView.findViewById(R.id.comentarios);
         TextView users = (TextView) rootView.findViewById(R.id.user);
         TextView date = (TextView) rootView.findViewById(R.id.date);
         TextView location = (TextView) rootView.findViewById(R.id.location);
+        ImageView captura = (ImageView) rootView.findViewById(R.id.capturaTomada);
         comentarios.setText(mItem.getComentario());
         users.setText(mItem.getUsuario());
         date.setText(mItem.getFechaYhora());
+        if(mItem.getCaptura()!=null) {
+            captura.setImageBitmap(mItem.getCaptura().getImagen());
+        }
         location.setText(mItem.getZona());
         return rootView;
     }

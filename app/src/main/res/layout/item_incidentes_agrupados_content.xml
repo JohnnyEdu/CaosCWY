@@ -3,9 +3,8 @@
 <LinearLayout
     android:id="@+id/itemDetalleMaestro"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
 
     <ImageView
@@ -18,13 +17,13 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="10dp">
         <TextView
             android:id="@+id/comentarioslbl"
             android:textColor="@color/colorOrange"
             android:textSize="20dp"
-            android:padding="3dp"
             android:text="Comentarios: "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -34,7 +33,7 @@
             android:id="@+id/content"
             android:textColor="@color/colorGris"
             android:textSize="20dp"
-            android:padding="5dp"
+            android:padding="2dp"
             android:text="detalle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +43,6 @@
             android:id="@+id/fechalbl"
             android:textColor="@color/colorOrange"
             android:textSize="20dp"
-            android:padding="3dp"
             android:text="Fecha: "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -53,7 +51,6 @@
             android:id="@+id/fechacontent"
             android:textColor="@color/colorGris"
             android:textSize="20dp"
-            android:padding="5dp"
             android:text="detalle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

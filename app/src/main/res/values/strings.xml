@@ -65,7 +65,7 @@
     <string name="google_maps_key">AIzaSyB6VLOQjU6T5j7RUtm6vFmf2D-k0puK_Gc</string>
     <string name="str_en">English</string>
     <string name="str_es">Spanish</string>
-    <string name="str_de">Portuguese</string>
+    <string name="str_de">Aleman</string>
     <string-array name="languages">
 
         <item>@string/str_en</item>

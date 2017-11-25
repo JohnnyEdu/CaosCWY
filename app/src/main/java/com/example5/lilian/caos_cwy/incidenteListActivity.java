@@ -152,7 +152,7 @@ public class incidenteListActivity extends AppCompatActivity {
                     holder.mIdView.setText(incidente.getTipo());
                     LayoutInflater vi = (LayoutInflater) mParentActivity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     //a cada item del detalle de cada grupo, le pongo en su onclick que me lleve al activity del detalle
-                    holder.mIdView.setOnClickListener(new View.OnClickListener() {
+                    holder.mContentView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             //mTwoPane, pareciera que se usa para cuando no queres que el detalle te cambie de activity, sino de fragment
