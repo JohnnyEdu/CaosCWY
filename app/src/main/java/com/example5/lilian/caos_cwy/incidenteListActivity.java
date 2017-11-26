@@ -163,7 +163,7 @@ public class incidenteListActivity extends AppCompatActivity {
                     if(incidente.getCaptura()!=null) {
                         imagen.setImageBitmap(incidente.getCaptura().getImagen());
                     }else{
-                        imagen.setVisibility(View.GONE);
+                        imagen.setImageDrawable(mParentActivity.getResources().getDrawable(R.drawable.no_image));
                     }
                     if(isMisIncidentesView){
                         ImageButton editarbtn = (ImageButton)detalle.findViewById(R.id.editar);
