@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example5.lilian.caos_cwy.MainActivity;
 import com.example5.lilian.caos_cwy.fragments.Fragment1;
 import com.example5.lilian.caos_cwy.fragments.Fragment2;
 import com.example5.lilian.caos_cwy.R;
@@ -41,6 +42,7 @@ public class ContenedorFragment extends Fragment {
     private TabLayout pestanas;
     private ViewPager viewPager;
 
+    private boolean resetTabs;
 
     public ContenedorFragment() {
         // Required empty public constructor
@@ -114,15 +116,6 @@ public class ContenedorFragment extends Fragment {
         }
 
         return vista;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 3){
-            viewPager.clearFocus();
-        }
-
     }
 
     //creamos un adaptador con los fragments que se van a mostrar en cada pestaña, con el metodo add se van a ir guardando en la lista

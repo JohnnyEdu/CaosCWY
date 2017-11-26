@@ -33,10 +33,7 @@ public class MainActivity extends AppCompatActivity
         FormularioFragment.OnFragmentInteractionListener ,
         ContenedorFragment.OnFragmentInteractionListener {
 
-    int REQUEST_IMAGE_CAPTURE = 1;
-    public static String coordLat;
-    public static String coordLong;
-    private boolean resetTabs = false;
+    public static boolean resetTabs = false;
 
     @Override
     protected void onResume() {
@@ -47,6 +44,15 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
         }
 
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 3){
+            resetTabs = true;
+        }
 
     }
 
@@ -103,64 +109,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //mis incidentes
-        if(requestCode == 3){
-           resetTabs = true;
-        }
-        //camara
-        else if(requestCode == 1){
-            //el Bundle toma los parametros del activity
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-            //muestro el contenedor de la imagen
-            final ImageView imageView = (ImageView)findViewById(R.id.imagenPrueba);
-            imageView.setVisibility(View.VISIBLE);
-
-            //oculto la cámara
-            final Button capturarIncidente =  (Button)findViewById(R.id.capturarIncidente);
-            capturarIncidente.setVisibility(View.GONE);
-            imageView.setImageBitmap(imageBitmap);
-
-
-            //muestro el boton de eliminar imagen
-            final ImageButton eliminar = (ImageButton)findViewById(R.id.eliminarFoto);
-            eliminar.setVisibility(View.VISIBLE);
-            //logica para la crucecita de borrar imagen
-            eliminar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    imageView.setImageDrawable(null);
-                    imageView.setVisibility(View.GONE);
-                    eliminar.setVisibility(View.GONE);
-                    capturarIncidente.setVisibility(View.VISIBLE);
-
-                }
-            });
-
-        }
-        else{
-            //mapa
-            if(data!=null) {
-                /***vuelta del mis incidentes ***/
-                //tomo las coordenadas que devuelve el MapsActivity cuando se la llama desde el click
-                //en el boton "Zona", ver el código de MapsActivity cuando se le da click al boton R.id.coords
-                if (data.getStringExtra("coordLat") != null && !data.getStringExtra("coordLat").equals("")) {
-                    coordLat = data.getStringExtra("coordLat");
-                }
-                if (data.getStringExtra("coordLong") != null && !data.getStringExtra("coordLong").equals("")) {
-                    coordLong = data.getStringExtra("coordLong");
-                }
-            }
-        }
-
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -44,7 +44,8 @@ public class incidenteListActivity extends AppCompatActivity {
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
-    private boolean mTwoPane;
+
+    private static final int REQUEST_EDITAR_CODE = 4;
     private static boolean isMisIncidentesView = false;
     private static Activity mainactivity;
 
@@ -62,13 +63,6 @@ public class incidenteListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        if (findViewById(R.id.incidente_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
 
         SharedPreferences sharedPreferences = getSharedPreferences("sesion",MODE_PRIVATE);
         String usuario = sharedPreferences.getString("usuario","");
@@ -100,6 +94,22 @@ public class incidenteListActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 4){
+            SharedPreferences sharedPreferences = getSharedPreferences("sesion",MODE_PRIVATE);
+            String usuario = sharedPreferences.getString("usuario","");
+
+            ProgressBar progressBar = (ProgressBar)findViewById(R.id.cargandoIncidentes);
+            IncidenteSELECTTask selct = new IncidenteSELECTTask();
+            selct.setActivity(this);
+            selct.setUsuario(usuario);
+            selct.setProgressBar(progressBar);
+            selct.execute();
+        }
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -138,6 +148,7 @@ public class incidenteListActivity extends AppCompatActivity {
         public void setFiltro(String filtro) {
             this.filtro = filtro;
         }
+
 
         @Override
             public void onBindViewHolder(final ViewHolder holder, int position) {
@@ -180,11 +191,11 @@ public class incidenteListActivity extends AppCompatActivity {
                         editarbtn.setVisibility(View.VISIBLE);
                         editarbtn.setOnClickListener(new View.OnClickListener() {
                             private Incidente incidentecla = incidente;
-
                             @Override
                             public void onClick(View v) {
                                 Intent pantallaEditar = new Intent(mainactivity.getApplicationContext(),EditarIncidenteActivity.class);
-                                mParentActivity.startActivity(pantallaEditar);
+                                pantallaEditar.putExtra("id_incidente",String.valueOf(incidente.getId()));
+                                mainactivity.startActivityForResult(pantallaEditar,REQUEST_EDITAR_CODE);
                             }
                         });
                         ImageButton eliminarbtn = (ImageButton)detalle.findViewById(R.id.eliminar);

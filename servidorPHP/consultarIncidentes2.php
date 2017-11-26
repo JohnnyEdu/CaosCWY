@@ -24,16 +24,16 @@
     
     $where = "";
     if(isset($_GET["usuario"])){
-        $where = "WHERE i.usuario = '".$_GET["usuario"]."'";
+        $where = "WHERE i.usuario = '".$_GET["usuario"]."' ORDER BY i.id DESC";
     }
     else if(isset($_POST["usuario"])){
-    	$where = "WHERE i.usuario = '".$_POST["usuario"]."'";
+    	$where = "WHERE i.usuario = '".$_POST["usuario"]."' ORDER BY i.id DESC";
     }else{
 	    //-35, -58
     	$latitudArea = floatval($_POST["latitud"]);
     	$longitudArea = floatval($_POST["longitud"]);
         	$where = " WHERE i.latitud  BETWEEN  (".$_POST["latitud"]." -200) AND (".$_POST["longitud"]."+200) AND i.longitud BETWEEN
-    	(".$_POST["longitud"]."-200) AND (".$_POST["latitud"]."+200)";
+    	(".$_POST["longitud"]."-200) AND (".$_POST["latitud"]."+200) ORDER BY i.id DESC";
     }
     //$sql = "SELECT incs.id,incs.usuario,DATE_FORMAT(fechayhora,'%d %M %Y  %h:%m:%s') fechaYhora,tipo,zona,comentarios,latitud,longitud,imgs.imagen FROM incidentes incs JOIN imagenes imgs ON imgs.id_incidente = incs.id".$where; 
 

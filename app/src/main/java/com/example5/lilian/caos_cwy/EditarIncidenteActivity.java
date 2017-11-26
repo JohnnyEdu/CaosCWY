@@ -1,29 +1,53 @@
 package com.example5.lilian.caos_cwy;
 
+import android.app.FragmentManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 
-public class EditarIncidenteActivity extends AppCompatActivity {
+import com.example5.lilian.caos_cwy.database.Incidente;
+import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
+import com.example5.lilian.caos_cwy.fragments.FormularioFragment;
+
+public class EditarIncidenteActivity extends AppCompatActivity
+        implements FormularioFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_incidente);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        String idIncidente = (String)getIntent().getStringExtra("id_incidente");
+        Incidente incidente = IncidentesContent.ITEM_MAP.get(idIncidente);
+
+        FormularioFragment formulario = new FormularioFragment();
+        formulario.setTipoIncidente(incidente.getTipo());
+        if(incidente.getCaptura()!=null) {
+            formulario.setCaptura(incidente.getCaptura().getImagen());
+        }
+        formulario.setComentario(incidente.getComentario());
+
+
+        ViewGroup formularioContainer = (ViewGroup)findViewById(R.id.formularioEditarContainer);
+        getSupportFragmentManager().beginTransaction()
+                .add(formularioContainer.getId(),formulario)
+                .commit();
+
+
+        setSupportActionBar(toolbar);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

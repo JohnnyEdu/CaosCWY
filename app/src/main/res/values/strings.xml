@@ -80,5 +80,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_fullscreen2">FullscreenActivity2</string>
-    <string name="title_activity_editar_incidente">EditarIncidenteActivity</string>
+    <string name="title_activity_editar_incidente">Editar incidente</string>
 </resources>

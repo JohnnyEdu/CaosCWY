@@ -29,6 +29,8 @@ import com.example5.lilian.caos_cwy.database.DatabaseHelper;
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.tasks.IncidenteINSERTTask;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,13 +51,44 @@ public class FormularioFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private final int REQUEST_IMAGE_CAPTURE = 1;
-    final int REQUEST_MAP= 2;
+    private final int REQUEST_MAP= 2;
+    public static String coordLat;
+    public static String coordLong;
+
     private View fragm;
+
+    private String tipoIncidente;
+    private String comentario;
+    private Bitmap captura;
 
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public String getTipoIncidente() {
+        return tipoIncidente;
+    }
+
+    public void setTipoIncidente(String tipoIncidente) {
+        this.tipoIncidente = tipoIncidente;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public Bitmap getCaptura() {
+        return captura;
+    }
+
+    public void setCaptura(Bitmap captura) {
+        this.captura = captura;
+    }
 
     private OnFragmentInteractionListener mListener;
 
@@ -92,6 +125,60 @@ public class FormularioFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //camara
+        if(requestCode == 1){
+            //el Bundle toma los parametros del activity
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            //muestro el contenedor de la imagen
+            final ImageView imageView = (ImageView)getActivity().findViewById(R.id.imagenPrueba);
+            imageView.setVisibility(View.VISIBLE);
+
+            //oculto la cámara
+            final Button capturarIncidente =  (Button)getActivity().findViewById(R.id.capturarIncidente);
+            capturarIncidente.setVisibility(View.GONE);
+            imageView.setImageBitmap(imageBitmap);
+
+
+            //muestro el boton de eliminar imagen
+            final ImageButton eliminar = (ImageButton)getActivity().findViewById(R.id.eliminarFoto);
+            eliminar.setVisibility(View.VISIBLE);
+            //logica para la crucecita de borrar imagen
+            eliminar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imageView.setImageDrawable(null);
+                    imageView.setVisibility(View.GONE);
+                    eliminar.setVisibility(View.GONE);
+                    capturarIncidente.setVisibility(View.VISIBLE);
+
+                }
+            });
+
+        }
+        else{
+            //mapa
+            if(data!=null) {
+                /***vuelta del mis incidentes ***/
+                //tomo las coordenadas que devuelve el MapsActivity cuando se la llama desde el click
+                //en el boton "Zona", ver el código de MapsActivity cuando se le da click al boton R.id.coords
+                if (data.getStringExtra("coordLat") != null && !data.getStringExtra("coordLat").equals("")) {
+                    coordLat = data.getStringExtra("coordLat");
+                }
+                if (data.getStringExtra("coordLong") != null && !data.getStringExtra("coordLong").equals("")) {
+                    coordLong = data.getStringExtra("coordLong");
+                }
+            }
+        }
+
+
+    }
+
+
 
 
     @Override
@@ -100,13 +187,42 @@ public class FormularioFragment extends Fragment {
         // Inflate the layout for this fragment
         fragm = inflater.inflate(R.layout.fragment_formulario, container, false);
 
-        //oculto el contenedor de la imagen
+
+        //tipo incidente
+
+        if(tipoIncidente!=null){
+            Spinner tipoIncidenteSpinner = (Spinner) fragm.findViewById(R.id.spAnimals);
+
+            String[] items = getResources().getStringArray(R.array.animals);
+            int incidenteTipoIndex = 0;
+            for(int i =0; i < items.length;i++){
+                if(items[i].equalsIgnoreCase(tipoIncidente)){
+                    incidenteTipoIndex = i;
+                    break;
+                }
+            }
+            tipoIncidenteSpinner.setSelection(incidenteTipoIndex);
+        }
+
+        //captura
         ImageView imgview = (ImageView) fragm.findViewById(R.id.imagenPrueba);
         imgview.setVisibility(View.GONE);
+        if(captura!=null){
+            imgview.setImageBitmap(captura);
+            imgview.setVisibility(View.VISIBLE);
+        }
+
+        if(comentario!=null) {
+            EditText comentarioEditText = (EditText) fragm.findViewById(R.id.comentario);
+            comentarioEditText.setText(comentario);
+        }
+
 
         //oculto el boton eliminar imagen
         ImageButton eliminar = (ImageButton)fragm.findViewById(R.id.eliminarFoto);
-        eliminar.setVisibility(View.GONE);
+        if(captura==null){
+            eliminar.setVisibility(View.GONE);
+        }
 
         //boton cámara
         Button capturarIncidente =  (Button)fragm.findViewById(R.id.capturarIncidente);
@@ -116,19 +232,11 @@ public class FormularioFragment extends Fragment {
 
                 Intent abrirCamara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (abrirCamara.resolveActivity(getActivity().getPackageManager()) != null) {
-                    getActivity().startActivityForResult(abrirCamara, REQUEST_IMAGE_CAPTURE);
+                    startActivityForResult(abrirCamara, REQUEST_IMAGE_CAPTURE);
                 }
             }
         });
 
-
-          /*<fragment
-        android:id="@+id/adjuntarCaptura"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:name="com.example5.lilian.caos_cwy.fragments.AdjuntarCapturaFragment"
-                />*/
 
 
         Button subitIncidente=  (Button)fragm.findViewById(R.id.compartir);
@@ -136,8 +244,8 @@ public class FormularioFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //si no se obtuvieron las coordenadas
-                if(MainActivity.coordLat == null || MainActivity.coordLat.isEmpty()
-                        || MainActivity.coordLong == null || MainActivity.coordLong.isEmpty()){
+                if(coordLat == null || coordLat.isEmpty()
+                        || coordLong == null || coordLong.isEmpty()){
                     Toast.makeText(getContext(),"Tenés que adjuntar una ubicación",Toast.LENGTH_LONG).show();
                     return ;
                 }
@@ -159,9 +267,9 @@ public class FormularioFragment extends Fragment {
 
                 //coordLat y coordLong , las seteo en MainActivity cuando en el activity del Mapa, se le da al boton flotante
                 //linea 77 de MapsActivity y lo agarra MainActivity en la linea 67
-                incidente.setZona(MainActivity.coordLat + "/" + MainActivity.coordLong);
-                incidente.setLatitud(Double.valueOf(MainActivity.coordLat));
-                incidente.setLongitud(Double.valueOf(MainActivity.coordLong));
+                incidente.setZona(coordLat + "/" + coordLong);
+                incidente.setLatitud(Double.valueOf(coordLat));
+                incidente.setLongitud(Double.valueOf(coordLong));
                 incidente.setComentario(comentario);
 
                 //le seteo la imagen al Incidente, tomando la que puse en el ImageView
