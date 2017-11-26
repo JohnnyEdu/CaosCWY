@@ -1,7 +1,9 @@
 package com.example5.lilian.caos_cwy;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -12,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 
 import com.example5.lilian.caos_cwy.database.Incidente;
 import com.example5.lilian.caos_cwy.dummy.IncidentesContent;
+import com.example5.lilian.caos_cwy.tasks.IncidenteSELECTTask;
 import com.example5.lilian.caos_cwy.tasks.MisIncidenteDELETEUPDATETask;
 
 import java.util.ArrayList;
@@ -71,6 +75,12 @@ public class incidenteListActivity extends AppCompatActivity {
 
         ProgressBar progressBar = (ProgressBar)findViewById(R.id.cargandoIncidentes);
         //traer los incidentes para mostrar
+
+        IncidenteSELECTTask selct = new IncidenteSELECTTask();
+        selct.setActivity(this);
+        selct.setUsuario(usuario);
+        selct.setProgressBar(progressBar);
+        selct.execute();
 
         mainactivity = this;
 
@@ -183,12 +193,29 @@ public class incidenteListActivity extends AppCompatActivity {
                             private Incidente incidentecla = incidente;
                             @Override
                             public void onClick(View v) {
-                                ProgressBar progressBar = (ProgressBar)mainactivity.findViewById(R.id.cargandoIncidentes);
-                                MisIncidenteDELETEUPDATETask eliminar = new MisIncidenteDELETEUPDATETask("DELETE");
-                                eliminar.setActivity(mainactivity);
-                                eliminar.setProgressBar(progressBar );
-                                eliminar.setIncidente(incidente);
-                                eliminar.execute();
+                                AlertDialog.Builder alerta = new AlertDialog.Builder(mainactivity);
+                                alerta.setTitle("Eliminar incidente");
+                                alerta.setMessage("¿Seguro de borrar el incidente?");
+                                alerta.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        //congelo la actividad, hasta que termine de borrar
+                                        mainactivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                        ProgressBar progressBar = (ProgressBar)mainactivity.findViewById(R.id.cargandoIncidentes);
+                                        MisIncidenteDELETEUPDATETask eliminar = new MisIncidenteDELETEUPDATETask("DELETE");
+                                        eliminar.setActivity(mainactivity);
+                                        eliminar.setProgressBar(progressBar );
+                                        eliminar.setIncidente(incidente);
+                                        eliminar.execute();
+                                    }
+                                });
+
+                                alerta.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        // Canceled.
+                                    }
+                                });
+                                alerta.show();
                             }
                         });
                     }

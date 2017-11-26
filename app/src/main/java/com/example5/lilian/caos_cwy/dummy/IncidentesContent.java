@@ -42,7 +42,7 @@ public class IncidentesContent {
    public static void removeItem(Incidente incidente){
        TODOS_LOS_INCIDENTES.remove(incidente);
        INCIDENTES_AGRUPADOS.get(incidente.getTipo()).remove(incidente);
-       ITEM_MAP.remove(incidente.getId());
+       ITEM_MAP.remove(incidente.getId().toString());
    }
 
    public static void reset(){

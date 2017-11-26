@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -70,8 +71,8 @@ public class MisIncidenteDELETEUPDATETask extends AsyncTask<Void, Void, Void> {
         if(tipoOperacion.equals("DELETE")){
             BDServidorPublico bdpub = BDServidorPublico.getInstancia("https://johnny032295.000webhostapp.com/servidor_cwy_android/eliminarIncidente.php",activity.getApplicationContext());
             bdpub.eliminarIncidenteDeServidor(getIncidente());
-            DatabaseHelper dblocal = new DatabaseHelper(getActivity().getApplicationContext());
-            dblocal.eliminarIncidente(incidente.getId());
+            /*DatabaseHelper dblocal = new DatabaseHelper(getActivity().getApplicationContext());
+            dblocal.eliminarIncidente(incidente.getId());*/
         }
         return null;
     }
@@ -79,10 +80,9 @@ public class MisIncidenteDELETEUPDATETask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+
         Toast.makeText(getActivity().getApplicationContext(),"Eliminado...",Toast.LENGTH_LONG).show();
-
         IncidentesContent.removeItem(incidente);
-
         incidenteListActivity.SimpleItemRecyclerViewAdapter adapter =
                 new incidenteListActivity.SimpleItemRecyclerViewAdapter(
                         getActivity(),IncidentesContent.TODOS_LOS_INCIDENTES,false,""
@@ -90,6 +90,6 @@ public class MisIncidenteDELETEUPDATETask extends AsyncTask<Void, Void, Void> {
         RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.incidente_list);
         recyclerView.setAdapter(adapter);
 
-
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 }
