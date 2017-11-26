@@ -196,7 +196,7 @@ public class incidenteListActivity extends AppCompatActivity {
                                 AlertDialog.Builder alerta = new AlertDialog.Builder(mainactivity);
                                 alerta.setTitle("Eliminar incidente");
                                 alerta.setMessage("¿Seguro de borrar el incidente?");
-                                alerta.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                alerta.setPositiveButton("Dale!", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         //congelo la actividad, hasta que termine de borrar
                                         mainactivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -210,7 +210,7 @@ public class incidenteListActivity extends AppCompatActivity {
                                     }
                                 });
 
-                                alerta.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         // Canceled.
                                     }
