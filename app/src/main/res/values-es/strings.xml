@@ -55,4 +55,41 @@
     <string name="comentario">haga un Comentario</string>
     <string name="compartir">Compartir</string>
     <string name="incidente">SELECCIONE UN INCICENTE</string>
+
+
+    <!--TODO: traducir-->
+    <string name="cargaIncidente">INCIDENT LOAD</string>
+    <string name="incidenteZona">INCIDENTS IN ZONE</string>
+
+
+    <!--MENU CONTEXTUAL TEXT VIEW-->
+    <string name="accion_nuevo">New</string>
+    <string name="accion_actualizar">Update</string>
+    <string name="accion_eliminar">Delete</string>
+    <!--MENU CONTEXTUAL IMAGE VIEW-->
+    <string name="accion_nuevo2">New</string>
+    <string name="accion_actualizar2">Update</string>
+    <string name="accion_eliminar2">Delete</string>
+
+
+
+    <!--FIN: Errores generales-->
+    <string name="str_en">English</string>
+    <string name="str_es">Spanish</string>
+    <string name="str_de">Aleman</string>
+    <string-array name="languages">
+
+        <item>@string/str_en</item>
+        <item>@string/str_es</item>
+        <item>@string/str_de</item>
+    </string-array>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_fullscreen2">FullscreenActivity2</string>
+    <string name="title_activity_editar_incidente">Editar incidente</string>
+
+
 </resources>

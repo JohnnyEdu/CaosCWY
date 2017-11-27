@@ -28,4 +28,62 @@
     <string name="prompt_password">Passwort</string>
     <string name="title_incidente_list">Vorfälle</string>
     <string name="action_settings">die Einstellungen</string>
+
+
+
+    <!--TODO: traducir-->
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="title_item_detail">Item Detail</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <!--SALIO LILI , SALIOO!-->
+    <string name="login">login2</string>
+
+    <string name="title_app">Caos ClearWay</string>
+    <string name="title_home">Form</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="cargaIncidente">INCIDENT LOAD</string>
+    <string name="incidenteZona">INCIDENTS IN ZONE</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <!--INICIO: Errores generales-->
+
+    <!--MENU CONTEXTUAL TEXT VIEW-->
+    <string name="accion_nuevo">New</string>
+    <string name="accion_actualizar">Update</string>
+    <string name="accion_eliminar">Delete</string>
+    <!--MENU CONTEXTUAL IMAGE VIEW-->
+    <string name="accion_nuevo2">New</string>
+    <string name="accion_actualizar2">Update</string>
+    <string name="accion_eliminar2">Delete</string>
+
+
+
+    <!--FIN: Errores generales-->
+    <string name="title_incidente_detail">incident Detail</string>
+    <string name="google_maps_key">AIzaSyB6VLOQjU6T5j7RUtm6vFmf2D-k0puK_Gc</string>
+    <string name="str_en">English</string>
+    <string name="str_es">Spanish</string>
+    <string name="str_de">Aleman</string>
+    <string-array name="languages">
+
+        <item>@string/str_en</item>
+        <item>@string/str_es</item>
+        <item>@string/str_de</item>
+    </string-array>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_fullscreen2">FullscreenActivity2</string>
+    <string name="title_activity_editar_incidente">Editar incidente</string>
+
 </resources>
