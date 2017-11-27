@@ -235,7 +235,11 @@ public class incidenteListActivity extends AppCompatActivity {
 
             @Override
             public int getItemCount() {
+            if(itemslistado!=null) {
                 return itemslistado.size();
+            }else{
+                return 0;
+            }
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

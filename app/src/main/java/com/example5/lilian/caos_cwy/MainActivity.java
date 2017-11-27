@@ -154,16 +154,16 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_camera) {
-            miFragment = new FormularioFragment();
+            miFragment = new ContenedorFragment();
             fragmentSeleccionado = true;
-        } else if (id == R.id.nav_slideshow) {
+        /*} else if (id == R.id.nav_slideshow) {
             miFragment = new Fragment2();
             fragmentSeleccionado = true;
         } else if (id == R.id.nav_share) {
             miFragment = new ContenedorFragment();
             fragmentSeleccionado= true;
         } else if (id == R.id.nav_send) {
-
+*/
         }
         else if (id == R.id.verincidentesmenulateral) {
             //en el menu lateral, para ver los incidentes por zona tambien
