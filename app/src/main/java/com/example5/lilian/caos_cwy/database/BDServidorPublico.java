@@ -163,6 +163,9 @@ public class BDServidorPublico {
         return resultado;
     }
 
+    public void editarIncidente(){
+
+    }
 
     public void insertarIncidente(Incidente incidente) {
         try {

@@ -14,7 +14,7 @@ import com.example5.lilian.caos_cwy.database.Incidente;
 
 public class IncidenteINSERTTask extends AsyncTask<Incidente, Void, Void> {
     private Activity activity;
-
+    private boolean editarFlag= false;
 
     public Activity getActivity() {
         return activity;
@@ -24,13 +24,25 @@ public class IncidenteINSERTTask extends AsyncTask<Incidente, Void, Void> {
         this.activity = activity;
     }
 
+    public boolean isEditarFlag() {
+        return editarFlag;
+    }
+
+    public void setEditarFlag(boolean editarFlag) {
+        this.editarFlag = editarFlag;
+    }
+
     @Override
     protected Void doInBackground(Incidente... incidentes) {
-        BDServidorPublico bdpub = BDServidorPublico.getInstancia("https://johnny032295.000webhostapp.com/servidor_cwy_android/insertarincidenteapi.php",activity.getApplicationContext());
-
         //TODO: preguntar al profe si es correcto iterar y conectar por cada incidente
         for (Incidente incidente : incidentes){
             Log.d("INSERTAR","#######insertando incidente ########");
+            BDServidorPublico bdpub  = null;
+            if(editarFlag){
+                bdpub = BDServidorPublico.getInstancia("https://johnny032295.000webhostapp.com/servidor_cwy_android/actualizarIncidente.php",activity.getApplicationContext());
+            }else{
+                bdpub = BDServidorPublico.getInstancia("https://johnny032295.000webhostapp.com/servidor_cwy_android/insertarincidenteapi.php",activity.getApplicationContext());
+            }
             bdpub.insertarIncidente(incidente);
            /* DatabaseHelper dblocal = new DatabaseHelper(getActivity().getApplicationContext());
             dblocal.guardarIncidentesLocalmente(incidente);*/

@@ -30,7 +30,9 @@ public class EditarIncidenteActivity extends AppCompatActivity
         Incidente incidente = IncidentesContent.ITEM_MAP.get(idIncidente);
 
         FormularioFragment formulario = new FormularioFragment();
+        formulario.setEditar(true);
         formulario.setTipoIncidente(incidente.getTipo());
+        formulario.setIncidenteEditar(incidente);
         if(incidente.getCaptura()!=null) {
             formulario.setCaptura(incidente.getCaptura().getImagen());
         }

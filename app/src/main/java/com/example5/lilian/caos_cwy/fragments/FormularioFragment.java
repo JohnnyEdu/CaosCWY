@@ -55,12 +55,14 @@ public class FormularioFragment extends Fragment {
     public static String coordLat;
     public static String coordLong;
 
+    private boolean editar = false;
+
     private View fragm;
 
     private String tipoIncidente;
     private String comentario;
     private Bitmap captura;
-
+    private Incidente incidenteEditar;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -88,6 +90,22 @@ public class FormularioFragment extends Fragment {
 
     public void setCaptura(Bitmap captura) {
         this.captura = captura;
+    }
+
+    public boolean isEditar() {
+        return editar;
+    }
+
+    public Incidente getIncidenteEditar() {
+        return incidenteEditar;
+    }
+
+    public void setIncidenteEditar(Incidente incidenteEditar) {
+        this.incidenteEditar = incidenteEditar;
+    }
+
+    public void setEditar(boolean editar) {
+        this.editar = editar;
     }
 
     private OnFragmentInteractionListener mListener;
@@ -258,6 +276,10 @@ public class FormularioFragment extends Fragment {
                 //se crea un incidente para guardarlo en la BD MySQL
 
                 Incidente incidente = new Incidente();
+
+                if(incidenteEditar!=null){
+                    incidente.setId(incidenteEditar.getId());
+                }
                 incidente.setUsuario(usuario);
                 incidente.setTipo(spinner.getSelectedItem().toString());
 
@@ -284,6 +306,7 @@ public class FormularioFragment extends Fragment {
                 }
 
                 IncidenteINSERTTask taskIncidente = new IncidenteINSERTTask();
+                taskIncidente.setEditarFlag(editar);
                 taskIncidente.setActivity(getActivity());
                 taskIncidente.execute(incidente);
         //TODO: ver para la entrega que no se guarda el ID porque tengo que hacerlo desde php
