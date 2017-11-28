@@ -25,7 +25,7 @@
 
     <Button
         android:visibility="gone"
-        android:text="Aquí"
+        android:text="@string/mapaAqui"
         android:background="@color/colorOrange"
         android:textColor="@color/colorBlanco"
         android:id="@+id/coords"

@@ -9,7 +9,7 @@
         <item
             android:id="@+id/verincidentesmenulateral"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Ver mis incidentes" />
+            android:title="@string/vermisincidentes" />
 
     </group>
 

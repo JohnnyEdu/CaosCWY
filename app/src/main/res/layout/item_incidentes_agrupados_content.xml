@@ -24,7 +24,7 @@
             android:id="@+id/comentarioslbl"
             android:textColor="@color/colorOrange"
             android:textSize="20dp"
-            android:text="Comentarios: "
+            android:text="@string/comentarios"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -34,7 +34,7 @@
             android:textColor="@color/colorGris"
             android:textSize="20dp"
             android:padding="2dp"
-            android:text="detalle"
+            android:text="@string/detalle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"/>
@@ -43,7 +43,7 @@
             android:id="@+id/fechalbl"
             android:textColor="@color/colorOrange"
             android:textSize="20dp"
-            android:text="Fecha: "
+            android:text="@string/fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

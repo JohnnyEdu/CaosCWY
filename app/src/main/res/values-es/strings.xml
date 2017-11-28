@@ -31,11 +31,11 @@
     <string name="title_home">Formulario</string>
     <string name="title_incidente">Seleccione Tipo de Incidente en el Transito</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">Notificaciones</string>
     <string name="title_activity_main">MainActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hola fragment en blanco</string>
 
     <!--INICIO: Errores generales-->
     <string name="errorComprimirImagen">No se pudo comprimir la imagen</string>
@@ -46,7 +46,7 @@
     <!--FIN: Errores generales-->
     <string name="title_activity_image">ImageActivity</string>
     <string name="title_incidente_list">MIS INCIDENTES</string>
-    <string name="title_incidente_detail">incidente Detail</string>
+    <string name="title_incidente_detail">incidente Detalle</string>
 
     <string name="title_activity_maps">Mapa</string>
     <string name="google_maps_key">AIzaSyB6VLOQjU6T5j7RUtm6vFmf2D-k0puK_Gc</string>
@@ -92,4 +92,21 @@
     <string name="title_activity_editar_incidente">Editar incidente</string>
 
 
+    <string name="tab1">CARGA INCIDENTE</string>
+    <string name="tab2">INCIDENTES EN MI ZONA</string>
+    <string name="tab3">MIS INCIDENTES</string>
+
+    <string name="autenticandoMsj">Autenticando...\n un momento por favor</string>
+    <string name="mapaAqui">Aquí</string>
+    <string name="comentarios">Comentarios:</string>
+    <string name="detalle">Detalle:</string>
+    <string name="fecha">Fecha:</string>
+    <string name="user">Nombre de usuario:</string>
+    <string name="fechayhorapub">fecha y hora de publicacion:</string>
+    <string name="zona">zona:</string>
+    <string name="eliminarIncidente">Eliminar Incidente</string>
+    <string name="deseaBorrar">¿Seguro de borrar el incidente?</string>
+    <string name="dale">Dale!</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="vermisincidentes">Ver mis incidentes</string>
 </resources>

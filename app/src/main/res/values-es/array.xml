@@ -2,8 +2,8 @@
 <resources>
     <string-array name="animals">
         <item>Manifestación/Marcha</item>
-        <item>Roadworks</item>
-        <item>Detour</item>
+        <item>Obras Viáles</item>
+        <item>Desvío</item>
         <item>Accidente</item>
         <item>Embotellamiento</item>
     </string-array>

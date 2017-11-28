@@ -94,6 +94,25 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_fullscreen2">FullscreenActivity2</string>
-    <string name="title_activity_editar_incidente">Editar incidente</string>
+    <string name="title_activity_editar_incidente">Edit incidents</string>
 
+<!--TODO: traducir en todos los idiomas-->
+    <string name="tab1">LOAD INCIDENT</string>
+    <string name="tab2">INCIDENTS IN MY ZONE</string>
+    <string name="tab3">MY INCIDENTS</string>
+
+    <string name="autenticandoMsj">Authenticating … \n a moment please</string>
+    <string name="mapaAqui">Here</string>
+    <string name="comentarios">Comments:</string>
+    <string name="detalle">Detail:</string>
+    <string name="fecha">Date:</string>
+    <string name="user">User name:</string>
+    <string name="fechayhorapub">Publication date and time:</string>
+    <string name="zona">zone:</string>
+
+    <string name="eliminarIncidente">Delete incident</string>
+    <string name="deseaBorrar">¿Sure of delete incident?</string>
+    <string name="dale">Go!</string>
+    <string name="cancelar">Cancel</string>
+    <string name="vermisincidentes">See my incidents</string>
 </resources>

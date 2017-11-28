@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="animals">
-        <item>Manifestación/Marcha</item>
+        <item>Manifestation/March</item>
         <item>Roadworks</item>
         <item>Detour</item>
-        <item>Accidente</item>
-        <item>Embotellamiento</item>
+        <item>Accident</item>
+        <item>Traffic jam</item>
     </string-array>
     <string-array name="tipoIncidentesConTodos">
-        <item>Todos</item>
-        <item>Manifestación/Marcha</item>
-        <item>Obras Viáles</item>
-        <item>Desvío</item>
-        <item>Accidente</item>
-        <item>Embotellamiento</item>
+        <item>All</item>
+        <item>Manifestation/March</item>
+        <item>Roadworks</item>
+        <item>Detour</item>
+        <item>Accident</item>
+        <item>Traffic jam</item>
     </string-array>
 </resources>

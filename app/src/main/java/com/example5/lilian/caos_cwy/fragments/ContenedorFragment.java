@@ -124,9 +124,9 @@ public class ContenedorFragment extends Fragment {
          * ListadoIncidentesFragment, es el maestro / detalle en un fragment
          * **/
         SeccionesAdapter adapter = new SeccionesAdapter(getFragmentManager());
-        adapter.addFragments(new FormularioFragment(), "CARGA INCIDENTE");
-        adapter.addFragments(new ListadoIncidentesFragment(),"INCIDENTES EN MI ZONA");
-        adapter.addFragments(new ListadoIncidentesFragment(),"MIS INCIDENTES");
+        adapter.addFragments(new FormularioFragment(), getResources().getString(R.string.tab1));
+        adapter.addFragments(new ListadoIncidentesFragment(),getResources().getString(R.string.tab2));
+        adapter.addFragments(new ListadoIncidentesFragment(),getResources().getString(R.string.tab3));
 
         viewPager.setAdapter(adapter);
     }

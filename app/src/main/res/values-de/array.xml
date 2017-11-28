@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="animals">
-        <item>Manifestación/Marcha</item>
-        <item>Roadworks</item>
-        <item>Detour</item>
-        <item>Accidente</item>
-        <item>Embotellamiento</item>
+        <item>Manifestation / März</item>
+        <item>Virale Werke</item>
+        <item>Abzweigung</item>
+        <item>Unfall</item>
+        <item>Stau</item>
     </string-array>
     <string-array name="tipoIncidentesConTodos">
-        <item>Todos</item>
-        <item>Manifestación/Marcha</item>
+        <item>Alle</item>
+        <item>Manifestation / März</item>
         <item>Obras Viáles</item>
-        <item>Desvío</item>
-        <item>Accidente</item>
-        <item>Embotellamiento</item>
+        <item>Abzweigung</item>
+        <item>Unfall</item>
+        <item>Stau</item>
     </string-array>
 </resources>

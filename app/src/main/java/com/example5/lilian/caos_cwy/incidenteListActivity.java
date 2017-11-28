@@ -49,11 +49,22 @@ public class incidenteListActivity extends AppCompatActivity {
     private static boolean isMisIncidentesView = false;
     private static Activity mainactivity;
 
+    private static String eliminarLbl ;
+    private static String deseaBorrarLbl;
+    private static String daleLbl ;
+    private static String cancelarLbl;
+    //"¿Seguro de borrar el incidente?
+    //Dale!
 
-    @Override
+            @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //inicializo el contenedor de los incidentes del maestro - detalle
+        eliminarLbl = getResources().getString(R.string.eliminarIncidente);
+        deseaBorrarLbl = getResources().getString(R.string.deseaBorrar);
+        daleLbl = getResources().getString(R.string.dale);
+        cancelarLbl = getResources().getString(R.string.cancelar);
+
 
         isMisIncidentesView = true;
 
@@ -204,10 +215,13 @@ public class incidenteListActivity extends AppCompatActivity {
                             private Incidente incidentecla = incidente;
                             @Override
                             public void onClick(View v) {
+
                                 AlertDialog.Builder alerta = new AlertDialog.Builder(mainactivity);
-                                alerta.setTitle("Eliminar incidente");
-                                alerta.setMessage("¿Seguro de borrar el incidente?");
-                                alerta.setPositiveButton("Dale!", new DialogInterface.OnClickListener() {
+                                alerta.setTitle(eliminarLbl);
+                                //"¿Seguro de borrar el incidente?
+                                alerta.setMessage(deseaBorrarLbl );
+                                //Dale!
+                                alerta.setPositiveButton(daleLbl , new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         //congelo la actividad, hasta que termine de borrar
                                         mainactivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -221,7 +235,7 @@ public class incidenteListActivity extends AppCompatActivity {
                                     }
                                 });
 
-                                alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                alerta.setNegativeButton(cancelarLbl , new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         // Canceled.
                                     }

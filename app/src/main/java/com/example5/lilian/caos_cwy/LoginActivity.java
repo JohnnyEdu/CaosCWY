@@ -79,6 +79,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sesion",MODE_PRIVATE);
+        String localeGuardado = sharedPreferences.getString("locale","");
+        if("".equals(localeGuardado) || localeGuardado == null){
+            locale = new Locale("en");
+            config.locale =locale;
+        }else{
+            config.locale = new Locale(localeGuardado);
+        }
+        getResources().updateConfiguration(config, null);
         // Set up the login form.
         seleccion = ((Button)findViewById(R.id.seleccionIdioma));
         seleccion.setOnClickListener(
@@ -111,6 +121,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences("sesion",MODE_PRIVATE);
+        String localeGuardado = sharedPreferences.getString("locale","");
+        if("".equals(localeGuardado) || localeGuardado == null){
+            locale = new Locale("en");
+            config.locale =locale;
+        }else{
+            config.locale = new Locale(localeGuardado);
+        }
+        getResources().updateConfiguration(config, null);
     }
 
     private void populateAutoComplete() {
@@ -423,6 +448,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(DialogInterface dialog, int which) {
 
                 dialog.dismiss();
+                Locale locale = null;
                 switch(which){
                     case 0:
                         locale = new Locale("en");
@@ -437,6 +463,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         config.locale =locale;
                         break;
                 }
+                SharedPreferences sharedPreferences = getSharedPreferences("sesion",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("locale",locale.getLanguage());
+                editor.commit();
                 getResources().updateConfiguration(config, null);
                 Intent refresh = new Intent(LoginActivity.this, LoginActivity.class);
                 startActivity(refresh);

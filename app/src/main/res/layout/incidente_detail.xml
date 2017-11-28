@@ -17,7 +17,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:pointerIcon="alias"
-        android:text="Comentarios"
+        android:text="@string/comentarios"
         android:textColor="@color/colorDark"
         android:textSize="24sp" />
 
@@ -54,7 +54,7 @@
             android:id="@+id/user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre de usuario"
+            android:text="@string/user"
             android:textSize="15sp"/>
 
     </LinearLayout>
@@ -76,7 +76,7 @@
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="fecha y hora de publicacion"
+            android:text="@fechayhorapub"
             android:textSize="15sp"
             />
 
@@ -99,7 +99,7 @@
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="zona"
+            android:text="@string/zona"
             android:textSize="15sp"
             />
 
