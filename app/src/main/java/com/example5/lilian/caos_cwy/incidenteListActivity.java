@@ -11,10 +11,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -53,10 +57,65 @@ public class incidenteListActivity extends AppCompatActivity {
     private static String deseaBorrarLbl;
     private static String daleLbl ;
     private static String cancelarLbl;
+
+    private Incidente incidenteSelMenuContextual;
     //"¿Seguro de borrar el incidente?
     //Dale!
 
-            @Override
+    /**
+     * Se implementa solo en incidenteListActiviy, ya que esta activida se usa para "Mis incidentes"
+     * y solo queremos que el menu contextual lo vea el que creo el incidente (ABM)
+     * */
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        incidenteSelMenuContextual = (Incidente)v.getTag();
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_contextual_incidentes_item,menu);
+    }
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        switch (item.getItemId()){
+            case R.id.editar:
+                Intent pantallaEditar = new Intent(mainactivity.getApplicationContext(),EditarIncidenteActivity.class);
+                pantallaEditar.putExtra("id_incidente",String.valueOf(incidenteSelMenuContextual.getId()));
+                mainactivity.startActivityForResult(pantallaEditar,REQUEST_EDITAR_CODE);
+                break;
+            case R.id.eliminar:
+                AlertDialog.Builder alerta = new AlertDialog.Builder(mainactivity);
+                alerta.setTitle(eliminarLbl);
+                //"¿Seguro de borrar el incidente?
+                alerta.setMessage(deseaBorrarLbl );
+                //Dale!
+                alerta.setPositiveButton(daleLbl , new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //congelo la actividad, hasta que termine de borrar
+                        mainactivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        ProgressBar progressBar = (ProgressBar)mainactivity.findViewById(R.id.cargandoIncidentes);
+                        MisIncidenteDELETEUPDATETask eliminar = new MisIncidenteDELETEUPDATETask("DELETE");
+                        eliminar.setActivity(mainactivity);
+                        eliminar.setProgressBar(progressBar );
+                        eliminar.setIncidente(incidenteSelMenuContextual );
+                        eliminar.execute();
+                    }
+                });
+
+                alerta.setNegativeButton(cancelarLbl , new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+                alerta.show();
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //inicializo el contenedor de los incidentes del maestro - detalle
@@ -170,6 +229,8 @@ public class incidenteListActivity extends AppCompatActivity {
                     holder.mIdView.setText(incidente.getTipo());
                     LayoutInflater vi = (LayoutInflater) mParentActivity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     //a cada item del detalle de cada grupo, le pongo en su onclick que me lleve al activity del detalle
+                    holder.mContentView.setTag(incidente);
+                    mParentActivity.registerForContextMenu(holder.mContentView);
                     holder.mContentView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
