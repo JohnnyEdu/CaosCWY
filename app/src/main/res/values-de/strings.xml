@@ -33,11 +33,11 @@
 
     <!--TODO: traducir-->
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_open">Navigationsschublade öffnen</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
-    <string name="title_item_detail">Item Detail</string>
+    <string name="title_item_detail">Gegenstandsdetail</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -47,10 +47,10 @@
     <string name="title_app">Caos ClearWay</string>
     <string name="title_home">Form</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">Benachrichtigungen</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="cargaIncidente">INCIDENT LOAD</string>
-    <string name="incidenteZona">INCIDENTS IN ZONE</string>
+    <string name="cargaIncidente">LAST</string>
+    <string name="incidenteZona">VORFÄLLE IN MEINER ZONE</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
@@ -84,24 +84,25 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_fullscreen2">FullscreenActivity2</string>
-    <string name="title_activity_editar_incidente">Editar incidente</string>
+    <string name="title_activity_editar_incidente">Bearbeiter Incidente</string>
 
-    <string name="tab1">LOAD INCIDENT</string>
-    <string name="tab2">INCIDENTS IN MY ZONE</string>
-    <string name="tab3">MY INCIDENTS</string>
+    <string name="tab1">LAST VORFALL</string>
+    <string name="tab2">VORFÄLLE IN MEINER ZONE</string>
+    <string name="tab3">MEINE VORFÄLLE</string>
 
-    <string name="autenticandoMsj">Authenticating … \n a moment please</string>
-    <string name="mapaAqui">Here</string>
-    <string name="comentarios">Comments:</string>
+    <string name="autenticandoMsj">Authentifizieren ... \ n einen Moment bitte</string>
+    <string name="mapaAqui">Hier</string>
+    <string name="comentarios">Bemerkungen:</string>
     <string name="detalle">Detalle:</string>
-    <string name="fecha">Date:</string>
-    <string name="user">Username:</string>
-    <string name="fechayhorapub">Publication date and time:</string>
+    <string name="fecha">Datum:</string>
+    <string name="user">Nutzername:</string>
+    <string name="fechayhorapub">Veröffentlichungsdatum und -uhrzeit:</string>
     <string name="zona">zone:</string>
 
-    <string name="eliminarIncidente">Delete incident</string>
-    <string name="deseaBorrar">¿Sure of delete incident?</string>
-    <string name="dale">Go!</string>
-    <string name="cancelar">Cancel</string>
-    <string name="vermisincidentes">See my incidents</string>
+    <string name="eliminarIncidente">
+Vorfall löschen</string>
+    <string name="deseaBorrar">¿Sicherer Vorfall löschen?</string>
+    <string name="dale">Gehen!</string>
+    <string name="cancelar">Stornieren</string>
+    <string name="vermisincidentes">Siehe meine Vorfälle</string>
 </resources>
